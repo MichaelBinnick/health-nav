@@ -32,6 +32,7 @@ import {
 
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
+import CovidForm from "components/CovidForm/CovidForm";
 
 function User() {
   return (
@@ -39,57 +40,28 @@ function User() {
       <PanelHeader size="sm" />
       <div className="content">
         <Row>
-          <Col md="8">
+          <Col md="6">
             <Card>
               <CardHeader>
                 <h5 className="title">Patient Check In</h5>
               </CardHeader>
               <CardBody>
                 <Form>
-                  {/* <Row>
-                    <Col className="pr-1" md="5">
-                      <FormGroup>
-                        <label>Company (disabled)</label>
-                        <Input
-                          defaultValue="Creative Code Inc."
-                          disabled
-                          placeholder="Company"
-                          type="text"
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="px-1" md="5">
-                      <FormGroup>
-                        <label>Username</label>
-                        <Input
-                          defaultValue="michael23"
-                          placeholder="Username"
-                          type="text"
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-1" md="4">
-                      <FormGroup>
-                        <label htmlFor="exampleInputEmail1">
-                          Email address
-                        </label>
-                        <Input placeholder="Email" type="email" />
-                      </FormGroup>
-                    </Col>
-                  </Row> */}
                   <Row>
-                    <Col className="pr-1" md="6">
+                    <Col className="pr-1" md="12">
                       <FormGroup>
-                        <label>First Name</label>
+                        <label>Patient Name</label>
                         <Input
                           type="text"
                           name="name"
                         />
                       </FormGroup>
                     </Col>
-                    <Col className="pl-1" md="6">
+                  </Row>
+                  <Row>
+                    <Col md="12">
                       <FormGroup>
-                        <label>Last Name</label>
+                        <label>Reason of consultation</label>
                         <Input
                           type="text"
                           name="name"
@@ -101,28 +73,6 @@ function User() {
                     <Col md="12">
                       <FormGroup>
                         <label>Alergies</label>
-                        <Input
-                          type="text"
-                          name="name"
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="12">
-                      <FormGroup>
-                        <label>Alergies</label>
-                        <Input
-                          type="text"
-                          name="name"
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="12">
-                      <FormGroup>
-                        <label>Medications</label>
                         <Input
                           type="text"
                           name="name"
@@ -141,43 +91,34 @@ function User() {
                       </FormGroup>
                     </Col>
                   </Row>
-                  {/* <Row>
+                  <Row>
                     <Col md="12">
                       <FormGroup>
-                        <label>About Me</label>
+                        <label>Medications</label>
                         <Input
-                          cols="80"
-                          defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in
-                            that two seat Lambo."
-                          placeholder="Here can be your description"
-                          rows="4"
-                          type="textarea"
+                          type="text"
+                          name="name"
                         />
                       </FormGroup>
                     </Col>
-                  </Row> */}
+                  </Row>
                 </Form>
               </CardBody>
             </Card>
           </Col>
-          <Col md="4">
+          <Col md="6">
             <Card className="card-user">
               <div className="image"></div>
               <CardBody>
                 <div className="author">
                   <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                    
                     <h5 className="title">COVID SCREENING</h5>
                   </a>
-                  <p className="description">CHECKBOX FORM</p>
                 </div>
-                <p className="description text-center">
-                  "Lamborghini Mercy <br />
-                  Your chick she so thirsty <br />
-                  I'm in that two seat Lambo"
-                </p>
+                <CovidForm/>
               </CardBody>
               <hr />
+              
               <div className="button-container">
                 {/* <Button
                   className="btn-neutral btn-icon btn-round"

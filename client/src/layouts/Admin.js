@@ -30,7 +30,7 @@ import Sidebar from "components/Sidebar/Sidebar";
 
 import routes from "routes.js";
  
-var ps;
+let ps;
 
 function Admin(props) {
   const location = useLocation();
