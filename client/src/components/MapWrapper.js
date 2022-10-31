@@ -1,8 +1,6 @@
-import { MapContainer, ImageOverlay, useMap, Marker} from 'react-leaflet';
+import { MapContainer, ImageOverlay, useMap, Marker, Popup, SVGOverlay} from 'react-leaflet';
 import { CRS } from 'leaflet';
 
-const center = [300, 300];
-const bound = [[0, 0], [600,600]]
 
 function MyComponent() {
   const map = useMap();
@@ -14,17 +12,24 @@ function MyComponent() {
 
 const MapWrapper = () => {
   
+  const center = [300, 300];
+  const bound = [[0, 0], [600,600]]
+  
   const locations = [
     /* array of every node(x, y) and it's location details, from query */
     {
       name: "Adult - Prep & Recovery",
       x: 300,
-      y: 300
+      y: 300,
+      open: "9am",
+      close: '5pm'
     },
     {
       name: 'Pediatric - Waiting',
       x: 140,
-      y: 160
+      y: 160,
+      open: "9am",
+      close: '5pm'
     }
   ];
 
@@ -48,7 +53,13 @@ const MapWrapper = () => {
               console.log('clicked marker:', local.name);
             }
           }}
-        />
+        >
+          <Popup>
+            <em>{local.name}</em> <br />
+            Hours of Operation: <br />
+            {local.open} - {local.close}
+          </Popup>
+        </Marker>
       })}
     </MapContainer>
   )
