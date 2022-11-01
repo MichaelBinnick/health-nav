@@ -55,10 +55,13 @@ function User() {
     medications: "",
     message: "",
   });
-
+console.log("FORMVALUE: ", formValue)
 
   let handleSubmit = async () => {
-    const checkInData = new FormData();
+
+    console.log("name: " + formValue.name)
+
+    let checkInData = new FormData();
     checkInData.append("name", formValue.name)
     checkInData.append("time", formValue.time)
     checkInData.append("location", formValue.location)
@@ -68,6 +71,7 @@ function User() {
     checkInData.append("medications", formValue.medications)
     checkInData.append("message", formValue.message)
     
+    console.log("CHECKINDATA: ", checkInData.get("name"))
     try {
       // make axios post request
       const response = await axios({
