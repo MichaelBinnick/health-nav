@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { MapContainer, ImageOverlay, useMap, Marker, Popup, SVGOverlay} from 'react-leaflet';
+import { MapContainer, ImageOverlay, useMap, Marker, Popup, Polygon} from 'react-leaflet';
 import { CRS } from 'leaflet';
 
 const GetCoordinates = () => {
@@ -21,6 +21,23 @@ const MapWrapper = () => {
   const center = [300, 300];
   const bound = [[0, 0], [600,600]]
   
+  const rooms = [
+    {
+      name: "Emergency Room",
+      topLeftBound: { x: 21, y:  490},
+      topRightBound: { x: 79, y: 490},
+      botLeftBound: { x: 21, y: 453},
+      botRightBound: { x: 79, y: 453}
+    }
+  ]
+
+  const emergency = [
+    [493, 18],
+    [453, 18],
+    [453, 79],
+    [493, 79],
+  ]
+
   const locations = [
     /* array of every node(x, y) and it's location details, from query */
     {
@@ -51,14 +68,7 @@ const MapWrapper = () => {
     >
       <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
 
-      <SVGOverlay
-        attributes={{ stroke: 'red' }} bounds={bound}>
-        <rect x="150" y="150" width="50%" height="50%" fill="none" />
-        <circle r="5" cx="10" cy="10" fill="red" />
-        <text x="50%" y="50%" stroke="white">
-          text
-        </text>
-      </SVGOverlay>
+      <Polygon pathOptions="color: purple" positions={emergency} />
 
       <GetCoordinates />
 
