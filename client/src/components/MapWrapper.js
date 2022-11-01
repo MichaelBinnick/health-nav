@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { MapContainer, ImageOverlay, useMap, Marker, Popup, Polygon} from 'react-leaflet';
 import { CRS } from 'leaflet';
 
-const GetCoordinates = () => {
+const LogCoordinates = () => {
   const map = useMap();
 
   useEffect(() => {
@@ -18,6 +18,8 @@ const GetCoordinates = () => {
 
 const MapWrapper = () => {
 
+  const [selectedLocations, setSelectedLocations] = useState([]);
+
   const center = [300, 300];
   const bound = [[0, 0], [600,600]]
   
@@ -31,12 +33,14 @@ const MapWrapper = () => {
     }
   ]
 
-  const emergency = [
-    [493, 18],
-    [453, 18],
-    [453, 79],
-    [493, 79],
-  ]
+  const polys = {
+    emergency: [
+      [493, 18],
+      [453, 18],
+      [453, 79],
+      [493, 79],
+    ]
+  }
 
   const locations = [
     /* array of every node(x, y) and it's location details, from query */
@@ -51,6 +55,13 @@ const MapWrapper = () => {
       name: 'Pediatric - Waiting',
       x: 140,
       y: 160,
+      open: "9am",
+      close: '5pm'
+    },
+    {
+      name: 'Emergency',
+      x: 48,
+      y: 480,
       open: "9am",
       close: '5pm'
     }
@@ -68,22 +79,31 @@ const MapWrapper = () => {
     >
       <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
 
-      <Polygon pathOptions="color: purple" positions={emergency} />
-
-      <GetCoordinates />
+      <Polygon positions={polys.emergency} />
+    
+      <LogCoordinates />
 
       {locations.map(local => {
-        return <Marker
-          key={local.name}
-          position={[local.y, local.x]}
-          eventHandlers={
-            {click: () => {
-              console.log('clicked marker:', local.name);
-              console.log('x coordinate:', local.x);
-              console.log('y coordinate:', local.y);
-            }}
-          }
-        >
+          return <Marker
+            key={local.name}
+            position={[local.y, local.x]}
+            eventHandlers={
+              {click: () => {
+                console.log('clicked marker:', local.name);
+                console.log('x coordinate:', local.x);
+                console.log('y coordinate:', local.y);
+
+                if (!selectedLocations.includes(local.name)) {
+                  setSelectedLocations([
+                    ...selectedLocations,
+                    local.name
+                  ])
+                }
+                
+              }}
+            }
+          >
+        
           <Popup>
             <em>{local.name}</em> <br />
             Hours of Operation: <br />
