@@ -10,16 +10,21 @@ router.post("/checkin", (request, response) => {
 
   const {
     name,
+    time,
+    location,
     reason,
     alergies,
     conditions,
     medications } = request.body;
+
 console.log("BODY:", request.body)
 
   db.query(
     "INSERT INTO checkins (id, location_id, patient_name, time, allergies, medications, conditions, visit_reason) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
     [name,
-      reason,
+      time,
+      reason, 
+      location,
       alergies,
       conditions,
       medications]
