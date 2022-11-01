@@ -34,6 +34,8 @@ const MapWrapper = () => {
   ]
 
   const polys = {
+    /* bounds for location polygons
+    note: key must match location.name exactly! */
     Emergency: [
       [493, 18], // top left
       [453, 18], // bot left
@@ -53,22 +55,82 @@ const MapWrapper = () => {
       [176, 169],
       [179, 141],
       [210, 140]
-    ]
+    ],
+    "Admin": [
+      [209, 141],
+      [180, 141],
+      [179, 175],
+      [145, 176],
+      [146, 227],
+      [209, 239]
+    ],
+    "Adult/Inpatient - Waiting": [
+      [209, 239], // top left
+      [146, 227], // bot left
+      [146, 322], // bot right
+      [173, 322],
+      [174, 348],
+      [209, 350] // top right
+    ],
+    "Inpatient": [
+      [187, 400],
+      [145, 400],
+      [145, 586],
+      [187, 586]
+    ],
+    "Staff": [
+      [340, 180],
+      [325, 180],
+      [325, 198],
+      [246, 198],
+      [246, 250],
+      [313, 250],
+      [313, 223],
+      [340, 223]
+    ],
   }
 
   const locations = [
-    /* array of every node(x, y) and it's location details, from query */
+    /* array of locations for Marker creation */
+    {
+      name: 'Admin',
+      x: 203,
+      y: 170,
+      open: '9am',
+      close: '5pm'
+    },
+    {
+      name: 'Adult/Inpatient - Waiting',
+      x: 280,
+      y: 180,
+      open: '9am',
+      close: '5pm'
+    },
+    {
+      name: 'Inpatient',
+      x: 497,
+      y: 170,
+      open: '9am',
+      close: '5pm'
+    },
+    {
+      name: 'Staff',
+      x: 225,
+      y: 305,
+      open: '9am',
+      close: '5pm'
+    },
     {
       name: "Adult - Prep & Recovery",
       x: 300,
-      y: 300,
+      y: 285,
       open: "9am",
       close: '5pm'
     },
     {
       name: 'Pediatric - Waiting',
-      x: 140,
-      y: 160,
+      x: 125,
+      y: 180,
       open: "9am",
       close: '5pm'
     },
