@@ -18,7 +18,7 @@ const LogCoordinates = () => {
 
 const MapWrapper = () => {
 
-  const [selectedLocations, setSelectedLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState([]);
 
   const center = [300, 300];
   const bound = [[0, 0], [600,600]]
@@ -34,11 +34,25 @@ const MapWrapper = () => {
   ]
 
   const polys = {
-    emergency: [
-      [493, 18],
-      [453, 18],
-      [453, 79],
-      [493, 79],
+    Emergency: [
+      [493, 18], // top left
+      [453, 18], // bot left
+      [453, 79], // bot right
+      [493, 79], // top right
+    ],
+    "Adult - Prep & Recovery": [
+      [340, 250],
+      [230, 250],
+      [230, 350],
+      [340, 350]
+    ],
+    "Pediatric - Waiting": [
+      [210, 71],
+      [147, 79],
+      [145, 174],
+      [176, 169],
+      [179, 141],
+      [210, 140]
     ]
   }
 
@@ -79,7 +93,17 @@ const MapWrapper = () => {
     >
       <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
 
-      <Polygon positions={polys.emergency} />
+      {selectedLocation.map(spot => {
+        for (let local of locations) {
+          if (selectedLocation.includes(local.name)) {
+            return <Polygon positions={polys[local.name]} />
+          }
+          // return null;
+        }
+      }
+
+      )}
+      {/* <Polygon positions={polys.Emergency} /> */}
     
       <LogCoordinates />
 
@@ -93,13 +117,12 @@ const MapWrapper = () => {
                 console.log('x coordinate:', local.x);
                 console.log('y coordinate:', local.y);
 
-                if (!selectedLocations.includes(local.name)) {
-                  setSelectedLocations([
-                    ...selectedLocations,
+                if (!selectedLocation.includes(local.name)) {
+                  setSelectedLocation([
                     local.name
                   ])
                 }
-                
+
               }}
             }
           >
