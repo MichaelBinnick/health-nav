@@ -20,7 +20,6 @@ import axios from 'axios';
 
 // reactstrap components
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
@@ -46,7 +45,7 @@ function User() {
   // const [medications, setMedications] = useState("");
   // const [message, setMessage] = useState("");
 
-  const [formValue, setformValue] = React.useState({
+  const [formValue, setFormValue] = useState({
     name: "",
     time: "",
     location: "",
@@ -54,9 +53,8 @@ function User() {
     alergies: "",
     conditions: "",
     medications: "",
-    message: ""
+    message: "",
   });
-  console.log("FORM: ",formValue)
 
 
   let handleSubmit = async () => {
@@ -88,11 +86,16 @@ function User() {
       console.log(error)
     }
   }
-    const handleChange = (e) => {
-      setformValue({
-        ...formValue, [e.target.name]:e.target.value
-      });
-    };
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValue((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+  };
+
 
   return (
     <>
@@ -114,7 +117,7 @@ function User() {
                           type="text"
                           value={formValue.time}
                           onChange={handleChange}
-                          name="name"
+                          name="time"
                         />
                       </FormGroup>
                     </Col>
@@ -125,7 +128,7 @@ function User() {
                           type="text"
                           value={formValue.location}
                           onChange={handleChange}
-                          name="name"
+                          name="location"
                         />
                       </FormGroup>
                     </Col>
@@ -153,7 +156,7 @@ function User() {
                           type="text"
                           value={formValue.reason}
                           onChange={handleChange}
-                          name="name"
+                          name="reason"
                         />
                       </FormGroup>
                     </Col>
@@ -166,7 +169,7 @@ function User() {
                           type="text"
                           value={formValue.alergies}
                           onChange={handleChange}
-                          name="name"
+                          name="alergies"
                         />
                       </FormGroup>
                     </Col>
@@ -179,7 +182,7 @@ function User() {
                           type="text"
                           value={formValue.conditions}
                           onChange={handleChange}
-                          name="name"
+                          name="conditions"
                         />
                       </FormGroup>
                     </Col>
@@ -192,7 +195,7 @@ function User() {
                           type="text"
                           value={formValue.medications}
                           onChange={handleChange}
-                          name="name"
+                          name="medications"
                         />
                       </FormGroup>
                       <button className="button-container btn-neutral btn-round" type="submit">Check In</button>
