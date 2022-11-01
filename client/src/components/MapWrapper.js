@@ -88,6 +88,42 @@ const MapWrapper = () => {
       [313, 223],
       [340, 223]
     ],
+    "Imaging": [
+      [437, 20],
+      [283, 20],
+      [283, 50],
+      [243, 75],
+      [243, 95],
+      [340, 95],
+      [340, 69],
+      [395, 69],
+      [395, 86],
+      [437, 86]
+    ],
+    "Surgery": [
+      [437, 148],
+      [425, 148],
+      [425, 166],
+      [412, 166],
+      [412, 86],
+      [395, 86],
+      [395, 69],
+      [356, 69],
+      [356, 352],
+      [437, 352]
+    ],
+    "Lab": [
+      [282, 22],
+      [227, 22],
+      [227, 51],
+      [282, 51]
+    ],
+    "Pediatric - Prep & Recovery": [
+      [282, 22],
+      [227, 22],
+      [227, 51],
+      [282, 51]
+    ],
   }
 
   const locations = [
@@ -135,9 +171,37 @@ const MapWrapper = () => {
       close: '5pm'
     },
     {
+      name: 'Imaging',
+      x: 35,
+      y: 390,
+      open: "9am",
+      close: '5pm'
+    },
+    {
       name: 'Emergency',
       x: 48,
       y: 480,
+      open: "9am",
+      close: '5pm'
+    },
+    {
+      name: 'Surgery',
+      x: 220,
+      y: 395,
+      open: "9am",
+      close: '5pm'
+    },
+    {
+      name: 'Lab',
+      x: 25,
+      y: 251,
+      open: "9am",
+      close: '5pm'
+    },
+    {
+      name: 'Pediatric - Prep & Recovery',
+      x: 25,
+      y: 251,
       open: "9am",
       close: '5pm'
     }
@@ -158,7 +222,7 @@ const MapWrapper = () => {
       {selectedLocation.map(spot => {
         for (let local of locations) {
           if (selectedLocation.includes(local.name)) {
-            return <Polygon positions={polys[local.name]} />
+            return <Polygon positions={polys[local.name]} key={polys[local.name]} />
           }
           // return null;
         }
