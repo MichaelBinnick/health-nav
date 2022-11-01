@@ -15,7 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import { React, useState } from "react";
+import axios from 'axios';
 
 // reactstrap components
 import {
@@ -34,7 +35,65 @@ import {
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import CovidForm from "components/CovidForm/CovidForm";
 
+
 function User() {
+  // const [name, setName] = useState("");
+  // const [time, setTime] = useState("");
+  // const [location, setLocation]= useState("");
+  // const [reason, setReason] = useState("");
+  // const [alergies, setAlergies] = useState("");
+  // const [conditions, setConditions] = useState("");
+  // const [medications, setMedications] = useState("");
+  // const [message, setMessage] = useState("");
+
+  const [formValue, setformValue] = React.useState({
+    name: "",
+    time: "",
+    location: "",
+    reason: "",
+    alergies: "",
+    conditions: "",
+    medications: "",
+    message: ""
+  });
+  console.log("FORM: ",formValue)
+
+
+  let handleSubmit = async () => {
+    const checkInData = new FormData();
+    checkInData.append("name", formValue.name)
+    checkInData.append("time", formValue.time)
+    checkInData.append("location", formValue.location)
+    checkInData.append("reason", formValue.reason)
+    checkInData.append("alergies", formValue.alergies)
+    checkInData.append("conditions", formValue.conditions)
+    checkInData.append("medications", formValue.medications)
+    checkInData.append("message", formValue.message)
+    
+    try {
+      // make axios post request
+      const response = await axios({
+        method: "POST",
+        url: "/checkin",
+        data: checkInData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (response.status === 200){
+        formValue.message("User created successfully");
+      } else {
+        formValue.message("Some error occured");
+      }
+    } catch(error) {
+      console.log(error)
+    }
+  }
+    const handleChange = (e) => {
+      setformValue({
+        ...formValue, [e.target.name]:e.target.value
+      });
+    };
+
   return (
     <>
       <PanelHeader size="sm" />
@@ -46,13 +105,41 @@ function User() {
                 <h5 className="title">Patient Check In</h5>
               </CardHeader>
               <CardBody>
-                <Form>
+                <Form onSubmit={handleSubmit}>
+                  <Row>
+                    <Col md="5">
+                      <FormGroup>
+                        <label>Appointment Time</label>
+                        <Input
+                          type="text"
+                          value={formValue.time}
+                          onChange={handleChange}
+                          name="name"
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col md="5">
+                      <FormGroup>
+                        <label>Appointment Location</label>
+                        <Input
+                          type="text"
+                          value={formValue.location}
+                          onChange={handleChange}
+                          name="name"
+                        />
+                      </FormGroup>
+                    </Col>
+
+                  </Row>
+
                   <Row>
                     <Col className="pr-1" md="12">
                       <FormGroup>
                         <label>Patient Name</label>
                         <Input
                           type="text"
+                          value={formValue.name}
+                          onChange={handleChange}
                           name="name"
                         />
                       </FormGroup>
@@ -64,6 +151,8 @@ function User() {
                         <label>Reason of consultation</label>
                         <Input
                           type="text"
+                          value={formValue.reason}
+                          onChange={handleChange}
                           name="name"
                         />
                       </FormGroup>
@@ -75,6 +164,8 @@ function User() {
                         <label>Alergies</label>
                         <Input
                           type="text"
+                          value={formValue.alergies}
+                          onChange={handleChange}
                           name="name"
                         />
                       </FormGroup>
@@ -86,6 +177,8 @@ function User() {
                         <label>Medical Conditions</label>
                         <Input
                           type="text"
+                          value={formValue.conditions}
+                          onChange={handleChange}
                           name="name"
                         />
                       </FormGroup>
@@ -97,11 +190,15 @@ function User() {
                         <label>Medications</label>
                         <Input
                           type="text"
+                          value={formValue.medications}
+                          onChange={handleChange}
                           name="name"
                         />
                       </FormGroup>
+                      <button className="button-container btn-neutral btn-round" type="submit">Check In</button>
                     </Col>
                   </Row>
+                  <div className="message">{formValue.message ? <p>{formValue.message}</p> : null}</div>
                 </Form>
               </CardBody>
             </Card>
@@ -115,39 +212,8 @@ function User() {
                     <h5 className="title">COVID SCREENING</h5>
                   </a>
                 </div>
-                <CovidForm/>
+                <CovidForm />
               </CardBody>
-              <hr />
-              
-              <div className="button-container">
-                {/* <Button
-                  className="btn-neutral btn-icon btn-round"
-                  color="default"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                  size="lg"
-                >
-                  <i className="fab fa-facebook-f" />
-                </Button>
-                <Button
-                  className="btn-neutral btn-icon btn-round"
-                  color="default"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                  size="lg"
-                >
-                  <i className="fab fa-twitter" />
-                </Button>
-                <Button
-                  className="btn-neutral btn-icon btn-round"
-                  color="default"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                  size="lg"
-                >
-                  <i className="fab fa-google-plus-g" />
-                </Button> */}
-              </div>
             </Card>
           </Col>
         </Row>

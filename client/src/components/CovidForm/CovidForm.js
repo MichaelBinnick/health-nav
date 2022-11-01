@@ -25,7 +25,7 @@ function CovidForm() {
   return (
     <div className="Covid description text-left">
       <p className="description text-center">DO YOU HAVE ANY OF THE FOLLOWING SYMPTOMS:</p>
-      <ul className="description" class="list-unstyled" >
+      <ul className="description list-unstyled"  >
         {questions.map(({ name }, index) => {
           return (
             <li key={index}>
