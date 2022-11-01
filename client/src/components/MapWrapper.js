@@ -142,10 +142,19 @@ const MapWrapper = () => {
       [462, 277],
       [500, 277],
     ],
+    "Dietary": [
+      [502, 277],
+      [453, 277],
+      [453, 310],
+      [467, 310],
+      [467, 336],
+      [502, 336]
+    ],
   }
 
   const locations = [
-    /* array of locations for Marker creation */
+    /* array of locations for Marker creation 
+    name property is used to match against poly objects */
     {
       name: 'Admin',
       x: 203,
@@ -227,6 +236,27 @@ const MapWrapper = () => {
       name: 'Utility',
       x: 181,
       y: 485,
+      open: " ",
+      close: 'N/A -'
+    },
+    {
+      name: 'Dietary',
+      x: 307,
+      y: 485,
+      open: " ",
+      close: 'N/A -'
+    },
+    {
+      name: '0, 0',
+      x: 0,
+      y: 0,
+      open: " ",
+      close: 'N/A -'
+    },
+    {
+      name: '600, 600',
+      x: 600,
+      y: 600,
       open: " ",
       close: 'N/A -'
     }
