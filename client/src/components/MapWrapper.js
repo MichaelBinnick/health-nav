@@ -1,17 +1,23 @@
+import { useEffect } from 'react';
 import { MapContainer, ImageOverlay, useMap, Marker, Popup, SVGOverlay} from 'react-leaflet';
 import { CRS } from 'leaflet';
 
-
-function MyComponent() {
+const GetCoordinates = () => {
   const map = useMap();
-  console.log('map center:', map.getCenter());
-  console.log('crs:', map.crs);
-  
-  return null;
+
+  useEffect(() => {
+    if (!map) return;
+
+    map.on('click', (e) => {
+      console.log('x:', e.latlng.lng, ' y:', e.latlng.lat)
+    })
+  }, [map])
+
+  return null
 }
 
 const MapWrapper = () => {
-  
+
   const center = [300, 300];
   const bound = [[0, 0], [600,600]]
   
@@ -44,20 +50,36 @@ const MapWrapper = () => {
       style={{ height: "100%"}}
     >
       <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
-      <MyComponent />
+
+      <SVGOverlay
+        attributes={{ stroke: 'red' }} bounds={bound}>
+        <rect x="150" y="150" width="50%" height="50%" fill="none" />
+        <circle r="5" cx="10" cy="10" fill="red" />
+        <text x="50%" y="50%" stroke="white">
+          text
+        </text>
+      </SVGOverlay>
+
+      <GetCoordinates />
+
       {locations.map(local => {
         return <Marker
+          key={local.name}
           position={[local.y, local.x]}
-          eventHandlers={{
-            click: () => {
+          eventHandlers={
+            {click: () => {
               console.log('clicked marker:', local.name);
-            }
-          }}
+              console.log('x coordinate:', local.x);
+              console.log('y coordinate:', local.y);
+            }}
+          }
         >
           <Popup>
             <em>{local.name}</em> <br />
             Hours of Operation: <br />
-            {local.open} - {local.close}
+            {local.open} - {local.close} <br />
+            Coordinates: <br />
+            x: {local.x}, y: {local.y}
           </Popup>
         </Marker>
       })}
