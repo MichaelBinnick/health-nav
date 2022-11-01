@@ -1,11 +1,48 @@
+// const graph = {
+//   a: { b: 5, c: 2 },
+//   b: { a: 5, c: 7, d: 8 },
+//   c: { a: 2, b: 7, d: 4, e: 8 },
+//   d: { b: 8, c: 4, e: 6, f: 4 },
+//   e: { c: 8, d: 6, f: 3 },
+//   f: { e: 3, d: 4 },
+// };
+
 const graph = {
-  a: { b: 5, c: 2 },
-  b: { a: 5, c: 7, d: 8 },
-  c: { a: 2, b: 7, d: 4, e: 8 },
-  d: { b: 8, c: 4, e: 6, f: 4 },
-  e: { c: 8, d: 6, f: 3 },
-  f: { e: 3, d: 4 },
-};
+  //Enterances
+  e1: {},
+  e2: {},
+  e3: {},
+  e4: {},
+  e5: {},
+  //Health Services
+  h1: {},
+  h2: {},
+  h3: {},
+  h4: {},
+  h5: {},
+  h6: {},
+
+  //Visitor Services
+  v1: {},
+  v2: {},
+  v3: {},
+  v4: {},
+
+  //Emergency
+  er1: {},
+
+  //Restrooms
+  rr1: {},
+  rr2: {},
+  rr3: {},
+  rr4: {},
+  rr6: {},
+  
+  //Hospital Staff
+  s1: {},
+  s2: {},
+  s3: {}
+}
 
 const printTable = (table) => {
   return Object.keys(table)
