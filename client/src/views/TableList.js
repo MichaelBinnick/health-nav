@@ -32,7 +32,7 @@ import {
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 
-import { thead, tbody } from "variables/general";
+
 import axios from "axios";
 import { useEffect, useState } from 'react';
 
@@ -41,7 +41,7 @@ function RegularTables() {
   const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
-    // for demo purposes, hardcoded URL
+    // get data from database
     axios.get('http://localhost:8080/departments').then(res => {
       console.log(res.data.departments);
       setDepartments(res.data.departments);
@@ -57,54 +57,14 @@ function RegularTables() {
           <Col xs={12}>
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Departments</CardTitle>
+                <CardTitle className="text-primary" tag="h4">Departments</CardTitle>
               </CardHeader>
               <CardBody>
-                <Table responsive>
-                  {/* <thead className="text-primary">
-                    <tr>
-                      {thead.map((prop, key) => {
-                        if (key === thead.length - 1)
-                          return (
-                            <th key={key} className="text-right">
-                              {prop}
-                            </th>
-                          );
-                        return <th key={key}>{prop}</th>;
-                      })}
-                    </tr>
-                  </thead>*/}
-
-                  {/* <tbody>
-                    {departments.map((prop, key) => {
-                      return (
-                        <tr key={key}>
-                          {departments.length ?
-                          departments.map((prop, key) => {
-                            if (key === thead.length - 1)
-                              return (
-                                <td key={key} className="text-right">
-                                  {prop.name}
-                                </td>
-                              );
-                            return <td key={key}>{prop.name}</td>;
-                          }): <></>}
-                        </tr>
-                      );
-                    })}
-                  </tbody> */}
-
-                 
-
+                <Table responsive className="table">
                   <tbody>
                     {departments.map((prop, key) => {
-                      return (<tr key={key}>{prop.name.charAt(0).toUpperCase()+prop.name.slice(1)}</tr>)
-                        
-                              
-
-              })}
-                        
-                   
+                      return (<tr key={key}>{prop.name.charAt(0).toUpperCase() + prop.name.slice(1)}</tr>);
+                    })}
                   </tbody>
                 </Table>
               </CardBody>

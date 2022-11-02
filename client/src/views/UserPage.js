@@ -53,7 +53,7 @@ function User() {
     alergies: "",
     conditions: "",
     medications: "",
-    message: "",
+
   });
 console.log("FORMVALUE: ", formValue)
 
@@ -69,16 +69,16 @@ console.log("FORMVALUE: ", formValue)
     checkInData.append("alergies", formValue.alergies)
     checkInData.append("conditions", formValue.conditions)
     checkInData.append("medications", formValue.medications)
-    checkInData.append("message", formValue.message)
     
-    console.log("CHECKINDATA: ", checkInData.get("name"))
+
+    console.log("CHECKINDATA: ", checkInData.get("name", "time","location", "reason", "alergies", "consditions", "medications" ))
     try {
       // make axios post request
       const response = await axios({
         method: "POST",
-        url: "/checkin",
-        data: checkInData,
-        headers: { "Content-Type": "multipart/form-data" },
+        url: "http://localhost:8080/checkin",
+        data: formValue,
+        // headers: { "Content-Type": "multipart/form-data" },
       });
 
       if (response.status === 200){
@@ -205,7 +205,7 @@ console.log("FORMVALUE: ", formValue)
                       <button className="button-container btn-neutral btn-round" type="submit">Check In</button>
                     </Col>
                   </Row>
-                  <div className="message">{formValue.message ? <p>{formValue.message}</p> : null}</div>
+
                 </Form>
               </CardBody>
             </Card>
