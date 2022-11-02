@@ -254,8 +254,18 @@ const MapWrapper = () => {
     [ 450, 60 ]
   ];
   
+  // variable created for readability; look up state-selectedLocation in locations object
   const currentDest = locations[selectedLocation];
-  
+
+  // this is necessary to iterate over each Polygon and draw them on line 295, quirk of React
+  const polyNames = Object.keys(polys);
+
+  // create options for the hidden polys
+  const genPolyOptions = {
+    stroke: false,
+    fill: true
+  };
+
   return (
     <MapContainer 
       bounds={bound} 
@@ -280,6 +290,19 @@ const MapWrapper = () => {
           </Popup>
         </ Marker>
       }
+
+      {polyNames.map(poly => {
+        return <Polygon 
+          positions={polys[poly]} 
+          key={polys[poly].name} 
+          pathOptions={genPolyOptions}
+          eventHandlers={
+            {click: () => {
+              setSelectedLocation(locations[poly].name);
+            }}
+          }
+        />
+      })}
     
       <LogCoordinates />
 
