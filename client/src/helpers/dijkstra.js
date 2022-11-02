@@ -147,5 +147,5 @@ const dijkstra = (graph, start, end) => {
 
 };
 
-const tester = dijkstra(graph, "h1", "v3");
+const tester = dijkstra(graph, "e3", "er1");
 console.log(tester)
