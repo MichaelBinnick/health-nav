@@ -20,7 +20,7 @@ const LogCoordinates = () => {
 const MapWrapper = () => {
 
   const [selectedLocation, setSelectedLocation] = useState();
-  const [currentLocation, setCurrentLocation] = useState();
+  const [currentLocation, setCurrentLocation] = useState([]);
   const [navPath, setNavPath] = useState([]);
   const [navigating, setNavigating] = useState(true);
 
@@ -363,16 +363,7 @@ const MapWrapper = () => {
     >
       <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
 
-      {selectedLocation.map(spot => {
-        for (let local of locations) {
-          if (selectedLocation.includes(local.name)) {
-            return <Polygon positions={polys[local.name]} key={polys[local.name]} />
-          }
-          // return null;
-        }
-      }
-
-      )}
+      {selectedLocation && <Polygon positions={polys[selectedLocation]} key={polys[selectedLocation]} />}
       {/* <Polygon positions={polys.Emergency} /> */}
     
       <LogCoordinates />
@@ -389,15 +380,10 @@ const MapWrapper = () => {
                 console.log('clicked marker:', local.name);
                 console.log('x coordinate:', local.x);
                 console.log('y coordinate:', local.y);
-
-                if (!selectedLocation.includes(local.name)) {
-                  setSelectedLocation([
-                    local.name
-                  ])
+                setSelectedLocation(local.name)
                 }
 
               }}
-            }
           >
         
           <Popup>
