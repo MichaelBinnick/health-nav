@@ -4,12 +4,15 @@ import { CRS } from 'leaflet';
 import * as L from 'leaflet';
 import { graph, printTable, tracePath, formatGraph, dijkstra } from 'helpers/dijkstra';
 
+// custom icon for current location
 const iconPerson = new L.Icon({
   iconUrl: require('./personIcon.png'),
   iconRetinaUrl: require('./personIcon.png'),
   iconSize: 40,
 });
 
+
+// function for dev purposes
 const LogCoordinates = () => {
   const map = useMap();
 
@@ -24,8 +27,10 @@ const LogCoordinates = () => {
   return null
 }
 
+// this is the component
 const MapWrapper = () => {
   
+  // test data for polyline
   const testPolyline = [
     [ 190, 585 ],
     [ 203, 505 ],
@@ -38,24 +43,29 @@ const MapWrapper = () => {
     [ 450, 60 ]
   ];
 
+  // this currently takes 'steps' along the navPath every x ms using setTimeout
   useEffect(() => {
     if (navPath.length > 0) {
       setTimeout(() => {
         const popNavPath = [...navPath];
         popNavPath.shift();
         setNavPath(popNavPath);
+        setCurrentLocation(popNavPath[0])
       }, 20000)
     }
   })
 
+  // declaration of states
   const [selectedLocation, setSelectedLocation] = useState('Emergency');
-  const [currentLocation, setCurrentLocation] = useState();
+  const [currentLocation, setCurrentLocation] = useState(testPolyline[0]);
   const [navPath, setNavPath] = useState([...testPolyline]);
   const [navigating, setNavigating] = useState(true);
 
+  // options required for drawing map
   const center = [300, 300];
   const bound = [[0, 0], [600,600]]
 
+  // dimensions for room overlays/polygons
   const polys = {
     /* bounds for location polygons
     note: key must match location.name exactly! */
@@ -175,6 +185,7 @@ const MapWrapper = () => {
     ],
   };
 
+  // data for each location
   const locations = {
     /* array of locations for Marker creation 
     name property is used to match against poly objects */
@@ -271,11 +282,10 @@ const MapWrapper = () => {
     },
   };
 
-  
-  // variable created for readability; look up state-selectedLocation in locations object
+  // variable created for readability; look up selectedLocation in locations object
   const currentDest = locations[selectedLocation];
 
-  // this is necessary to iterate over each Polygon and draw them on line 295, quirk of React
+  // this is necessary to iterate over each Polygon and draw them
   const polyNames = Object.keys(polys);
 
   // create options for the hidden polys
@@ -294,8 +304,10 @@ const MapWrapper = () => {
       scrollWheelZoom={true} 
       style={{ height: "100%"}}
     >
+      {/* this is our actual map image */}
       <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
 
+      {/* this highlights the selected room and creates a marker in it with more information on click */}
       {selectedLocation && <Polygon positions={polys[selectedLocation]} key={polys[selectedLocation]} />}
       {selectedLocation && 
         <Marker position={[currentDest.y, currentDest.x]}>
@@ -309,6 +321,7 @@ const MapWrapper = () => {
         </ Marker>
       }
 
+      {/* this creates hidden polys for each room that allow you to click them */}
       {polyNames.map(poly => {
         return <Polygon 
           positions={polys[poly]} 
@@ -322,6 +335,7 @@ const MapWrapper = () => {
         />
       })}
     
+      {/* dev purposes */}
       <LogCoordinates />
 
       {/* render polyline conditionally based on navigating state (true/false) */}
@@ -331,8 +345,10 @@ const MapWrapper = () => {
         // smoothFactor makes line pathing more direct
         smoothFactor={70}
       />}
-      {navPath[0] && <Marker
-        position={navPath[0]}
+
+      {/* icon for current location */}
+      {currentLocation && <Marker
+        position={currentLocation}
         icon={iconPerson}
       />}
       
