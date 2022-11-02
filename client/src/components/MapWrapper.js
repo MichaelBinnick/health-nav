@@ -19,8 +19,8 @@ const LogCoordinates = () => {
 
 const MapWrapper = () => {
 
-  const [selectedLocation, setSelectedLocation] = useState([]);
-  const [currentLocation, setCurrentLocation] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState();
+  const [currentLocation, setCurrentLocation] = useState();
   const [navPath, setNavPath] = useState([]);
   const [navigating, setNavigating] = useState(true);
 
@@ -145,6 +145,102 @@ const MapWrapper = () => {
       [502, 336]
     ],
   }
+
+  const locationsObj = {
+    /* array of locations for Marker creation 
+    name property is used to match against poly objects */
+    admin: {
+      name: 'Admin',
+      x: 203,
+      y: 170,
+      open: '9am',
+      close: '5pm'
+    },
+    adultWaiting: {
+      name: 'Adult/Inpatient - Waiting',
+      x: 280,
+      y: 180,
+      open: '9am',
+      close: '5pm'
+    },
+    inpatient: {
+      name: 'Inpatient',
+      x: 497,
+      y: 170,
+      open: '9am',
+      close: '5pm'
+    },
+    staff: {
+      name: 'Staff',
+      x: 225,
+      y: 305,
+      open: '9am',
+      close: '5pm'
+    },
+    adultPrep: {
+      name: "Adult - Prep & Recovery",
+      x: 300,
+      y: 285,
+      open: "9am",
+      close: '5pm'
+    },
+    pediatricWaiting: {
+      name: 'Pediatric - Waiting',
+      x: 125,
+      y: 180,
+      open: "9am",
+      close: '5pm'
+    },
+    imaging: {
+      name: 'Imaging',
+      x: 35,
+      y: 390,
+      open: "9am",
+      close: '5pm'
+    },
+    emergency: {
+      name: 'Emergency',
+      x: 48,
+      y: 480,
+      open: "9am",
+      close: '5pm'
+    },
+    surgery: {
+      name: 'Surgery',
+      x: 220,
+      y: 395,
+      open: "9am",
+      close: '5pm'
+    },
+    lab: {
+      name: 'Lab',
+      x: 25,
+      y: 251,
+      open: "9am",
+      close: '5pm'
+    },
+    utility: {
+      name: 'Utility',
+      x: 181,
+      y: 485,
+      open: " ",
+      close: 'N/A -'
+    },
+    dietary: {
+      name: 'Dietary',
+      x: 307,
+      y: 485,
+      open: " ",
+      close: 'N/A -'
+    },
+    pediatricPrep: {
+      name: 'Pediatric - Prep & Recovery',
+      x: 146,
+      y: 285,
+      open: "9am",
+      close: '5pm'
+    },
+  };
 
   const locations = [
     /* array of locations for Marker creation 
