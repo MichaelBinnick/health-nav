@@ -138,6 +138,7 @@ import MapWrapper from "components/MapWrapper";
 //   );
 // };
 
+
 function FullScreenMap() {
   return (
     <>
