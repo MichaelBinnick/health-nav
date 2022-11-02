@@ -15,8 +15,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import  React,{ useState } from "react";
+import React, { useState } from "react";
 import axios from 'axios';
+import Select from "react-select";
 
 // reactstrap components
 import {
@@ -35,6 +36,7 @@ import {
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import CovidForm from "components/CovidForm/CovidForm";
 
+import locations from "variables/list_locations";
 
 function User() {
   const [formValue, setFormValue] = useState({
@@ -47,12 +49,13 @@ function User() {
     medications: "",
 
   });
-  // const [dropdownOpen, setDropdownOpen] = useState(false);
-  // const dropdownToggle = (e) => {
-  //   setDropdownOpen(!dropdownOpen);
-  // }
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const [pickTime, setPickTime] = useState('00:00')
+  const dropdownToggle = (e) => {
+    setDropdownOpen(!dropdownOpen);
+  };
+const location = locations.map(opt => ({ label: opt, value: opt }));
+
 
 
 
@@ -111,18 +114,35 @@ function User() {
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Time</label>
-                       {/* <TimePicker onChange={setPickTime} value={pickTime}/> */}
-                          <Input
-                            type="text"
-                            value={formValue.time}
-                            onChange={handleChange}
-                            name="time"
-                          />
+
+                        <Input
+                          type="text"
+                          value={formValue.time}
+                          onChange={handleChange}
+                          name="time"
+                        />
                       </FormGroup>
                     </Col>
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Location</label>
+                        <Select options={location}></Select>
+                        {/* <Dropdown
+                          nav
+                          isOpen={dropdownOpen}
+                          toggle={(e) => dropdownToggle(e)}
+                        >
+                          <DropdownToggle caret nav>
+                            <p>
+                              <span className="d-lg-none d-md-block">Location</span>
+                            </p>
+                          </DropdownToggle>
+                          <DropdownMenu right>
+                            <DropdownItem tag="a">Action</DropdownItem>
+                            <DropdownItem tag="a">Another Action</DropdownItem>
+                            <DropdownItem tag="a">Something else here</DropdownItem>
+                          </DropdownMenu>
+                        </Dropdown> */}
                         <Input
                           type="text"
                           value={formValue.location}
