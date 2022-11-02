@@ -19,8 +19,8 @@ const LogCoordinates = () => {
 
 const MapWrapper = () => {
 
-  const [selectedLocation, setSelectedLocation] = useState();
-  const [currentLocation, setCurrentLocation] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState('Emergency');
+  const [currentLocation, setCurrentLocation] = useState();
   const [navPath, setNavPath] = useState([]);
   const [navigating, setNavigating] = useState(true);
 
@@ -144,96 +144,96 @@ const MapWrapper = () => {
       [467, 336],
       [502, 336]
     ],
-  }
+  };
 
-  const locationsObj = {
+  const locations = {
     /* array of locations for Marker creation 
     name property is used to match against poly objects */
-    admin: {
+    Admin: {
       name: 'Admin',
       x: 203,
       y: 170,
       open: '9am',
       close: '5pm'
     },
-    adultWaiting: {
+    'Adult/Inpatient - Waiting': {
       name: 'Adult/Inpatient - Waiting',
       x: 280,
       y: 180,
       open: '9am',
       close: '5pm'
     },
-    inpatient: {
+    'Inpatient': {
       name: 'Inpatient',
       x: 497,
       y: 170,
       open: '9am',
       close: '5pm'
     },
-    staff: {
+    'Staff': {
       name: 'Staff',
       x: 225,
       y: 305,
       open: '9am',
       close: '5pm'
     },
-    adultPrep: {
+    "Adult - Prep & Recovery": {
       name: "Adult - Prep & Recovery",
       x: 300,
       y: 285,
       open: "9am",
       close: '5pm'
     },
-    pediatricWaiting: {
+    'Pediatric - Waiting': {
       name: 'Pediatric - Waiting',
       x: 125,
       y: 180,
       open: "9am",
       close: '5pm'
     },
-    imaging: {
+    Imaging: {
       name: 'Imaging',
       x: 35,
       y: 390,
       open: "9am",
       close: '5pm'
     },
-    emergency: {
+    Emergency: {
       name: 'Emergency',
       x: 48,
       y: 480,
       open: "9am",
       close: '5pm'
     },
-    surgery: {
+    Surgery: {
       name: 'Surgery',
       x: 220,
       y: 395,
       open: "9am",
       close: '5pm'
     },
-    lab: {
+    'Lab': {
       name: 'Lab',
       x: 25,
       y: 251,
       open: "9am",
       close: '5pm'
     },
-    utility: {
+    'Utility': {
       name: 'Utility',
       x: 181,
       y: 485,
       open: " ",
       close: 'N/A -'
     },
-    dietary: {
+    'Dietary': {
       name: 'Dietary',
       x: 307,
       y: 485,
       open: " ",
       close: 'N/A -'
     },
-    pediatricPrep: {
+    'Pediatric - Prep & Recovery': {
       name: 'Pediatric - Prep & Recovery',
       x: 146,
       y: 285,
@@ -241,102 +241,6 @@ const MapWrapper = () => {
       close: '5pm'
     },
   };
-
-  const locations = [
-    /* array of locations for Marker creation 
-    name property is used to match against poly objects */
-    {
-      name: 'Admin',
-      x: 203,
-      y: 170,
-      open: '9am',
-      close: '5pm'
-    },
-    {
-      name: 'Adult/Inpatient - Waiting',
-      x: 280,
-      y: 180,
-      open: '9am',
-      close: '5pm'
-    },
-    {
-      name: 'Inpatient',
-      x: 497,
-      y: 170,
-      open: '9am',
-      close: '5pm'
-    },
-    {
-      name: 'Staff',
-      x: 225,
-      y: 305,
-      open: '9am',
-      close: '5pm'
-    },
-    {
-      name: "Adult - Prep & Recovery",
-      x: 300,
-      y: 285,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'Pediatric - Waiting',
-      x: 125,
-      y: 180,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'Imaging',
-      x: 35,
-      y: 390,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'Emergency',
-      x: 48,
-      y: 480,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'Surgery',
-      x: 220,
-      y: 395,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'Lab',
-      x: 25,
-      y: 251,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'Utility',
-      x: 181,
-      y: 485,
-      open: " ",
-      close: 'N/A -'
-    },
-    {
-      name: 'Dietary',
-      x: 307,
-      y: 485,
-      open: " ",
-      close: 'N/A -'
-    },
-    {
-      name: 'Pediatric - Prep & Recovery',
-      x: 146,
-      y: 285,
-      open: "9am",
-      close: '5pm'
-    },
-  ];
 
   const testPolyline = [
     [ 190, 585 ],
@@ -348,8 +252,9 @@ const MapWrapper = () => {
     [ 340, 206 ],
     [ 346, 62 ],
     [ 450, 60 ]
-  ]
+  ];
   
+  const currentDest = locations[selectedLocation];
   
   return (
     <MapContainer 
@@ -364,37 +269,24 @@ const MapWrapper = () => {
       <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
 
       {selectedLocation && <Polygon positions={polys[selectedLocation]} key={polys[selectedLocation]} />}
-      {/* <Polygon positions={polys.Emergency} /> */}
+      {selectedLocation && 
+        <Marker position={[currentDest.y, currentDest.x]}>
+          <Popup>
+            <em>{currentDest.name}</em> <br />
+            Hours of Operation: <br />
+            {currentDest.open} - {currentDest.close} <br />
+            Coordinates: <br />
+            x: {currentDest.x}, y: {currentDest.y}
+          </Popup>
+        </ Marker>
+      }
     
       <LogCoordinates />
 
       {/* render polyline conditionally based on navigating state (true/false) */}
       {navigating && <Polyline positions={testPolyline} />}
 
-      {locations.map(local => {
-          return <Marker
-            key={local.name}
-            position={[local.y, local.x]}
-            eventHandlers={
-              {click: () => {
-                console.log('clicked marker:', local.name);
-                console.log('x coordinate:', local.x);
-                console.log('y coordinate:', local.y);
-                setSelectedLocation(local.name)
-                }
-
-              }}
-          >
-        
-          <Popup>
-            <em>{local.name}</em> <br />
-            Hours of Operation: <br />
-            {local.open} - {local.close} <br />
-            Coordinates: <br />
-            x: {local.x}, y: {local.y}
-          </Popup>
-        </Marker>
-      })}
+      
     </MapContainer>
   )
 }
