@@ -46,6 +46,7 @@ function CovidForm() {
             </li>
           );
         })}
+        <button className="button-container btn-neutral btn-round" type="submit">Check In</button>
       </ul>
     </div>
   );

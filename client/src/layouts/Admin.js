@@ -27,7 +27,6 @@ import DemoNavbar from "components/Navbars/DemoNavbar";
 import Footer from "components/Footer/Footer";
 import Sidebar from "components/Sidebar/Sidebar";
 
-
 import routes from "routes.js";
  
 let ps;
@@ -36,6 +35,7 @@ function Admin(props) {
   const location = useLocation();
   const [backgroundColor, setBackgroundColor] = React.useState("blue");
   const mainPanel = React.useRef();
+
   React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(mainPanel.current);
@@ -48,6 +48,7 @@ function Admin(props) {
       }
     };
   });
+
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -71,7 +72,7 @@ function Admin(props) {
               />
             );
           })}
-          <Redirect from="/admin" to="/admin/dashboard" />
+          {/* <Redirect from="/admin" to="/admin/dashboard" /> */}
         </Switch>
         <Footer fluid />
       </div>
