@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { MapContainer, ImageOverlay, useMap, Marker, Popup, Polygon} from 'react-leaflet';
+import { MapContainer, ImageOverlay, useMap, Marker, Popup, Polygon, Polyline} from 'react-leaflet';
 import { CRS } from 'leaflet';
+import { graph, printTable, tracePath, formatGraph, dijkstra } from 'helpers/dijkstra';
 
 const LogCoordinates = () => {
   const map = useMap();
@@ -19,19 +20,12 @@ const LogCoordinates = () => {
 const MapWrapper = () => {
 
   const [selectedLocation, setSelectedLocation] = useState([]);
+  const [currentLocation, setCurrentLocation] = useState([]);
+  const [navPath, setNavPath] = useState([]);
+  const [navigating, setNavigating] = useState(true);
 
   const center = [300, 300];
   const bound = [[0, 0], [600,600]]
-  
-  const rooms = [
-    {
-      name: "Emergency Room",
-      topLeftBound: { x: 21, y:  490},
-      topRightBound: { x: 79, y: 490},
-      botLeftBound: { x: 21, y: 453},
-      botRightBound: { x: 79, y: 453}
-    }
-  ]
 
   const polys = {
     /* bounds for location polygons
@@ -218,154 +212,10 @@ const MapWrapper = () => {
       open: "9am",
       close: '5pm'
     },
-    // Enterances
-    {
-      name: 'Enterance - Pediatric / e1',
-      x: 65,
-      y: 140,
-      open: "9am",
-      close: '5pm'
-    },
     {
       name: 'Lab',
       x: 25,
       y: 251,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'Enterance - Adult/Inpatient / e2',
-      x: 335,
-      y: 140,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'Pediatric - Prep & Recovery',
-      x: 146,
-      y: 285,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'Enterance - Inpatient / e3',
-      x: 585,
-      y: 190,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'Enterance - Dietary / e4',
-      x: 370,
-      y: 443,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'Enterance - ER / e5',
-      x: 15,
-      y: 443,
-      open: "9am",
-      close: '5pm'
-    },
-    //Health-Services
-    {
-      name: 'pediatric - prep & recovery / h1',
-      x: 120,
-      y: 225,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'adult - prep & recovery / h2',
-      x: 325,
-      y: 225,
-      open: "9am",
-      close: '5pm'
-    },{
-      name: 'lab / h3',
-      x: 55,
-      y: 260,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'imaging / h4',
-      x: 55,
-      y: 310,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'surgery / h5',
-      x: 190,
-      y: 437,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'inpatient / h6',
-      x: 482,
-      y: 190,
-      open: "9am",
-      close: '5pm'
-    },
-    //Visitor Services
-    {
-      name: 'front doors / v1',
-      x: 170,
-      y: 135,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'admin / v2',
-      x: 190,
-      y: 210,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'pediatric - waiting / v3',
-      x: 75,
-      y: 210,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'adult - waiting / v4',
-      x: 310,
-      y: 210,
-      open: "9am",
-      close: '5pm'
-    },
-    // Emergency
-    {
-      name: 'emergency / v5',
-      x: 60,
-      y: 450,
-      open: "9am",
-      close: '5pm'
-    },
-    //Restrooms
-    {
-      name: 'restroom1 / rr1',
-      x: 136,
-      y: 210,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'restroom2 / rr2',
-      x: 280,
-      y: 210,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'restroom3 / rr3',
-      x: 70,
-      y: 285,
       open: "9am",
       close: '5pm'
     },
@@ -384,104 +234,27 @@ const MapWrapper = () => {
       close: 'N/A -'
     },
     {
-      name: '0, 0',
-      x: 0,
-      y: 0,
-      open: " ",
-      close: 'N/A -'
-    },
-    {
-      name: '600, 600',
-      x: 600,
-      y: 600,
-      open: " ",
-      close: 'N/A -'
-    },
-    {
-      name: 'restroom4 / rr4',
-      x: 505,
-      y: 203,
+      name: 'Pediatric - Prep & Recovery',
+      x: 146,
+      y: 285,
       open: "9am",
       close: '5pm'
     },
-    {
-      name: 'restroom5 / rr5',
-      x: 260,
-      y: 450,
-      open: "9am",
-      close: '5pm'
-    },
-    //Hospital Staff
-    {
-      name: 'staff / s1',
-      x: 206,
-      y: 340,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'ulility / s2',
-      x: 210,
-      y: 450,
-      open: "9am",
-      close: '5pm'
-    },
-    {
-      name: 'dietary / s3',
-      x: 306,
-      y: 450,
-      open: "9am",
-      close: '5pm'
-    },
-
-    //Cross-sections
-  {
-    name: 'Right hall North-West 23 / n1',
-    x: 360,
-    y: 220,
-  },
-  {
-    name: 'Right hall North-South 10 / n2',
-    x: 360,
-    y: 350,
-  },
-  {
-    name: 'Top hall east-west 35 / n3',
-    x: 360,
-    y: 443,
-  },
-  // {
-  //   name: 'Top hall east-west 5 / n4',
-  //   x: 60,
-  //   y: 443,
-  // },
-  {
-    name: 'Right hall North-West 29 / n5',
-    x: 360,
-    y: 160,
-  },
-  {
-    name: 'Left Hall hall North-West New / n6',
-    x: 62,
-    y: 346,
-  },
-  {
-    name: 'admin connector / n7',
-    x: 192,
-    y: 136,
-  },
-  {
-    name: 'connector / n8',
-    x: 62,
-    y: 218,
-  },
-  {
-    name: 'admin connector / n9',
-    x: 365,
-    y: 195,
-  }
   ];
 
+  const testPolyline = [
+    [ 190, 585 ],
+    [ 203, 505 ],
+    [ 190, 482 ],
+    [ 195, 365 ],
+    [ 220, 360 ],
+    [ 350, 360 ],
+    [ 340, 206 ],
+    [ 346, 62 ],
+    [ 450, 60 ]
+  ]
+  
+  
   return (
     <MapContainer 
       bounds={bound} 
@@ -507,6 +280,9 @@ const MapWrapper = () => {
       {/* <Polygon positions={polys.Emergency} /> */}
     
       <LogCoordinates />
+
+      {/* render polyline conditionally based on navigating state (true/false) */}
+      {navigating && <Polyline positions={testPolyline} />}
 
       {locations.map(local => {
           return <Marker
