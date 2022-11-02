@@ -15,11 +15,11 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import  React,{ useState } from "react";
+import axios from 'axios';
 
 // reactstrap components
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
@@ -27,72 +27,135 @@ import {
   Form,
   Input,
   Row,
-  Col
+  Col, Dropdown, DropdownToggle, DropdownItem, DropdownMenu
 } from "reactstrap";
+
 
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
+import CovidForm from "components/CovidForm/CovidForm";
+
 
 function User() {
+  const [formValue, setFormValue] = useState({
+    name: "",
+    time: "",
+    location: "",
+    reason: "",
+    alergies: "",
+    conditions: "",
+    medications: "",
+
+  });
+  // const [dropdownOpen, setDropdownOpen] = useState(false);
+  // const dropdownToggle = (e) => {
+  //   setDropdownOpen(!dropdownOpen);
+  // }
+
+  const [pickTime, setPickTime] = useState('00:00')
+
+
+
+  let handleSubmit = async () => {
+
+    let checkInData = new FormData();
+    checkInData.append("name", formValue.name);
+    checkInData.append("time", formValue.time);
+    checkInData.append("location", formValue.location);
+    checkInData.append("reason", formValue.reason);
+    checkInData.append("alergies", formValue.alergies);
+    checkInData.append("conditions", formValue.conditions);
+    checkInData.append("medications", formValue.medications);
+
+    try {
+      // make axios post request
+      const response = await axios({
+        method: "POST",
+        url: "http://localhost:8080/checkin",
+        data: formValue,
+      });
+
+      if (response.status === 200) {
+        formValue.message("User created successfully");
+      } else {
+        formValue.message("Some error occured");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValue((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+  };
+
+
   return (
     <>
       <PanelHeader size="sm" />
       <div className="content">
         <Row>
-          <Col md="8">
+          <Col md="6">
             <Card>
               <CardHeader>
                 <h5 className="title">Patient Check In</h5>
               </CardHeader>
               <CardBody>
-                <Form>
-                  {/* <Row>
-                    <Col className="pr-1" md="5">
-                      <FormGroup>
-                        <label>Company (disabled)</label>
-                        <Input
-                          defaultValue="Creative Code Inc."
-                          disabled
-                          placeholder="Company"
-                          type="text"
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="px-1" md="5">
-                      <FormGroup>
-                        <label>Username</label>
-                        <Input
-                          defaultValue="michael23"
-                          placeholder="Username"
-                          type="text"
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-1" md="4">
-                      <FormGroup>
-                        <label htmlFor="exampleInputEmail1">
-                          Email address
-                        </label>
-                        <Input placeholder="Email" type="email" />
-                      </FormGroup>
-                    </Col>
-                  </Row> */}
+                <Form onSubmit={handleSubmit}>
                   <Row>
-                    <Col className="pr-1" md="6">
+                    <Col md="5">
                       <FormGroup>
-                        <label>First Name</label>
+                        <label>Appointment Time</label>
+                       {/* <TimePicker onChange={setPickTime} value={pickTime}/> */}
+                          <Input
+                            type="text"
+                            value={formValue.time}
+                            onChange={handleChange}
+                            name="time"
+                          />
+                      </FormGroup>
+                    </Col>
+                    <Col md="5">
+                      <FormGroup>
+                        <label>Appointment Location</label>
                         <Input
                           type="text"
+                          value={formValue.location}
+                          onChange={handleChange}
+                          name="location"
+                        />
+                      </FormGroup>
+                    </Col>
+
+                  </Row>
+
+                  <Row>
+                    <Col className="pr-1" md="12">
+                      <FormGroup>
+                        <label>Patient Name</label>
+                        <Input
+                          type="text"
+                          value={formValue.name}
+                          onChange={handleChange}
                           name="name"
                         />
                       </FormGroup>
                     </Col>
-                    <Col className="pl-1" md="6">
+                  </Row>
+                  <Row>
+                    <Col md="12">
                       <FormGroup>
-                        <label>Last Name</label>
+                        <label>Reason of consultation</label>
                         <Input
                           type="text"
-                          name="name"
+                          value={formValue.reason}
+                          onChange={handleChange}
+                          name="reason"
                         />
                       </FormGroup>
                     </Col>
@@ -103,29 +166,9 @@ function User() {
                         <label>Alergies</label>
                         <Input
                           type="text"
-                          name="name"
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="12">
-                      <FormGroup>
-                        <label>Alergies</label>
-                        <Input
-                          type="text"
-                          name="name"
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="12">
-                      <FormGroup>
-                        <label>Medications</label>
-                        <Input
-                          type="text"
-                          name="name"
+                          value={formValue.alergies}
+                          onChange={handleChange}
+                          name="alergies"
                         />
                       </FormGroup>
                     </Col>
@@ -136,77 +179,43 @@ function User() {
                         <label>Medical Conditions</label>
                         <Input
                           type="text"
-                          name="name"
+                          value={formValue.conditions}
+                          onChange={handleChange}
+                          name="conditions"
                         />
                       </FormGroup>
                     </Col>
                   </Row>
-                  {/* <Row>
+                  <Row>
                     <Col md="12">
                       <FormGroup>
-                        <label>About Me</label>
+                        <label>Medications</label>
                         <Input
-                          cols="80"
-                          defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in
-                            that two seat Lambo."
-                          placeholder="Here can be your description"
-                          rows="4"
-                          type="textarea"
+                          type="text"
+                          value={formValue.medications}
+                          onChange={handleChange}
+                          name="medications"
                         />
                       </FormGroup>
+                      <button className="button-container btn-neutral btn-round" type="submit">Check In</button>
                     </Col>
-                  </Row> */}
+                  </Row>
+
                 </Form>
               </CardBody>
             </Card>
           </Col>
-          <Col md="4">
+          <Col md="6">
             <Card className="card-user">
               <div className="image"></div>
               <CardBody>
                 <div className="author">
                   <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                    
                     <h5 className="title">COVID SCREENING</h5>
                   </a>
-                  <p className="description">CHECKBOX FORM</p>
                 </div>
-                <p className="description text-center">
-                  "Lamborghini Mercy <br />
-                  Your chick she so thirsty <br />
-                  I'm in that two seat Lambo"
-                </p>
+                <CovidForm />
               </CardBody>
-              <hr />
-              <div className="button-container">
-                {/* <Button
-                  className="btn-neutral btn-icon btn-round"
-                  color="default"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                  size="lg"
-                >
-                  <i className="fab fa-facebook-f" />
-                </Button>
-                <Button
-                  className="btn-neutral btn-icon btn-round"
-                  color="default"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                  size="lg"
-                >
-                  <i className="fab fa-twitter" />
-                </Button>
-                <Button
-                  className="btn-neutral btn-icon btn-round"
-                  color="default"
-                  href="#pablo"
-                  onClick={(e) => e.preventDefault()}
-                  size="lg"
-                >
-                  <i className="fab fa-google-plus-g" />
-                </Button> */}
-              </div>
             </Card>
           </Col>
         </Row>
