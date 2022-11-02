@@ -30,7 +30,17 @@ const MapWrapper = () => {
     [ 346, 62 ],
     [ 450, 60 ]
   ];
-  
+
+  useEffect(() => {
+    if (navPath.length > 0) {
+      setTimeout(() => {
+        const popNavPath = [...navPath];
+        popNavPath.shift();
+        setNavPath(popNavPath);
+      }, 20000)
+    }
+  })
+
   const [selectedLocation, setSelectedLocation] = useState('Emergency');
   const [currentLocation, setCurrentLocation] = useState();
   const [navPath, setNavPath] = useState([...testPolyline]);
