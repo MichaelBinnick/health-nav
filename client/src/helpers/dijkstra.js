@@ -9,40 +9,60 @@
 
 const graph = {
   //Enterances
-  e1: {},
-  e2: {},
-  e3: {},
-  e4: {},
-  e5: {},
-  //Health Services
-  h1: {},
-  h2: {},
-  h3: {},
-  h4: {},
-  h5: {},
-  h6: {},
+  e1: { n8: 78 },
+  e2: { n5: 35 },
+  e3: { rr4: 81 },
+  e4: { n3: 10},
+  e5: { er1: 47 },
+  // //Health Services
+  h1: { v3: 47, rr1: 22 },
+  h2: { v4: 21, n1: 35 },
+  h3: { rr3: 29, n8: 43 },
+  h4: { n6: 36, rr3: 29 },
+  h5: { er1: 131, s2: 24 },
+  h6: { n9: 117, rr4: 23 },
 
-  //Visitor Services
-  v1: {},
-  v2: {},
-  v3: {},
-  v4: {},
+  // //Visitor Services
+  v1: { n7: 22 },
+  v2: { rr1: 54, n7: 74, rr2: 90 },
+  v3: { n8: 15, h1: 47 },
+  v4: { rr2: 30, h2: 21 },
 
-  //Emergency
-  er1: {},
+  // //Emergency
+  er1: { n6: 104, e5: 46, er1: 131 },
 
-  //Restrooms
-  rr1: {},
-  rr2: {},
-  rr3: {},
-  rr4: {},
-  rr6: {},
-  
-  //Hospital Staff
-  s1: {},
-  s2: {},
-  s3: {}
-}
+  // //Restrooms
+  rr1: { h1: 22, v2: 54 },
+  rr2: { v2: 90, v4: 30 },
+  rr3: { h4: 29, h3: 29 },
+  rr4: { h6: 24, e3: 81 },
+  rr5: { s2: 50, s3: 46 },
+ 
+  // //Hospital Staff
+  s1: { n2: 154, n6: 144 },
+  s2: { h5: 24, rr5: 50 },
+  s3: { rr5: 46, n3: 47 },
+
+  // //Connecting Nodes
+  n1: { h2: 35, n9: 25, n2: 130 },
+  n2: { n1: 130, s1: 154, n2: 137 },
+  n3: { s3: 47, n2: 137, e4: 10 },
+  // n4: { n6: 97 },
+  n5: { n9: 35, e2: 35 },
+  n6: { s1: 144, h4: 36, er1: 104 },
+  n7: { v2: 47, v1: 22 },
+  n8: { e1: 78, v3: 15, h3: 43 },
+  n9: { n1: 25, n5: 35, h6: 117 }
+};
+
+let x1 = 585
+let y1 = 190
+
+let x2 = 505
+let y2 = 203
+
+const weight = Math.hypot(x2-x1, y2-y1);
+console.log(Math.round(weight))
 
 const printTable = (table) => {
   return Object.keys(table)
@@ -127,5 +147,5 @@ const dijkstra = (graph, start, end) => {
 
 };
 
-const tester = dijkstra(graph, "b", "d");
+const tester = dijkstra(graph, "h1", "v3");
 console.log(tester)

@@ -1,6 +1,16 @@
-const weight = (a, b) => {
-  []
-}
+// const weight = (a, b) => {
+  
+// }
+let x1 =  75
+let y1 = 210
+
+let x2 = 120
+let y2 = 225
+
+const weight = Math.hypot(x2-x1, y2-y1);
+console.log(Math.round(weight))
+
+
 const locations = [
   /* array of every node(x, y) and it's location details, from query */
   {
@@ -157,8 +167,8 @@ const locations = [
   },
   {
     name: 'restroom4 / rr4',
-    x: 60,
-    y: 450,
+    x: 505,
+    y: 203,
     open: "9am",
     close: '5pm'
   },
@@ -208,11 +218,11 @@ const locations = [
   x: 360,
   y: 443,
 },
-{
-  name: 'Top hall east-west 5 / n4',
-  x: 60,
-  y: 443,
-},
+// {
+//   name: 'Top hall east-west 5 / n4',
+//   x: 60,
+//   y: 443,
+// },
 {
   name: 'Right hall North-West 29 / n5',
   x: 360,
@@ -228,4 +238,14 @@ const locations = [
   x: 192,
   y: 136,
 },
+{
+  name: 'admin connector / n8',
+  x: 62,
+  y: 218,
+},
+{
+  name: 'admin connector / n9',
+  x: 365,
+  y: 195,
+}
 ];
