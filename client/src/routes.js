@@ -48,7 +48,7 @@ const dashRoutes = [
   },
   {
     path: "/extended-tables",
-    name: "Departments",
+    name: "Locations",
     icon: "files_paper",
     component: TableList,
     layout: "/admin"

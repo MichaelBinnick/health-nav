@@ -16,7 +16,8 @@
 
 */
 import React from "react";
-// import { getAllDepartments } from "../server/db/queries/departments.js"
+import axios from "axios";
+import { useEffect, useState } from 'react';
 
 // reactstrap components
 import {
@@ -33,18 +34,17 @@ import {
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 
 
-import axios from "axios";
-import { useEffect, useState } from 'react';
+
 
 function RegularTables() {
 
-  const [departments, setDepartments] = useState([]);
+  const [locations, setLocations] = useState([]);
 
   useEffect(() => {
     // get data from database
-    axios.get('http://localhost:8080/departments').then(res => {
-      console.log(res.data.departments);
-      setDepartments(res.data.departments);
+    axios.get('http://localhost:8080/locations').then(res => {
+      console.log(res.data.locations);
+      setLocations(res.data.locations);
     });
   }, []);
 
@@ -57,13 +57,33 @@ function RegularTables() {
           <Col xs={12}>
             <Card>
               <CardHeader>
-                <CardTitle className="text-primary" tag="h4">Departments</CardTitle>
+                <CardTitle className="text-primary" tag="h4">Locations</CardTitle>
               </CardHeader>
               <CardBody>
-                <Table responsive className="table">
+                <Table responsive className="table" striped>
+                  <thead>
+                    <tr>
+                      <th>Location</th>
+                      <th>Department</th>
+                      <th>Open</th>
+                      <th>Close</th>
+                    </tr>
+                  </thead>
                   <tbody>
-                    {departments.map((prop, key) => {
-                      return (<tr key={key}>{prop.name.charAt(0).toUpperCase() + prop.name.slice(1)}</tr>);
+                    {locations.map((prop, key) => {
+                      return (
+                    <tr>
+                     <td key={key}>{prop.name}</td>
+                     <td key={key}>{prop.department_id}</td>
+                     <td key={key}>{prop.hours_open}</td>
+                     <td key={key}>{prop.hours_close}</td>
+                    </tr>
+                    
+                  
+                      
+                      
+
+                      );
                     })}
                   </tbody>
                 </Table>
