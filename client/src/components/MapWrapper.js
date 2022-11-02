@@ -318,7 +318,11 @@ const MapWrapper = () => {
       <LogCoordinates />
 
       {/* render polyline conditionally based on navigating state (true/false) */}
-      {navigating && <Polyline positions={navPath} />}
+      {navigating && <Polyline 
+        positions={navPath} 
+        color='red'
+        smoothFactor={70}
+      />}
 
       
     </MapContainer>
