@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 import { MapContainer, ImageOverlay, useMap, Marker, Popup, Polygon, Polyline} from 'react-leaflet';
 import { CRS } from 'leaflet';
+import * as L from 'leaflet';
 import { graph, printTable, tracePath, formatGraph, dijkstra } from 'helpers/dijkstra';
+
+const iconPerson = new L.Icon({
+  iconUrl: require('./personIcon.png'),
+  iconRetinaUrl: require('./personIcon.png'),
+  iconSize: 40,
+});
 
 const LogCoordinates = () => {
   const map = useMap();
@@ -321,9 +328,13 @@ const MapWrapper = () => {
       {navigating && <Polyline 
         positions={navPath} 
         color='red'
+        // smoothFactor makes line pathing more direct
         smoothFactor={70}
       />}
-
+      {navPath[0] && <Marker
+        position={navPath[0]}
+        icon={iconPerson}
+      />}
       
     </MapContainer>
   )
