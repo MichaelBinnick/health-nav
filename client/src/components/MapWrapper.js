@@ -263,7 +263,7 @@ const MapWrapper = () => {
   // create options for the hidden polys
   const genPolyOptions = {
     stroke: false,
-    fill: true
+    fillOpacity: .0
   };
 
   return (
