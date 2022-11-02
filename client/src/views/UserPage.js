@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import { React, useState } from "react";
+import  React,{ useState } from "react";
 import axios from 'axios';
 
 // reactstrap components
@@ -27,8 +27,9 @@ import {
   Form,
   Input,
   Row,
-  Col
+  Col, Dropdown, DropdownToggle, DropdownItem, DropdownMenu
 } from "reactstrap";
+
 
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
@@ -36,15 +37,6 @@ import CovidForm from "components/CovidForm/CovidForm";
 
 
 function User() {
-  // const [name, setName] = useState("");
-  // const [time, setTime] = useState("");
-  // const [location, setLocation]= useState("");
-  // const [reason, setReason] = useState("");
-  // const [alergies, setAlergies] = useState("");
-  // const [conditions, setConditions] = useState("");
-  // const [medications, setMedications] = useState("");
-  // const [message, setMessage] = useState("");
-
   const [formValue, setFormValue] = useState({
     name: "",
     time: "",
@@ -55,41 +47,43 @@ function User() {
     medications: "",
 
   });
-console.log("FORMVALUE: ", formValue)
+  // const [dropdownOpen, setDropdownOpen] = useState(false);
+  // const dropdownToggle = (e) => {
+  //   setDropdownOpen(!dropdownOpen);
+  // }
+
+  const [pickTime, setPickTime] = useState('00:00')
+
+
 
   let handleSubmit = async () => {
 
-    console.log("name: " + formValue.name)
-
     let checkInData = new FormData();
-    checkInData.append("name", formValue.name)
-    checkInData.append("time", formValue.time)
-    checkInData.append("location", formValue.location)
-    checkInData.append("reason", formValue.reason)
-    checkInData.append("alergies", formValue.alergies)
-    checkInData.append("conditions", formValue.conditions)
-    checkInData.append("medications", formValue.medications)
-    
+    checkInData.append("name", formValue.name);
+    checkInData.append("time", formValue.time);
+    checkInData.append("location", formValue.location);
+    checkInData.append("reason", formValue.reason);
+    checkInData.append("alergies", formValue.alergies);
+    checkInData.append("conditions", formValue.conditions);
+    checkInData.append("medications", formValue.medications);
 
-    console.log("CHECKINDATA: ", checkInData.get("name", "time","location", "reason", "alergies", "consditions", "medications" ))
     try {
       // make axios post request
       const response = await axios({
         method: "POST",
         url: "http://localhost:8080/checkin",
         data: formValue,
-        // headers: { "Content-Type": "multipart/form-data" },
       });
 
-      if (response.status === 200){
+      if (response.status === 200) {
         formValue.message("User created successfully");
       } else {
         formValue.message("Some error occured");
       }
-    } catch(error) {
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValue((prevState) => {
@@ -117,12 +111,13 @@ console.log("FORMVALUE: ", formValue)
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Time</label>
-                        <Input
-                          type="text"
-                          value={formValue.time}
-                          onChange={handleChange}
-                          name="time"
-                        />
+                       {/* <TimePicker onChange={setPickTime} value={pickTime}/> */}
+                          <Input
+                            type="text"
+                            value={formValue.time}
+                            onChange={handleChange}
+                            name="time"
+                          />
                       </FormGroup>
                     </Col>
                     <Col md="5">
