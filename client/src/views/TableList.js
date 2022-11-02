@@ -70,19 +70,14 @@ function RegularTables() {
                     </tr>
                   </thead>
                   <tbody>
-                    {locations.map((prop, key) => {
+                    {locations.map((location, key) => {
                       return (
-                    <tr>
-                     <td key={key}>{prop.name}</td>
-                     <td key={key}>{prop.department_id}</td>
-                     <td key={key}>{prop.hours_open}</td>
-                     <td key={key}>{prop.hours_close}</td>
+                    <tr key={key}>
+                     <td>{location.name.charAt(0).toUpperCase() + location.name.slice(1)}</td>
+                     <td>{location.department_name.charAt(0).toUpperCase() + location.department_name.slice(1)}</td>
+                     <td>{location.hours_open}</td>
+                     <td>{location.hours_close}</td>
                     </tr>
-                    
-                  
-                      
-                      
-
                       );
                     })}
                   </tbody>
