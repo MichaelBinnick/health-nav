@@ -13,15 +13,27 @@ const LogCoordinates = () => {
       console.log('x:', e.latlng.lng, ' y:', e.latlng.lat)
     })
   }, [map])
-
+  
   return null
 }
 
 const MapWrapper = () => {
-
+  
+  const testPolyline = [
+    [ 190, 585 ],
+    [ 203, 505 ],
+    [ 190, 482 ],
+    [ 195, 365 ],
+    [ 220, 360 ],
+    [ 350, 360 ],
+    [ 340, 206 ],
+    [ 346, 62 ],
+    [ 450, 60 ]
+  ];
+  
   const [selectedLocation, setSelectedLocation] = useState('Emergency');
   const [currentLocation, setCurrentLocation] = useState();
-  const [navPath, setNavPath] = useState([]);
+  const [navPath, setNavPath] = useState([...testPolyline]);
   const [navigating, setNavigating] = useState(true);
 
   const center = [300, 300];
@@ -242,17 +254,6 @@ const MapWrapper = () => {
     },
   };
 
-  const testPolyline = [
-    [ 190, 585 ],
-    [ 203, 505 ],
-    [ 190, 482 ],
-    [ 195, 365 ],
-    [ 220, 360 ],
-    [ 350, 360 ],
-    [ 340, 206 ],
-    [ 346, 62 ],
-    [ 450, 60 ]
-  ];
   
   // variable created for readability; look up state-selectedLocation in locations object
   const currentDest = locations[selectedLocation];
@@ -307,7 +308,7 @@ const MapWrapper = () => {
       <LogCoordinates />
 
       {/* render polyline conditionally based on navigating state (true/false) */}
-      {navigating && <Polyline positions={testPolyline} />}
+      {navigating && <Polyline positions={navPath} />}
 
       
     </MapContainer>
