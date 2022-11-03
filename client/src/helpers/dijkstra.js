@@ -1228,7 +1228,7 @@ const dijkstra = (graph, start, end) => {
         shortestDistances[to] && shortestDistances[to].cost;
       let newCostToNeighbor = costToVertex + cost;
       if (
-        currCostToNeighbor == undefined ||
+        currCostToNeighbor === undefined ||
         newCostToNeighbor < currCostToNeighbor
       ) {
         // Update the table
