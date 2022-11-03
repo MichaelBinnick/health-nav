@@ -37,51 +37,44 @@ const LogCoordinates = () => {
 // this is the component
 const MapWrapper = (props) => {
   
-  
-  // test data for polyline
-  const testPolyline = [
-    [ 190, 585 ],
-    [ 203, 505 ],
-    [ 190, 482 ],
-    [ 195, 365 ],
-    [ 220, 360 ],
-    [ 350, 360 ],
-    [ 340, 206 ],
-    [ 346, 62 ],
-    [ 450, 60 ]
-  ];
-
   // declaration of state
   const [currentLine, setCurrentLine] = useState(routeCoords);
-  
-  // this currently takes 'steps' along the navPath every x ms using setTimeout
-  // useEffect(() => {
-    //   if (navPath.length > 0) {
-      //     setTimeout(() => {
-        //       const popNavPath = [...navPath];
-        //       popNavPath.shift();
-        //       setNavPath(popNavPath);
-        //       setCurrentLocation(popNavPath[0])
-        //     }, 20000)
-        //   }
-        // });
-        // this currently takes 'steps' along the navDemo every x ms using setTimeout
-        
-        
+    
   useEffect(() => {
-    if (demoPath.length > 0) {
+    
+    // hardcoded nav demo w. dummy user
+    if (navigatingDemo) {
+      
+      // each interval represents a 'step' taken along the path
       setTimeout(() => {
         
-        const popDemoPath = [...demoPath];
-        popDemoPath.shift();
-        setDemoPath(popDemoPath);
-        setCurrentLocation(popDemoPath[0]);
-        console.log('current loc:', currentLocation);
-        console.log('str endpoint:', demoPath[demoPath.length -1])
-        setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results);
-        // console.log('Dijk Path:', dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results)
+        // once demoPath is 1, we don't want to continue
+        if (demoPath.length > 1) {
 
-      }, 500)  
+          // create shallow copy of demo path
+          const popDemoPath = [...demoPath];
+
+          // remove first element of copy to indicate step taken
+          popDemoPath.shift();
+
+          // reset demoPath state to be new reduced path
+          setDemoPath(popDemoPath);
+
+          // change current location to indicate step taken
+          setCurrentLocation(popDemoPath[0]);
+          console.log('current loc:', currentLocation);
+
+          // redraw the nav line based on current location
+          setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results);
+
+          // logic to take when demo is over (cleanup)
+          if (demoPath.length === 2) {
+            setNavigatingDemo(false);
+            setDemoPath([]);
+            console.log('reached end of demo');
+          } 
+        } 
+      }, 300)  
     }   
   })
   
@@ -93,10 +86,11 @@ const MapWrapper = (props) => {
     console.log('defaultLocation:', defaultLocation);
   }
         
+  // more state
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
   const [currentLocation, setCurrentLocation] = useState(routeStr[0]);
 
-  const [navPath, setNavPath] = useState([...testPolyline]);
+  const [navPath, setNavPath] = useState([]);
   const [navigating, setNavigating] = useState(true);
   const [demoPath, setDemoPath] = useState([...routeStr]);
   const [navigatingDemo, setNavigatingDemo] = useState(true);
