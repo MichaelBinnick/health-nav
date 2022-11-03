@@ -151,7 +151,7 @@ const MapWrapper = (props) => {
     /* array of locations for Marker creation 
     name property is used to match against poly objects */
     {
-      name: 'admin',
+      name: 'Admin',
       x: 203,
       y: 170,
       open: '9am',
@@ -179,7 +179,7 @@ const MapWrapper = (props) => {
       close: '5pm'
     },
     {
-      name: "Adult - Prep & Recovery",
+      name: 'Adult - Prep & Recovery',
       x: 300,
       y: 285,
       open: "9am",
