@@ -49,7 +49,7 @@ function User() {
     alergies: "",
     conditions: "",
     medications: "",
-
+    covid_free: false,
   });
 
   //const location = locations.map(opt => ({ label: opt, value: opt }));
@@ -58,18 +58,13 @@ function User() {
   const hour = time.map(opt => ({ label: opt, value: opt }));
 
   //Location dropdown select
-  const location = locations.map(opt => ({ label: opt, value: opt }));
+  // const locationNumber = Object.keys(locations)
+  // const locationName = Object.values(locations)
+  
+  // const location = locationName.map(opt => ({ label: opt, value: opt }));
+  // console.log("LOCATION::", location)
 
-  // const [locations, setLocations] = useState([]);
-  // console.log("LOCATION::", locations)
-  // const location = locations.map(opt => ({ label: opt, value: opt }))
-  // useEffect(() => {
-  //   // get data from database
-  //   axios.get('http://localhost:8080/locations').then(res => {
-  //     console.log(res.data.locations);
-  //     setLocations(res.data.locations);
-  //   });
-  // }, []);
+//const[location, setLocation] = useState();
 
 
 
@@ -93,6 +88,7 @@ function User() {
       console.log(error);
     }
   };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValue((prevState) => {
@@ -103,20 +99,17 @@ function User() {
     });
   };
 
-
+console.log("FORM:", formValue)
   //conditional COVID form
-  const [showForm, setShowForm] = useState(null);
-  const load = () => setShowForm(showForm => !showForm);
-
-
-
+  const [showForm, setShowForm] = useState(false);
+  const load = (e) => { e.preventDefault(); setShowForm(!showForm); };
 
   return (
     <>
       <PanelHeader size="sm" />
       <div className="content">
         <Row>
-          <Col md="6">
+          <Col md="12">
             <Card>
               <CardHeader>
                 <h5 className="title">Patient Check In</h5>
@@ -127,7 +120,7 @@ function User() {
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Time</label>
-                        <Select options={hour}></Select>
+                        <Select options={hour} onSubmit={handleSubmit}></Select>
                         {/* <Input
                           type="text"
                           value={formValue.time}
@@ -139,7 +132,12 @@ function User() {
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Location</label>
-                        <Select options={location}></Select>
+                        
+                  <Select options={locations}>
+
+                  </Select>
+
+                       
                       </FormGroup>
                     </Col>
 
@@ -207,12 +205,20 @@ function User() {
                           onChange={handleChange}
                           name="medications"
                         />
-
-                        <button className="button-container btn-neutral btn-round" onClick={load}>COVID</button>
-                        {showForm && <CovidForm />}
-
                       </FormGroup>
-                      <button className="button-container btn-neutral btn-round" type="submit">Check In</button>
+                      <Row>
+                        <Col md="12">
+                          <FormGroup>
+                            <button className="button-container btn-neutral btn-round" onClick={load}>Click here if you need to complete the COVID Screening</button>
+                            {showForm && <CovidForm />}
+                          </FormGroup>
+                        </Col>
+                      </Row>
+
+                      <Col md="12">
+                        <button className="button-container btn-neutral btn-round" type="submit">Check In</button>
+                      </Col>
+
                     </Col>
                   </Row>
 
@@ -220,7 +226,7 @@ function User() {
               </CardBody>
             </Card>
           </Col>
-          <Col md="6">
+          {/* <Col md="6">
             <Card className="card-user">
               <div className="image"></div>
               <CardBody>
@@ -230,10 +236,10 @@ function User() {
                   </a>
                 </div>
 
-                {/* <CovidForm /> */}
+                <CovidForm />
               </CardBody>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
       </div>
     </>
