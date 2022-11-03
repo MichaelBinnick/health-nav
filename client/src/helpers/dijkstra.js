@@ -1287,8 +1287,10 @@ const dijkCoords = (path) => {
     results.push(coords);
   }
 
-  return results;
+  return { results, path };
 }
+
+// const fullPath = dijkCoords([])
 
 const polyTest1 = dijkCoords(startEnd.path);
 console.log(polyTest1);
@@ -1302,6 +1304,7 @@ console.log(polyTest3);
 const polyTest4 = dijkCoords(redirect.path);
 console.log(polyTest4);
 
+const route = polyTest2.concat(polyTest3.concat(polyTest4));
 
 // const testPolyline = dijkCoords(tester.path);
 // console.log('polyline test:', testPolyline);
@@ -1341,5 +1344,6 @@ module.exports = {
   polyTest2,
   polyTest3,
   polyTest4,
-  dijkCoords
+  dijkCoords,
+  route
 };
