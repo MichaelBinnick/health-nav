@@ -17,9 +17,10 @@ const LogCoordinates = () => {
   return null
 }
 
-const MapWrapper = () => {
+const MapWrapper = (props) => {
 
-  const [selectedLocation, setSelectedLocation] = useState([]);
+  const defaultLocation = props.locationId && [props.locationId]
+  const [selectedLocation, setSelectedLocation] = useState(defaultLocation || [] );
   const [currentLocation, setCurrentLocation] = useState([]);
   const [navPath, setNavPath] = useState([]);
   const [navigating, setNavigating] = useState(true);
@@ -269,7 +270,7 @@ const MapWrapper = () => {
 
       {selectedLocation.map(spot => {
         for (let local of locations) {
-          if (selectedLocation.includes(local.name)) {
+          if (selectedLocation.includes(local.id)) {
             return <Polygon positions={polys[local.name]} key={polys[local.name]} />
           }
           // return null;
@@ -294,9 +295,9 @@ const MapWrapper = () => {
                 console.log('x coordinate:', local.x);
                 console.log('y coordinate:', local.y);
 
-                if (!selectedLocation.includes(local.name)) {
+                if (!selectedLocation.includes(local.id)) {
                   setSelectedLocation([
-                    local.name
+                    local.id
                   ])
                 }
 

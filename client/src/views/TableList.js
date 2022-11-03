@@ -32,6 +32,7 @@ import {
 
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
+import { Link } from "react-router-dom";
 
 
 
@@ -71,9 +72,12 @@ function RegularTables() {
                   </thead>
                   <tbody>
                     {locations.map((location, key) => {
+                      const locationRoute = "/admin/maps/" + location.id;
                       return (
                     <tr key={key}>
-                     <td>{location.name.charAt(0).toUpperCase() + location.name.slice(1)}</td>
+                      <td>
+                      <Link to={locationRoute}>{location.name.charAt(0).toUpperCase() + location.name.slice(1)}</Link>
+                      </td>
                      <td>{location.department_name.charAt(0).toUpperCase() + location.department_name.slice(1)}</td>
                      <td>{location.hours_open}</td>
                      <td>{location.hours_close}</td>
