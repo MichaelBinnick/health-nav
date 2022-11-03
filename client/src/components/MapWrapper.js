@@ -2,7 +2,23 @@ import { useEffect, useState } from 'react';
 import { MapContainer, ImageOverlay, useMap, Marker, Popup, Polygon, Polyline} from 'react-leaflet';
 import { CRS } from 'leaflet';
 import * as L from 'leaflet';
-import { graph, printTable, tracePath, formatGraph, dijkstra } from 'helpers/dijkstra';
+import { 
+  graph, 
+  dijkNodes, 
+  printTable, 
+  tracePath, 
+  formatGraph, 
+  dijkstra,
+  startEnd,
+  crossRoad,
+  lost,
+  redirect,
+  polyTest1,
+  polyTest2,
+  polyTest3,
+  polyTest4,
+  dijkCoords
+} from 'helpers/dijkstra';
 
 // custom icon for current location
 const iconPerson = new L.Icon({
@@ -28,7 +44,7 @@ const LogCoordinates = () => {
 }
 
 // this is the component
-const MapWrapper = () => {
+const MapWrapper = (props) => {
   
   // test data for polyline
   const testPolyline = [
@@ -55,8 +71,10 @@ const MapWrapper = () => {
     }
   })
 
+  const defaultLocation = props.locationId;
   // declaration of states
-  const [selectedLocation, setSelectedLocation] = useState('Emergency');
+  
+  const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
   const [currentLocation, setCurrentLocation] = useState(testPolyline[0]);
   const [navPath, setNavPath] = useState([...testPolyline]);
   const [navigating, setNavigating] = useState(true);
@@ -69,7 +87,7 @@ const MapWrapper = () => {
   const polys = {
     /* bounds for location polygons
     note: key must match location.name exactly! */
-    Emergency: [
+    "Emergency": [
       [493, 18], // top left
       [453, 18], // bot left
       [453, 79], // bot right

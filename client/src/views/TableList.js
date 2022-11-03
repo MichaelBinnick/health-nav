@@ -32,19 +32,20 @@ import {
 
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
+import { Link } from "react-router-dom";
 
 
 
 
 function RegularTables() {
 
-  const [locations, setLocations] = useState([]);
+  const [locationsDB, setLocationsDB] = useState([]);
 
   useEffect(() => {
     // get data from database
     axios.get('http://localhost:8080/locations').then(res => {
       console.log(res.data.locations);
-      setLocations(res.data.locations);
+      setLocationsDB(res.data.locations);
     });
   }, []);
 
@@ -70,10 +71,13 @@ function RegularTables() {
                     </tr>
                   </thead>
                   <tbody>
-                    {locations.map((location, key) => {
+                    {locationsDB.map((location, key) => {
+                      const locationRoute = "/admin/maps/" + location.name;
                       return (
                     <tr key={key}>
-                     <td>{location.name.charAt(0).toUpperCase() + location.name.slice(1)}</td>
+                      <td>
+                      <Link to={locationRoute}>{location.name.charAt(0).toUpperCase() + location.name.slice(1)}</Link>
+                      </td>
                      <td>{location.department_name.charAt(0).toUpperCase() + location.department_name.slice(1)}</td>
                      <td>{location.hours_open}</td>
                      <td>{location.hours_close}</td>
