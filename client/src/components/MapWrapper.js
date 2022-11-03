@@ -5,19 +5,10 @@ import * as L from 'leaflet';
 import { 
   graph, 
   dijkNodes, 
-  printTable, 
-  tracePath, 
-  formatGraph, 
   dijkstra,
-  startEnd,
-  crossRoad,
-  lost,
-  redirect,
-  polyTest1,
-  polyTest2,
-  polyTest3,
-  polyTest4,
-  dijkCoords
+  dijkCoords,
+  routeStr,
+  routeCoords
 } from 'helpers/dijkstra';
 
 // custom icon for current location
@@ -46,6 +37,7 @@ const LogCoordinates = () => {
 // this is the component
 const MapWrapper = (props) => {
   
+  
   // test data for polyline
   const testPolyline = [
     [ 190, 585 ],
@@ -59,18 +51,40 @@ const MapWrapper = (props) => {
     [ 450, 60 ]
   ];
 
+  // declaration of state
+  const [currentLine, setCurrentLine] = useState(routeCoords);
+  
   // this currently takes 'steps' along the navPath every x ms using setTimeout
+  // useEffect(() => {
+    //   if (navPath.length > 0) {
+      //     setTimeout(() => {
+        //       const popNavPath = [...navPath];
+        //       popNavPath.shift();
+        //       setNavPath(popNavPath);
+        //       setCurrentLocation(popNavPath[0])
+        //     }, 20000)
+        //   }
+        // });
+        // this currently takes 'steps' along the navDemo every x ms using setTimeout
+        
+        
   useEffect(() => {
-    if (navPath.length > 0) {
+    if (demoPath.length > 0) {
       setTimeout(() => {
-        const popNavPath = [...navPath];
-        popNavPath.shift();
-        setNavPath(popNavPath);
-        setCurrentLocation(popNavPath[0])
-      }, 20000)
-    }
-  })
+        
+        const popDemoPath = [...demoPath];
+        popDemoPath.shift();
+        setDemoPath(popDemoPath);
+        setCurrentLocation(popDemoPath[0]);
+        console.log('current loc:', currentLocation);
+        console.log('str endpoint:', demoPath[demoPath.length -1])
+        setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results);
+        // console.log('Dijk Path:', dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results)
 
+      }, 500)  
+    }   
+  })
+  
   let defaultLocation = props.locationId;
   if (defaultLocation) {
     let locationSplit = defaultLocation.split('');
@@ -78,14 +92,16 @@ const MapWrapper = (props) => {
     defaultLocation = locationSplit.join('');
     console.log('defaultLocation:', defaultLocation);
   }
-  // declaration of states
-  
+        
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
-  const [currentLocation, setCurrentLocation] = useState(testPolyline[0]);
+  const [currentLocation, setCurrentLocation] = useState(routeStr[0]);
+
   const [navPath, setNavPath] = useState([...testPolyline]);
   const [navigating, setNavigating] = useState(true);
-
-  // options required for drawing map
+  const [demoPath, setDemoPath] = useState([...routeStr]);
+  const [navigatingDemo, setNavigatingDemo] = useState(true);
+        
+        // options required for drawing map
   const center = [300, 300];
   const bound = [[0, 0], [600,600]]
 
@@ -383,16 +399,16 @@ const MapWrapper = (props) => {
       <LogCoordinates />
 
       {/* render polyline conditionally based on navigating state (true/false) */}
-      {navigating && <Polyline 
-        positions={navPath} 
+      {navigatingDemo && <Polyline 
+        positions={currentLine} 
         color='red'
         // smoothFactor makes line pathing more direct
-        smoothFactor={70}
+        smoothFactor={0}
       />}
 
       {/* icon for current location */}
       {currentLocation && <Marker
-        position={currentLocation}
+        position={[dijkNodes[currentLocation].y, dijkNodes[currentLocation].x]}
         icon={iconPerson}
       />}
       
