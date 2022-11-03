@@ -71,7 +71,13 @@ const MapWrapper = (props) => {
     }
   })
 
-  const defaultLocation = props.locationId;
+  let defaultLocation = props.locationId;
+  if (defaultLocation) {
+    let locationSplit = defaultLocation.split('');
+    locationSplit[0] = locationSplit[0].toUpperCase();
+    defaultLocation = locationSplit.join('');
+    console.log('defaultLocation:', defaultLocation);
+  }
   // declaration of states
   
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
@@ -115,7 +121,7 @@ const MapWrapper = (props) => {
       [146, 227],
       [209, 239]
     ],
-    "Adult/Inpatient - Waiting": [
+    "Adult": [
       [209, 239], // top left
       [146, 227], // bot left
       [146, 322], // bot right
@@ -214,7 +220,7 @@ const MapWrapper = (props) => {
       open: '9am',
       close: '5pm'
     },
-    'Adult/Inpatient - Waiting': {
+    'Adult': {
       name: 'Adult/Inpatient - Waiting',
       x: 280,
       y: 180,
