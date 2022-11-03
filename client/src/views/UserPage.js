@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import Select from "react-select";
 
@@ -28,7 +28,7 @@ import {
   Form,
   Input,
   Row,
-  Col, Dropdown, DropdownToggle, DropdownItem, DropdownMenu
+  Col
 } from "reactstrap";
 
 
@@ -36,6 +36,8 @@ import {
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import CovidForm from "components/CovidForm/CovidForm";
 
+//import locations from "variables/list_locations";
+import time from "variables/times";
 import locations from "variables/list_locations";
 
 function User() {
@@ -49,26 +51,37 @@ function User() {
     medications: "",
 
   });
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  
+  //const location = locations.map(opt => ({ label: opt, value: opt }));
+  
+  const hour = time.map(opt => ({ label: opt, value: opt }))
+  const location = locations.map(opt => ({ label: opt, value: opt }))
 
-  const dropdownToggle = (e) => {
-    setDropdownOpen(!dropdownOpen);
-  };
-const location = locations.map(opt => ({ label: opt, value: opt }));
+  // const [locations, setLocations] = useState([]);
+  // console.log("LOCATION::", locations)
+  // const location = locations.map(opt => ({ label: opt, value: opt }))
+  // useEffect(() => {
+  //   // get data from database
+  //   axios.get('http://localhost:8080/locations').then(res => {
+  //     console.log(res.data.locations);
+  //     setLocations(res.data.locations);
+  //   });
+  // }, []);
+
 
 
 
 
   let handleSubmit = async () => {
 
-    let checkInData = new FormData();
-    checkInData.append("name", formValue.name);
-    checkInData.append("time", formValue.time);
-    checkInData.append("location", formValue.location);
-    checkInData.append("reason", formValue.reason);
-    checkInData.append("alergies", formValue.alergies);
-    checkInData.append("conditions", formValue.conditions);
-    checkInData.append("medications", formValue.medications);
+    // let checkInData = new FormData();
+    // checkInData.append("name", formValue.name);
+    // checkInData.append("time", formValue.time);
+    // checkInData.append("location", formValue.location);
+    // checkInData.append("reason", formValue.reason);
+    // checkInData.append("alergies", formValue.alergies);
+    // checkInData.append("conditions", formValue.conditions);
+    // checkInData.append("medications", formValue.medications);
 
     try {
       // make axios post request
@@ -114,41 +127,19 @@ const location = locations.map(opt => ({ label: opt, value: opt }));
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Time</label>
-
-                        <Input
+                        <Select options={hour}></Select>
+                        {/* <Input
                           type="text"
                           value={formValue.time}
                           onChange={handleChange}
                           name="time"
-                        />
+                        /> */}
                       </FormGroup>
                     </Col>
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Location</label>
                         <Select options={location}></Select>
-                        {/* <Dropdown
-                          nav
-                          isOpen={dropdownOpen}
-                          toggle={(e) => dropdownToggle(e)}
-                        >
-                          <DropdownToggle caret nav>
-                            <p>
-                              <span className="d-lg-none d-md-block">Location</span>
-                            </p>
-                          </DropdownToggle>
-                          <DropdownMenu right>
-                            <DropdownItem tag="a">Action</DropdownItem>
-                            <DropdownItem tag="a">Another Action</DropdownItem>
-                            <DropdownItem tag="a">Something else here</DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown> */}
-                        <Input
-                          type="text"
-                          value={formValue.location}
-                          onChange={handleChange}
-                          name="location"
-                        />
                       </FormGroup>
                     </Col>
 
