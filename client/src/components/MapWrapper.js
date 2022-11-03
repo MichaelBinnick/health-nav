@@ -72,10 +72,12 @@ const MapWrapper = (props) => {
   })
 
   let defaultLocation = props.locationId;
-  let locationSplit = defaultLocation.split('');
-  locationSplit[0] = locationSplit[0].toUpperCase();
-  defaultLocation = locationSplit.join('');
-  console.log('defaultLocation:', defaultLocation);
+  if (defaultLocation) {
+    let locationSplit = defaultLocation.split('');
+    locationSplit[0] = locationSplit[0].toUpperCase();
+    defaultLocation = locationSplit.join('');
+    console.log('defaultLocation:', defaultLocation);
+  }
   // declaration of states
   
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
