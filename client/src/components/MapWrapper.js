@@ -33,9 +33,10 @@ const LogCoordinates = () => {
   return null
 }
 
-const MapWrapper = () => {
+const MapWrapper = (props) => {
 
-  const [selectedLocation, setSelectedLocation] = useState([]);
+  const defaultLocation = props.locationId && [props.locationId]
+  const [selectedLocation, setSelectedLocation] = useState(defaultLocation || [] );
   const [currentLocation, setCurrentLocation] = useState([]);
   const [navPath, setNavPath] = useState([]);
   const [navigating, setNavigating] = useState(true);
@@ -46,7 +47,7 @@ const MapWrapper = () => {
   const polys = {
     /* bounds for location polygons
     note: key must match location.name exactly! */
-    Emergency: [
+    "Emergency": [
       [493, 18], // top left
       [453, 18], // bot left
       [453, 79], // bot right
@@ -194,7 +195,7 @@ const MapWrapper = () => {
       close: '5pm'
     },
     {
-      name: "Adult - Prep & Recovery",
+      name: 'Adult - Prep & Recovery',
       x: 300,
       y: 285,
       open: "9am",
