@@ -1,8 +1,34 @@
 import { useEffect, useState } from 'react';
 import { MapContainer, ImageOverlay, useMap, Marker, Popup, Polygon, Polyline} from 'react-leaflet';
 import { CRS } from 'leaflet';
-import { graph, printTable, tracePath, formatGraph, dijkstra } from 'helpers/dijkstra';
+import * as L from 'leaflet';
+import { 
+  graph, 
+  dijkNodes, 
+  printTable, 
+  tracePath, 
+  formatGraph, 
+  dijkstra,
+  startEnd,
+  crossRoad,
+  lost,
+  redirect,
+  polyTest1,
+  polyTest2,
+  polyTest3,
+  polyTest4,
+  dijkCoords
+} from 'helpers/dijkstra';
 
+// custom icon for current location
+const iconPerson = new L.Icon({
+  iconUrl: require('./personIcon.png'),
+  iconRetinaUrl: require('./personIcon.png'),
+  iconSize: 40,
+});
+
+
+// function for dev purposes
 const LogCoordinates = () => {
   const map = useMap();
 
@@ -13,24 +39,61 @@ const LogCoordinates = () => {
       console.log('x:', e.latlng.lng, ' y:', e.latlng.lat)
     })
   }, [map])
-
+  
   return null
 }
 
-const MapWrapper = () => {
+// this is the component
+const MapWrapper = (props) => {
+  
+  // test data for polyline
+  const testPolyline = [
+    [ 190, 585 ],
+    [ 203, 505 ],
+    [ 190, 482 ],
+    [ 195, 365 ],
+    [ 220, 360 ],
+    [ 350, 360 ],
+    [ 340, 206 ],
+    [ 346, 62 ],
+    [ 450, 60 ]
+  ];
 
-  const [selectedLocation, setSelectedLocation] = useState([]);
-  const [currentLocation, setCurrentLocation] = useState([]);
-  const [navPath, setNavPath] = useState([]);
+  // this currently takes 'steps' along the navPath every x ms using setTimeout
+  useEffect(() => {
+    if (navPath.length > 0) {
+      setTimeout(() => {
+        const popNavPath = [...navPath];
+        popNavPath.shift();
+        setNavPath(popNavPath);
+        setCurrentLocation(popNavPath[0])
+      }, 20000)
+    }
+  })
+
+  let defaultLocation = props.locationId;
+  if (defaultLocation) {
+    let locationSplit = defaultLocation.split('');
+    locationSplit[0] = locationSplit[0].toUpperCase();
+    defaultLocation = locationSplit.join('');
+    console.log('defaultLocation:', defaultLocation);
+  }
+  // declaration of states
+  
+  const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
+  const [currentLocation, setCurrentLocation] = useState(testPolyline[0]);
+  const [navPath, setNavPath] = useState([...testPolyline]);
   const [navigating, setNavigating] = useState(true);
 
+  // options required for drawing map
   const center = [300, 300];
   const bound = [[0, 0], [600,600]]
 
+  // dimensions for room overlays/polygons
   const polys = {
     /* bounds for location polygons
     note: key must match location.name exactly! */
-    Emergency: [
+    "Emergency": [
       [493, 18], // top left
       [453, 18], // bot left
       [453, 79], // bot right
@@ -58,7 +121,7 @@ const MapWrapper = () => {
       [146, 227],
       [209, 239]
     ],
-    "Adult/Inpatient - Waiting": [
+    "Adult": [
       [209, 239], // top left
       [146, 227], // bot left
       [146, 322], // bot right
@@ -144,117 +207,117 @@ const MapWrapper = () => {
       [467, 336],
       [502, 336]
     ],
-  }
+  };
 
-  const locations = [
+  // data for each location
+  const locations = {
     /* array of locations for Marker creation 
     name property is used to match against poly objects */
-    {
+    Admin: {
       name: 'Admin',
       x: 203,
       y: 170,
       open: '9am',
       close: '5pm'
     },
-    {
-      name: 'Adult/Inpatient - Waiting',
+    'Adult': {
+      name: 'Adult',
       x: 280,
       y: 180,
       open: '9am',
       close: '5pm'
     },
-    {
+    'Inpatient': {
       name: 'Inpatient',
       x: 497,
       y: 170,
       open: '9am',
       close: '5pm'
     },
-    {
+    'Staff': {
       name: 'Staff',
       x: 225,
       y: 305,
       open: '9am',
       close: '5pm'
     },
-    {
+    "Adult - Prep & Recovery": {
       name: "Adult - Prep & Recovery",
       x: 300,
       y: 285,
       open: "9am",
       close: '5pm'
     },
-    {
+    'Pediatric - Waiting': {
       name: 'Pediatric - Waiting',
       x: 125,
       y: 180,
       open: "9am",
       close: '5pm'
     },
-    {
+    Imaging: {
       name: 'Imaging',
       x: 35,
       y: 390,
       open: "9am",
       close: '5pm'
     },
-    {
+    Emergency: {
       name: 'Emergency',
       x: 48,
       y: 480,
       open: "9am",
       close: '5pm'
     },
-    {
+    Surgery: {
       name: 'Surgery',
       x: 220,
       y: 395,
       open: "9am",
       close: '5pm'
     },
-    {
+    'Lab': {
       name: 'Lab',
       x: 25,
       y: 251,
       open: "9am",
       close: '5pm'
     },
-    {
+    'Utility': {
       name: 'Utility',
       x: 181,
       y: 485,
       open: " ",
       close: 'N/A -'
     },
-    {
+    'Dietary': {
       name: 'Dietary',
       x: 307,
       y: 485,
       open: " ",
       close: 'N/A -'
     },
-    {
+    'Pediatric - Prep & Recovery': {
       name: 'Pediatric - Prep & Recovery',
       x: 146,
       y: 285,
       open: "9am",
       close: '5pm'
     },
-  ];
+  };
 
-  const testPolyline = [
-    [ 190, 585 ],
-    [ 203, 505 ],
-    [ 190, 482 ],
-    [ 195, 365 ],
-    [ 220, 360 ],
-    [ 350, 360 ],
-    [ 340, 206 ],
-    [ 346, 62 ],
-    [ 450, 60 ]
-  ]
-  
-  
+  // variable created for readability; look up selectedLocation in locations object
+  const currentDest = locations[selectedLocation];
+
+  // this is necessary to iterate over each Polygon and draw them
+  const polyNames = Object.keys(polys);
+
+  // create options for the hidden polys
+  const genPolyOptions = {
+    stroke: false,
+    fillOpacity: .0
+  };
+
   return (
     <MapContainer 
       bounds={bound} 
@@ -265,54 +328,54 @@ const MapWrapper = () => {
       scrollWheelZoom={true} 
       style={{ height: "100%"}}
     >
+      {/* this is our actual map image */}
       <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
 
-      {selectedLocation.map(spot => {
-        for (let local of locations) {
-          if (selectedLocation.includes(local.name)) {
-            return <Polygon positions={polys[local.name]} key={polys[local.name]} />
-          }
-          // return null;
-        }
+      {/* this highlights the selected room and creates a marker in it with more information on click */}
+      {selectedLocation && <Polygon positions={polys[selectedLocation]} key={polys[selectedLocation]} />}
+      {selectedLocation && 
+        <Marker position={[currentDest.y, currentDest.x]}>
+          <Popup>
+            <em>{currentDest.name}</em> <br />
+            Hours of Operation: <br />
+            {currentDest.open} - {currentDest.close} <br />
+            Coordinates: <br />
+            x: {currentDest.x}, y: {currentDest.y}
+          </Popup>
+        </ Marker>
       }
 
-      )}
-      {/* <Polygon positions={polys.Emergency} /> */}
+      {/* this creates hidden polys for each room that allow you to click them */}
+      {polyNames.map(poly => {
+        return <Polygon 
+          positions={polys[poly]} 
+          key={polys[poly].name} 
+          pathOptions={genPolyOptions}
+          eventHandlers={
+            {click: () => {
+              setSelectedLocation(locations[poly].name);
+            }}
+          }
+        />
+      })}
     
+      {/* dev purposes */}
       <LogCoordinates />
 
       {/* render polyline conditionally based on navigating state (true/false) */}
-      {navigating && <Polyline positions={testPolyline} />}
+      {navigating && <Polyline 
+        positions={navPath} 
+        color='red'
+        // smoothFactor makes line pathing more direct
+        smoothFactor={70}
+      />}
 
-      {locations.map(local => {
-          return <Marker
-            key={local.name}
-            position={[local.y, local.x]}
-            eventHandlers={
-              {click: () => {
-                console.log('clicked marker:', local.name);
-                console.log('x coordinate:', local.x);
-                console.log('y coordinate:', local.y);
-
-                if (!selectedLocation.includes(local.name)) {
-                  setSelectedLocation([
-                    local.name
-                  ])
-                }
-
-              }}
-            }
-          >
-        
-          <Popup>
-            <em>{local.name}</em> <br />
-            Hours of Operation: <br />
-            {local.open} - {local.close} <br />
-            Coordinates: <br />
-            x: {local.x}, y: {local.y}
-          </Popup>
-        </Marker>
-      })}
+      {/* icon for current location */}
+      {currentLocation && <Marker
+        position={currentLocation}
+        icon={iconPerson}
+      />}
+      
     </MapContainer>
   )
 }

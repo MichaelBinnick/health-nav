@@ -32,6 +32,14 @@ const dashRoutes = [
   //   layout: "/admin"
   // },
   {
+    path: "/maps/:name",
+    name: "Map1",
+    icon: "location_map-big",
+    component: Maps,
+    layout: "/admin"
+  },
+
+  {
     path: "/maps",
     name: "Maps",
     icon: "location_map-big",
@@ -53,6 +61,8 @@ const dashRoutes = [
     component: TableList,
     layout: "/admin"
   },
+
+
 
   
 ];
