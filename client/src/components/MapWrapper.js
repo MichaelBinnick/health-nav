@@ -93,6 +93,19 @@ const MapWrapper = (props) => {
   const polys = {
     /* bounds for location polygons
     note: key must match location.name exactly! */
+    "Front doors": [
+      [140, 176], // top left
+      [124, 176], // bot left
+      [114, 180], // bot right
+      [107, 187],
+      [103, 197],
+      [103, 206],
+      [106, 215],
+      [110, 221],
+      [117, 226],
+      [125, 229],
+      [140, 229], // top right
+    ],
     "Emergency": [
       [493, 18], // top left
       [453, 18], // bot left
@@ -213,6 +226,13 @@ const MapWrapper = (props) => {
   const locations = {
     /* array of locations for Marker creation 
     name property is used to match against poly objects */
+    'Front doors': {
+      name: 'Front doors',
+      x: 201,
+      y: 122,
+      open: '9am',
+      close: '5pm'
+    },
     Admin: {
       name: 'Admin',
       x: 203,
