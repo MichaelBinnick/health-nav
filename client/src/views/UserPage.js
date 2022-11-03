@@ -51,11 +51,14 @@ function User() {
     medications: "",
 
   });
-  
+
   //const location = locations.map(opt => ({ label: opt, value: opt }));
-  
-  const hour = time.map(opt => ({ label: opt, value: opt }))
-  const location = locations.map(opt => ({ label: opt, value: opt }))
+
+  //Time dropdown select
+  const hour = time.map(opt => ({ label: opt, value: opt }));
+
+  //Location dropdown select
+  const location = locations.map(opt => ({ label: opt, value: opt }));
 
   // const [locations, setLocations] = useState([]);
   // console.log("LOCATION::", locations)
@@ -71,18 +74,8 @@ function User() {
 
 
 
-
+  //POST user data to database
   let handleSubmit = async () => {
-
-    // let checkInData = new FormData();
-    // checkInData.append("name", formValue.name);
-    // checkInData.append("time", formValue.time);
-    // checkInData.append("location", formValue.location);
-    // checkInData.append("reason", formValue.reason);
-    // checkInData.append("alergies", formValue.alergies);
-    // checkInData.append("conditions", formValue.conditions);
-    // checkInData.append("medications", formValue.medications);
-
     try {
       // make axios post request
       const response = await axios({
@@ -109,6 +102,13 @@ function User() {
       };
     });
   };
+
+
+  //conditional COVID form
+  const [showForm, setShowForm] = useState(null);
+  const load = () => setShowForm(showForm => !showForm);
+
+
 
 
   return (
@@ -207,6 +207,10 @@ function User() {
                           onChange={handleChange}
                           name="medications"
                         />
+
+                        <button className="button-container btn-neutral btn-round" onClick={load}>COVID</button>
+                        {showForm && <CovidForm />}
+
                       </FormGroup>
                       <button className="button-container btn-neutral btn-round" type="submit">Check In</button>
                     </Col>
@@ -225,7 +229,8 @@ function User() {
                     <h5 className="title">COVID SCREENING</h5>
                   </a>
                 </div>
-                <CovidForm />
+
+                {/* <CovidForm /> */}
               </CardBody>
             </Card>
           </Col>
