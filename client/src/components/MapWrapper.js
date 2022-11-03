@@ -329,7 +329,7 @@ const MapWrapper = (props) => {
       style={{ height: "100%"}}
     >
       {/* this is our actual map image */}
-      <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
+      <ImageOverlay url="../map.png" bounds={bound} />
 
       {/* this highlights the selected room and creates a marker in it with more information on click */}
       {selectedLocation && <Polygon positions={polys[selectedLocation]} key={polys[selectedLocation]} />}
