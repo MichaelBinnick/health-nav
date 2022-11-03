@@ -1,7 +1,23 @@
 import { useEffect, useState } from 'react';
 import { MapContainer, ImageOverlay, useMap, Marker, Popup, Polygon, Polyline} from 'react-leaflet';
 import { CRS } from 'leaflet';
-import { graph, printTable, tracePath, formatGraph, dijkstra } from 'helpers/dijkstra';
+import { 
+  graph, 
+  dijkNodes, 
+  printTable, 
+  tracePath, 
+  formatGraph, 
+  dijkstra,
+  startEnd,
+  crossRoad,
+  lost,
+  redirect,
+  polyTest1,
+  polyTest2,
+  polyTest3,
+  polyTest4,
+  dijkCoords
+} from 'helpers/dijkstra';
 
 const LogCoordinates = () => {
   const map = useMap();
@@ -240,6 +256,7 @@ const MapWrapper = () => {
       open: "9am",
       close: '5pm'
     },
+    
   ];
 
   const testPolyline = [
