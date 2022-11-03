@@ -221,7 +221,7 @@ const MapWrapper = (props) => {
       close: '5pm'
     },
     'Adult': {
-      name: 'Adult/Inpatient - Waiting',
+      name: 'Adult',
       x: 280,
       y: 180,
       open: '9am',
