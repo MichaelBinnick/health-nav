@@ -31,7 +31,7 @@ const MapWrapper = (props) => {
   const polys = {
     /* bounds for location polygons
     note: key must match location.name exactly! */
-    Emergency: [
+    "Emergency": [
       [493, 18], // top left
       [453, 18], // bot left
       [453, 79], // bot right
@@ -51,7 +51,7 @@ const MapWrapper = (props) => {
       [179, 141],
       [210, 140]
     ],
-    "Admin": [
+    "admin": [
       [209, 141],
       [180, 141],
       [179, 175],
@@ -151,7 +151,7 @@ const MapWrapper = (props) => {
     /* array of locations for Marker creation 
     name property is used to match against poly objects */
     {
-      name: 'Admin',
+      name: 'admin',
       x: 203,
       y: 170,
       open: '9am',
@@ -270,7 +270,7 @@ const MapWrapper = (props) => {
 
       {selectedLocation.map(spot => {
         for (let local of locations) {
-          if (selectedLocation.includes(local.id)) {
+          if (selectedLocation.includes(local.name)) {
             return <Polygon positions={polys[local.name]} key={polys[local.name]} />
           }
           // return null;
@@ -295,9 +295,9 @@ const MapWrapper = (props) => {
                 console.log('x coordinate:', local.x);
                 console.log('y coordinate:', local.y);
 
-                if (!selectedLocation.includes(local.id)) {
+                if (!selectedLocation.includes(local.name)) {
                   setSelectedLocation([
-                    local.id
+                    local.name
                   ])
                 }
 

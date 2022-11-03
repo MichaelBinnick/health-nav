@@ -39,13 +39,13 @@ import { Link } from "react-router-dom";
 
 function RegularTables() {
 
-  const [locations, setLocations] = useState([]);
+  const [locationsDB, setLocationsDB] = useState([]);
 
   useEffect(() => {
     // get data from database
     axios.get('http://localhost:8080/locations').then(res => {
       console.log(res.data.locations);
-      setLocations(res.data.locations);
+      setLocationsDB(res.data.locations);
     });
   }, []);
 
@@ -71,8 +71,8 @@ function RegularTables() {
                     </tr>
                   </thead>
                   <tbody>
-                    {locations.map((location, key) => {
-                      const locationRoute = "/admin/maps/" + location.id;
+                    {locationsDB.map((location, key) => {
+                      const locationRoute = "/admin/maps/" + location.name;
                       return (
                     <tr key={key}>
                       <td>
