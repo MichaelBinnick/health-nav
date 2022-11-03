@@ -1,229 +1,38 @@
-// const graph = {
-//   a: { b: 5, c: 2 },
-//   b: { a: 5, c: 7, d: 8 },
-//   c: { a: 2, b: 7, d: 4, e: 8 },
-//   d: { b: 8, c: 4, e: 6, f: 4 },
-//   e: { c: 8, d: 6, f: 3 },
-//   f: { e: 3, d: 4 },
-// };
-
-// const graph = {
-//   //Entrances
-//   e1: { n8: 78 },
-//   e2: { n5: 35 },
-//   e3: { rr4: 81 },
-//   e4: { n3: 10},
-//   e5: { er1: 47 },
-//   // //Health Services
-//   h1: { v3: 47, rr1: 22 },
-//   h2: { v4: 21, n1: 35 },
-//   h3: { rr3: 29, n8: 43 },
-//   h4: { n6: 36, rr3: 29 },
-//   h5: { er1: 131, s2: 24 },
-//   h6: { n9: 117, rr4: 23 },
-
-//   // //Visitor Services
-//   v1: { n7: 22 },
-//   v2: { rr1: 54, n7: 74, rr2: 90 },
-//   v3: { n8: 15, h1: 47 },
-//   v4: { rr2: 30, h2: 21 },
-
-//   // //Emergency
-//   er1: { n6: 104, e5: 46, er1: 131 },
-
-//   // //Restrooms
-//   rr1: { h1: 22, v2: 54 },
-//   rr2: { v2: 90, v4: 30 },
-//   rr3: { h4: 29, h3: 29 },
-//   rr4: { h6: 24, e3: 81 },
-//   rr5: { s2: 50, s3: 46 },
- 
-//   // //Hospital Staff
-//   s1: { n2: 154, n6: 144 },
-//   s2: { h5: 24, rr5: 50 },
-//   s3: { rr5: 46, n3: 47 },
-
-//   // //Connecting Nodes
-//   n1: { h2: 35, n9: 25, n2: 130 },
-//   n2: { n1: 130, s1: 154, n2: 137 },
-//   n3: { s3: 47, n2: 137, e4: 10 },
-//   // n4: { n6: 97 },
-//   n5: { n9: 35, e2: 35 },
-//   n6: { s1: 144, h4: 36, er1: 104 },
-//   n7: { v2: 47, v1: 22 },
-//   n8: { e1: 78, v3: 15, h3: 43 },
-//   n9: { n1: 25, n5: 35, h6: 117 }
-// };
-
-const graph = {
-  //Entrances
-  e1: { t30: 11 },
-//   e2: {},
-  e3: { j23: 7} ,
-//   e4: {},
-//   e5: {},
-  // e6: {},
-  // //Health Services
-  h1: { z7: 7 },
-  h2: { z28: 10 },
-  h3: { t19: 5 },
-  h4: { t14: 11, t15: 11},
-  h5: {},
-  h6: { j14: 9, j13: 5 },
-
-  //Visitor Services
-  v1: { z14: 8 },
-  v2: { z3: 9 },
-  v3: { z26: 8 },
-  v4: { },
-  // //Emergency
-  er1: { t1: 10 },
-  //RestRooms
-  rr1: { z9: 9 },
-  rr2: { z23: 8 },
-  rr3: { t16:11, t17: 11 },
-  rr4: { j16:9, j15: 9 },
-  //Halls
-  j23: { e3: 7, j23: 10, j22: 10 }, // entrance 3 - east entrance / START POINT
-  j22: { j23: 10, j21: 10 },
-  j21: { j22: 10, j20: 10 },
-  j20: { j21: 10, j19: 10 },
-  j19: { j20: 10, j18: 10 },
-  j18: { j19: 10, j17: 10 },
-  j17: { j18: 10, j16: 10 },
-  j16: { j17: 10, rr4: 9, j15: 10 }, // rest room 4
-  j15: { j16: 10, rr4: 9, j14: 10 }, // restroom 4
-  j14: { j15: 10, h6: 9, j13: 10 }, //inpatient
-  j13: { j14: 10, j12: 10 },
-  j12: { j13: 10, j11: 10 },
-  j11: { j12: 10, j10: 10 },
-  j10: { j11: 10, j9: 10 },
-  j9: { j10: 10, j8: 10 },
-  j8: { j9: 10, j7: 10 },
-  j7: { j8: 10, j6: 10 },
-  j6: { j7: 10, j5: 10 },
-  j5: { j6: 10, j4: 10 },
-  j4: { j5: 10, j3: 10 },
-  j3: { j4: 10, j2: 10 },
-  j2: { j3: 10, j1: 10 },
-  j1: { j2: 10, q24: 5 }, // crossnode
-
-  //right hall north-south
-  q24: { j1: 5, q23: 10 },
-  q23: { q24: 10, z31: 10 }, // crossnode
- 
+const locations = {
+  /* array of locations for Marker creation 
+  name property is used to match against poly objects */
   
-  //Admin Alley
-  z31: { q23: 2, z30: 10 },
-  z30: { z31: 10, z29: 10 },
-  z29: { z30: 10, z28: 10 },
-  z28: { z29: 10, h2: 10, z27: 10 }, // adult prep
-  z27: { z28: 10, z26: 10 },
-  z26: { z27: 10, v3: 8, z25: 10 }, // adult waiting
-  z25: { z26: 10, z24: 10 },
-  z24: { z25: 10, z23: 10 },
-  z23: { z24: 10, rr2: 8, z22: 10 }, //restroom 2
-  z22: { z23: 10, z21: 10 },
-  z21: { z22: 10, z20: 10 },
-  z20: { z21: 10, z19: 10 },
-  z19: { z20: 10, z18: 10 }, 
-  z18: { z19: 10, z17: 10 },
-  z17: { z18: 10, z16: 10 },
-  z16: { z17: 10, z15: 10 },
-  z15: { z16: 10, z14: 10 },
-  z14: { z15: 10, z13: 10, v1: 8 }, // admin
-  z13: { z14: 10, z12: 10 },
-  z12: { z13: 10, z11: 10 },
-  z11: { z12: 10, z10: 10 },
-  z10: { z11: 10, z9: 10 },
-  z9: { z10: 10, z8: 10, rr1: 9 }, // restroom 1
-  z8: { z9: 10, z7: 10 },
-  z7: { z8: 10, h1: 7, z6: 10 }, // pediatric prep
-  z6: { z7: 10, z5: 10 },
-  z5: { z6: 10, z4: 10 },
-  z4: { z5: 10, z3: 10 },
-  z3: { z4: 10, z2: 10, v2: 9 }, //pediatric waiting
-  z2: { z3: 10, z1: 10},
-  z1: { z2: 10, t24: 8, t23: 2 }, //connection node
-  
-  //Leftside north-south hall
-  //Wrong turn
-  t24: { z1: 8, t25: 10 },
-  t25: { t24: 8, t26: 10 },
-  t26: { t25: 8, t27: 10 },
-  t27: { t26: 8, t28: 10 },
-  t28: { t27: 8, t29: 10 }, // realized a wrong turn had been made
-  t29: { t28: 8, t30: 10 },
-  t30: { t29: 10, e1: 11 },
-
-  //correct turn
-  t23: { z1: 2, t22: 10 },
-  t22: { t23: 10, t21: 10 },
-  t21: { t22: 10, t20: 10 },
-  t20: { t21: 10, t19: 10 },
-  t19: { t20: 10, h3: 5, t18: 10 }, // lab
-  t18: { t19: 10, t17: 10 },
-  t17: { t18: 10, t16: 10, rr3: 11 }, // restroom 3
-  t16: { t17: 10, t15: 10, rr3: 11 }, // restroom 3
-  t15: { t16: 10, t14: 10, h4: 11 }, //imaging
-  t14: { t15: 10, t13: 10, h4: 11 }, //imaging
-  t13: { t14: 10, t12: 10 },
-  t12: { t13: 10, t11: 10 },
-  t11: { t12: 10, t10: 10 },
-  t10: { t11: 10, t9: 10 },
-  t9: { t10: 10, t8: 10 },
-  t8: { t9: 10, t7: 10 },
-  t7: { t8: 10, t6: 10 },
-  t6: { t7: 10, t5: 10 },
-  t5: { t6: 10, t4: 10 },
-  t4: { t5: 10, t3: 10 },
-  t3: { t4: 10, t2: 10 },
-  t2: { t3: 10, t1: 10 },
-  t1: { t2: 10, er1: 10 },
-
-}
-
-const dijkNodes = {
-  /* necessary format for node:
-
-  'a1': {
-    x: 0,
-    y: 0
-  }
-
-  */
-  
-  // Entrances
+// Enterances
   e1: {
-    name: 'Entrance - Pediatric / e1',
+    name: 'Enterance - Pediatric / e1',
     x: 65,
     y: 140,
     open: "9am",
     close: '5pm'
   },
   e2: {
-    name: 'Entrance - Adult/Inpatient / e2',
+    name: 'Enterance - Adult/Inpatient / e2',
     x: 335,
     y: 140,
     open: "9am",
     close: '5pm'
   },
   e3: {
-    name: 'Entrance - Inpatient / e3',
-    x: 587,
-    y: 195,
+    name: 'Enterance - Inpatient / e3',
+    x: 585,
+    y: 190,
     open: "9am",
     close: '5pm'
   },
   e4: {
-    name: 'Entrance - Dietary / e4',
+    name: 'Enterance - Dietary / e4',
     x: 370,
     y: 443,
     open: "9am",
     close: '5pm'
   },
   e5: {
-    name: 'Entrance - ER / e5',
+    name: 'Enterance - ER / e5',
     x: 15,
     y: 443,
     open: "9am",
@@ -667,7 +476,6 @@ n9: {
     x: 360,
     y: 200,
   },
-  // q24 and q25 wrap j1
   q25: {
     x: 360,
     y: 190,
@@ -698,7 +506,7 @@ n9: {
     y: 150,
   },
 
-//SURGERY ALLEY
+//SUGERY ALLEY
 
   //NEW CONNECTOR
   w1: {
@@ -1009,7 +817,7 @@ n9: {
     y: 320,
   },
   t14: {
-    x: 60,
+    x: 360,
     y: 310,
   },
   t15: {
@@ -1137,7 +945,6 @@ n9: {
     x: 500,
     y: 195,
   },
-  // bi //
   j16: {
     x: 510,
     y: 195,
@@ -1169,177 +976,9 @@ n9: {
   j23: {
     x: 580,
     y: 195,
-  }
+  },
+  j24: {
+    x: 587,
+    y: 195,
+  },
 }
-
-const printTable = (table) => {
-  return Object.keys(table)
-    .map((vertex) => {
-      let { vertex: from, cost } = table[vertex];
-      return `${vertex}: ${cost} via ${from}`;
-    })
-    .join("\n");
-};
-
-const tracePath = (table, start, end) => {
-  let path = [];
-  let next = end;
-  while (true) {
-    path.unshift(next);
-    if (next === start) {
-      break;
-    }
-    next = table[next].vertex;
-  }
-
-  return path;
-};
-
-const formatGraph = (g) => {
-  const tmp = {};
-  Object.keys(g).forEach((k) => {
-    const obj = g[k];
-    const arr = [];
-    Object.keys(obj).forEach((v) => arr.push({ vertex: v, cost: obj[v] }));
-    tmp[k] = arr;
-  });
-  return tmp;
-};
-
-const dijkstra = (graph, start, end) => {
-  let map = formatGraph(graph);
-
-  let visited = [];
-  let unvisited = [start];
-  let shortestDistances = { [start]: { vertex: start, cost: 0 } };
-
-  let vertex;
-  while ((vertex = unvisited.shift())) {
-    // Explore unvisited neighbors
-    let neighbors = map[vertex].filter((n) => !visited.includes(n.vertex));
-
-    // Add neighbors to the unvisited list
-    unvisited.push(...neighbors.map((n) => n.vertex));
-
-    let costToVertex = shortestDistances[vertex].cost;
-
-    for (let { vertex: to, cost } of neighbors) {
-      let currCostToNeighbor =
-        shortestDistances[to] && shortestDistances[to].cost;
-      let newCostToNeighbor = costToVertex + cost;
-      if (
-        currCostToNeighbor == undefined ||
-        newCostToNeighbor < currCostToNeighbor
-      ) {
-        // Update the table
-        shortestDistances[to] = { vertex, cost: newCostToNeighbor };
-      }
-    }
-
-    visited.push(vertex);
-  }
-
-  // console.log("Table of costs:");
-  // console.log(printTable(shortestDistances));
-
-  const path = tracePath(shortestDistances, start, end);
-
-  // console.log(
-  //   "Shortest path is: ",
-  //   path.join(" -> "),
-  //   " with weight ",
-  //   shortestDistances[end].cost
-  // );
-
-  return {weight: shortestDistances[end].cost, path: path}
-
-};
-
-const startEnd = dijkstra(graph, "e3", "er1");
-console.log(startEnd);
-
-const crossRoad = dijkstra(graph, "e3", "z1");
-console.log(crossRoad);
-
-const lost = dijkstra(graph, "z1", "t28");
-console.log(lost);
-
-const redirect = dijkstra(graph, "t28", "er1");
-console.log(redirect);
-
-
-
-// given a path (from dijkstra), format for Polyline
-const dijkCoords = (path) => {
-  
-  const results = [];
-
-  for (const node of path) {
-    // ['e1', 'e2', 'e3']
-    // console.log('node', node);
-    
-    const coords = [];
-
-    // console.log('obj node', dijkNodes[node]);
-
-    coords.push(dijkNodes[node].y);
-    coords.push(dijkNodes[node].x);
-    results.push(coords);
-  }
-
-  return results;
-}
-
-const polyTest1 = dijkCoords(startEnd.path);
-console.log(polyTest1);
-
-const polyTest2 = dijkCoords(crossRoad.path);
-console.log(polyTest2);
-
-const polyTest3 = dijkCoords(lost.path);
-console.log(polyTest3);
-
-const polyTest4 = dijkCoords(redirect.path);
-console.log(polyTest4);
-
-
-// const testPolyline = dijkCoords(tester.path);
-// console.log('polyline test:', testPolyline);
-
-const nodeWeights = (node1, node2) => {
-
-  let x1 = dijkNodes[node1].x;
-  let y1 = dijkNodes[node1].y;
-
-  let x2 = dijkNodes[node2].x;
-  let y2 = dijkNodes[node2].y;
-
-  const weight = Math.hypot(x2-x1, y2-y1);
-  // console.log(`weight between ${node1} and ${node2} is:`, weight)
-  return weight;
-}
-
-// insert node names here to find weight
-const node1 = 'e3';
-const node2 = 'er1';
-
-nodeWeights(node1, node2);
-
-
-module.exports = { 
-  graph, 
-  dijkNodes, 
-  printTable, 
-  tracePath, 
-  formatGraph, 
-  dijkstra,
-  startEnd,
-  crossRoad,
-  lost,
-  redirect,
-  polyTest1,
-  polyTest2,
-  polyTest3,
-  polyTest4,
-  dijkCoords
-};
