@@ -6,6 +6,7 @@ CREATE TABLE checkins (
   location_id integer REFERENCES locations(id) ON DELETE CASCADE NOT NULL,
   patient_name VARCHAR(255) NOT NULL,
   time VARCHAR(255) NOT NULL,
+  covid_free BOOLEAN,
   allergies VARCHAR(510),
   medications VARCHAR(510),
   conditions VARCHAR(765),
