@@ -24,7 +24,7 @@ function CovidForm() {
               <div className="checkbox-wrapper">
 
                   <Checkbox label = {name}></Checkbox>
-                 
+                  {/* <label htmlFor={`${index}`}>{name}</label> */}
               </div>
             </li>
           );

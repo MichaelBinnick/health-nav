@@ -60,11 +60,11 @@ function User() {
   //Location dropdown select
   // const locationNumber = Object.keys(locations)
   // const locationName = Object.values(locations)
-  
+
   // const location = locationName.map(opt => ({ label: opt, value: opt }));
   // console.log("LOCATION::", location)
 
-//const[location, setLocation] = useState();
+  //const[location, setLocation] = useState();
 
 
 
@@ -90,6 +90,7 @@ function User() {
   };
 
   const handleChange = (event) => {
+
     const { name, value } = event.target;
     setFormValue((prevState) => {
       return {
@@ -97,9 +98,37 @@ function User() {
         [name]: value,
       };
     });
+
   };
 
-console.log("FORM:", formValue)
+  const handleTimeChange = (event) => {
+    setFormValue((prevState) => {
+      return {
+        ...prevState,
+        time: event.value,
+      };
+    });
+  };
+
+  const handleLocationChange=(event) => {
+    setFormValue((prevState) => {
+      return {
+        ...prevState,
+        location: event.value,
+      };
+    });
+  }
+  const handleCovidChange=(event) => {
+    setFormValue((prevState) => {
+      return {
+        ...prevState,
+        covid_free: event.value,
+      };
+    });
+  }
+  
+
+  console.log("FORM:", formValue);
   //conditional COVID form
   const [showForm, setShowForm] = useState(false);
   const load = (e) => { e.preventDefault(); setShowForm(!showForm); };
@@ -120,7 +149,7 @@ console.log("FORM:", formValue)
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Time</label>
-                        <Select options={hour} onSubmit={handleSubmit}></Select>
+                        <Select options={hour} onChange={handleTimeChange} ></Select>
                         {/* <Input
                           type="text"
                           value={formValue.time}
@@ -132,12 +161,12 @@ console.log("FORM:", formValue)
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Location</label>
-                        
-                  <Select options={locations}>
 
-                  </Select>
+                        <Select options={locations} onChange={handleLocationChange}>
 
-                       
+                        </Select>
+
+
                       </FormGroup>
                     </Col>
 
