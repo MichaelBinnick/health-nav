@@ -15,8 +15,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import locations from "variables/list_locations";
 import {
   Collapse,
   Navbar,
@@ -26,10 +27,17 @@ import {
   InputGroup,
   InputGroupText,
   InputGroupAddon,
-  Input
+  Input,
+  Row,
+  Button,
+  Col,
+  Nav,
+  NavItem
 } from "reactstrap";
-
+import Select from "react-select";
 import routes from "routes.js";
+
+
 
 function DemoNavbar(props) {
   const location = useLocation();
@@ -37,6 +45,27 @@ function DemoNavbar(props) {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [color, setColor] = React.useState("transparent");
   const sidebarToggle = React.useRef();
+
+  const handleLocationChange=(event) => {
+    setFormValue((prevState) => {
+      return {
+        ...prevState,
+        location: event.value,
+      };
+    });
+  }
+
+  const [formValue, setFormValue] = useState({
+    name: "",
+    time: "",
+    location: "",
+    reason: "",
+    alergies: "",
+    conditions: "",
+    medications: "",
+    covid_free: false,
+  });
+
   const toggle = () => {
     if (isOpen) {
       setColor("transparent");
@@ -135,15 +164,23 @@ function DemoNavbar(props) {
           <span className="navbar-toggler-bar navbar-kebab" />
         </NavbarToggler>
         <Collapse isOpen={isOpen} navbar className="justify-content-end">
+          
           <form>
-            <InputGroup className="no-border">
-              <Input placeholder="Search..." />
-              <InputGroupAddon addonType="append">
-                <InputGroupText>
-                  <i className="now-ui-icons ui-1_zoom-bold" />
-                </InputGroupText>
-              </InputGroupAddon>
-            </InputGroup>
+         
+          <Row className="row-cols-lg-auto g-3 align-items-center">
+            <Col className="pr-1" md="12">
+              <Select placeholder="current" options={locations} onChange={handleLocationChange}></Select>
+            </Col>
+            <Col className="pr-1" md="12">
+              <Select placeholder="Destination" options={locations} onChange={handleLocationChange}></Select>
+            </Col >
+            <Col className="pr-1" md="12">
+              <Button >
+                Go
+              </Button>
+            </Col>
+          </Row>
+  
           </form>
         </Collapse>
       </Container>

@@ -276,3 +276,4 @@ function User() {
 }
 
 export default User;
+// module.exports = { handleLocationChange };
