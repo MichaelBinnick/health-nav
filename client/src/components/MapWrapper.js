@@ -46,16 +46,16 @@ const MapWrapper = (props) => {
   
   // declaration of some state
   const [currentLine, setCurrentLine] = useState(routeCoords);
-    
+  
   // logic for demo nav w. dummy user
   const navDemo = (interval) => {
-
+    
     // each interval represents a 'step' taken along the path
     setTimeout(() => {
       
       // once demoPath is 1, we don't want to continue
       if (demoPath.length > 1) {
-  
+
         // create shallow copy of demo path
         const popDemoPath = [...demoPath];
   
@@ -87,7 +87,7 @@ const MapWrapper = (props) => {
     
     // hardcoded nav demo w. dummy user (triggers on button click)
     if (navigatingDemo) {
-      navDemo(300);
+      navDemo(100);
     }
   })
   
@@ -364,13 +364,14 @@ const MapWrapper = (props) => {
 
   return (
     <MapContainer 
-      bounds={bound} 
+      bounds={bound}
       crs={CRS.Simple} 
       center={center} 
       zoom={0}
       scrollWheelZoom={true} 
-      style={{ height: "100%"}}
+      style={{ height: "100%", background: 'white'}}
       maxBounds={bound}
+      attributionControl={false}
     >
       {/* this is our actual map image */}
       <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
@@ -378,7 +379,7 @@ const MapWrapper = (props) => {
       {/* Button start navDemo onClick */}
       {!navigatingDemo && <Marker
         icon={iconDemo}
-        position={[380, 480]} 
+        position={[480, 500]} 
         eventHandlers={
             {click: () => {
               setNavigatingDemo(true);
@@ -418,6 +419,10 @@ const MapWrapper = (props) => {
       {navigatingDemo && <Polyline 
         positions={currentLine} 
         color='blue'
+        weight={5}
+        opacity={.7}
+        lineJoin={'bevel'}
+        dashArray={'15'}
         // smoothFactor makes line pathing more direct
         smoothFactor={0}
       />}
