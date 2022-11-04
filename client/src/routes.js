@@ -36,7 +36,8 @@ const dashRoutes = [
     name: "Map1",
     icon: "location_map-big",
     component: Maps,
-    layout: "/admin"
+    layout: "/admin",
+    invisible: true
   },
 
   {

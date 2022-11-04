@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { MapContainer, ImageOverlay, useMap, Marker, Popup, Polygon, Polyline} from 'react-leaflet';
+import { MapContainer, ImageOverlay, useMap, Marker, Popup, Polygon, Polyline } from 'react-leaflet';
 import { CRS } from 'leaflet';
 import * as L from 'leaflet';
-import { 
-  graph, 
-  dijkNodes, 
-  printTable, 
-  tracePath, 
-  formatGraph, 
+import {
+  graph,
+  dijkNodes,
+  printTable,
+  tracePath,
+  formatGraph,
   dijkstra,
   startEnd,
   crossRoad,
@@ -36,27 +36,27 @@ const LogCoordinates = () => {
     if (!map) return;
 
     map.on('click', (e) => {
-      console.log('x:', e.latlng.lng, ' y:', e.latlng.lat)
-    })
-  }, [map])
-  
-  return null
-}
+      console.log('x:', e.latlng.lng, ' y:', e.latlng.lat);
+    });
+  }, [map]);
+
+  return null;
+};
 
 // this is the component
 const MapWrapper = (props) => {
-  
+
   // test data for polyline
   const testPolyline = [
-    [ 190, 585 ],
-    [ 203, 505 ],
-    [ 190, 482 ],
-    [ 195, 365 ],
-    [ 220, 360 ],
-    [ 350, 360 ],
-    [ 340, 206 ],
-    [ 346, 62 ],
-    [ 450, 60 ]
+    [190, 585],
+    [203, 505],
+    [190, 482],
+    [195, 365],
+    [220, 360],
+    [350, 360],
+    [340, 206],
+    [346, 62],
+    [450, 60]
   ];
 
   // this currently takes 'steps' along the navPath every x ms using setTimeout
@@ -66,10 +66,10 @@ const MapWrapper = (props) => {
         const popNavPath = [...navPath];
         popNavPath.shift();
         setNavPath(popNavPath);
-        setCurrentLocation(popNavPath[0])
-      }, 20000)
+        setCurrentLocation(popNavPath[0]);
+      }, 20000);
     }
-  })
+  });
 
   let defaultLocation = props.locationId;
   if (defaultLocation) {
@@ -78,8 +78,10 @@ const MapWrapper = (props) => {
     defaultLocation = locationSplit.join('');
     console.log('defaultLocation:', defaultLocation);
   }
-  // declaration of states
+
   
+  // declaration of states
+
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
   const [currentLocation, setCurrentLocation] = useState(testPolyline[0]);
   const [navPath, setNavPath] = useState([...testPolyline]);
@@ -87,7 +89,7 @@ const MapWrapper = (props) => {
 
   // options required for drawing map
   const center = [300, 300];
-  const bound = [[0, 0], [600,600]]
+  const bound = [[0, 0], [600, 600]];
 
   // dimensions for room overlays/polygons
   const polys = {
@@ -339,21 +341,21 @@ const MapWrapper = (props) => {
   };
 
   return (
-    <MapContainer 
-      bounds={bound} 
-      boundsOptions={bound} 
-      crs={CRS.Simple} 
-      center={center} 
+    <MapContainer
+      bounds={bound}
+      boundsOptions={bound}
+      crs={CRS.Simple}
+      center={center}
       zoom={0}
-      scrollWheelZoom={true} 
-      style={{ height: "100%"}}
+      scrollWheelZoom={true}
+      style={{ height: "100%" }}
     >
       {/* this is our actual map image */}
       <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
 
       {/* this highlights the selected room and creates a marker in it with more information on click */}
       {selectedLocation && <Polygon positions={polys[selectedLocation]} key={polys[selectedLocation]} />}
-      {selectedLocation && 
+      {selectedLocation &&
         <Marker position={[currentDest.y, currentDest.x]}>
           <Popup>
             <em>{currentDest.name}</em> <br />
@@ -367,24 +369,26 @@ const MapWrapper = (props) => {
 
       {/* this creates hidden polys for each room that allow you to click them */}
       {polyNames.map(poly => {
-        return <Polygon 
-          positions={polys[poly]} 
-          key={polys[poly].name} 
+        return <Polygon
+          positions={polys[poly]}
+          key={polys[poly].name}
           pathOptions={genPolyOptions}
           eventHandlers={
-            {click: () => {
-              setSelectedLocation(locations[poly].name);
-            }}
+            {
+              click: () => {
+                setSelectedLocation(locations[poly].name);
+              }
+            }
           }
-        />
+        />;
       })}
-    
+
       {/* dev purposes */}
       <LogCoordinates />
 
       {/* render polyline conditionally based on navigating state (true/false) */}
-      {navigating && <Polyline 
-        positions={navPath} 
+      {navigating && <Polyline
+        positions={navPath}
         color='red'
         // smoothFactor makes line pathing more direct
         smoothFactor={70}
@@ -395,9 +399,9 @@ const MapWrapper = (props) => {
         position={currentLocation}
         icon={iconPerson}
       />}
-      
+
     </MapContainer>
-  )
-}
+  );
+};
 
 export default MapWrapper;

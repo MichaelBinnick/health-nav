@@ -145,28 +145,15 @@ const isCheckedFalse = (isChecked) => {
                       <FormGroup>
                         <label>Appointment Time</label>
                         <Select options={hour} onChange={handleTimeChange} ></Select>
-                        {/* <Input
-                          type="text"
-                          value={formValue.time}
-                          onChange={handleChange}
-                          name="time"
-                        /> */}
                       </FormGroup>
                     </Col>
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Location</label>
-
-                        <Select options={locations} onChange={handleLocationChange}>
-
-                        </Select>
-
-
+                        <Select options={locations} onChange={handleLocationChange}></Select>
                       </FormGroup>
                     </Col>
-
                   </Row>
-
                   <Row>
                     <Col className="pr-1" md="12">
                       <FormGroup>

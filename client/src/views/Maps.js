@@ -142,7 +142,6 @@ import MapWrapper from "components/MapWrapper";
 function FullScreenMap() {
   const params = useParams()
   const locationId = params.name
-  console.log("LOCATION:", params)
   return (
     <>
       <PanelHeader size="sm" />
