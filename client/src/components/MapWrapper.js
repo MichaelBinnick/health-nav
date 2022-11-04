@@ -15,7 +15,14 @@ import {
 const iconPerson = new L.Icon({
   iconUrl: require('./personIcon.png'),
   iconRetinaUrl: require('./personIcon.png'),
-  iconSize: 40,
+  iconSize: 60,
+});
+
+// custom icon for demo button
+const iconDemo = new L.Icon({
+  iconUrl: require('./start-button.png'),
+  iconRetinaUrl: require('./start-button.png'),
+  iconSize: 140,
 });
 
 
@@ -40,41 +47,47 @@ const MapWrapper = (props) => {
   // declaration of state
   const [currentLine, setCurrentLine] = useState(routeCoords);
     
+  const navDemo = (interval) => {
+
+    setSelectedLocation('Emergency');
+    // each interval represents a 'step' taken along the path
+    setTimeout(() => {
+      
+      // once demoPath is 1, we don't want to continue
+      if (demoPath.length > 1) {
+  
+        // create shallow copy of demo path
+        const popDemoPath = [...demoPath];
+  
+        // remove first element of copy to indicate step taken
+        popDemoPath.shift();
+  
+        // reset demoPath state to be new reduced path
+        setDemoPath(popDemoPath);
+        
+        // redraw the nav line based on current location
+        setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results);
+        
+        // change current location to indicate step taken
+        setCurrentLocation(popDemoPath[0]);
+        // console.log('current loc:', currentLocation);
+  
+  
+        // logic to take when demo is over (cleanup)
+        if (demoPath.length === 2) {
+          setNavigatingDemo(false);
+          setDemoPath([]);
+          console.log('reached end of demo');
+        } 
+      } 
+    }, interval)  
+  }
+
   useEffect(() => {
     
-    // hardcoded nav demo w. dummy user
+    // hardcoded nav demo w. dummy user (triggers on button click)
     if (navigatingDemo) {
-      
-      // each interval represents a 'step' taken along the path
-      setTimeout(() => {
-        
-        // once demoPath is 1, we don't want to continue
-        if (demoPath.length > 1) {
-
-          // create shallow copy of demo path
-          const popDemoPath = [...demoPath];
-
-          // remove first element of copy to indicate step taken
-          popDemoPath.shift();
-
-          // reset demoPath state to be new reduced path
-          setDemoPath(popDemoPath);
-
-          // change current location to indicate step taken
-          setCurrentLocation(popDemoPath[0]);
-          console.log('current loc:', currentLocation);
-
-          // redraw the nav line based on current location
-          setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results);
-
-          // logic to take when demo is over (cleanup)
-          if (demoPath.length === 2) {
-            setNavigatingDemo(false);
-            setDemoPath([]);
-            console.log('reached end of demo');
-          } 
-        } 
-      }, 300)  
+      navDemo(300);
     }   
   })
   
@@ -93,7 +106,7 @@ const MapWrapper = (props) => {
   const [navPath, setNavPath] = useState([]);
   const [navigating, setNavigating] = useState(true);
   const [demoPath, setDemoPath] = useState([...routeStr]);
-  const [navigatingDemo, setNavigatingDemo] = useState(true);
+  const [navigatingDemo, setNavigatingDemo] = useState(false);
         
         // options required for drawing map
   const center = [300, 300];
@@ -359,7 +372,18 @@ const MapWrapper = (props) => {
       style={{ height: "100%"}}
     >
       {/* this is our actual map image */}
-      <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
+      <ImageOverlay url="../map.png" bounds={bound} />
+
+      {/* Button start navDemo onClick */}
+      {!navigatingDemo && <Marker
+        icon={iconDemo}
+        position={[380, 480]} 
+        eventHandlers={
+            {click: () => {
+              setNavigatingDemo(true);
+              setDemoPath(([...routeStr]));
+            }}}
+      />}
 
       {/* this highlights the selected room and creates a marker in it with more information on click */}
       {selectedLocation && <Polygon positions={polys[selectedLocation]} key={polys[selectedLocation]} />}
