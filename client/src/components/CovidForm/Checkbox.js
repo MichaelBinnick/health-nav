@@ -1,14 +1,20 @@
 import { useState } from "react";
 
 
-const Checkbox = ({ label }) => {
-  const [isChecked, setIsChecked] = useState(false);
+const Checkbox = ({ label, index, isChecked, setIsChecked }) => {
 
-  
+
+
   return (
     <div className="checkbox-wrapper">
       <label>
-        <input type="checkbox" checked={isChecked} onChange={() => setIsChecked((prev) => !prev)}/>
+        <input type="checkbox" checked={isChecked[index]} onChange={() =>
+          setIsChecked((prev) => {
+            prev[index] = !prev[index];
+            console.log("PREV:", prev)
+            console.log("STATE:", isChecked)
+            return [...prev];
+          })} />
         <span>{label}</span>
       </label>
     </div>
