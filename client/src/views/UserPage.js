@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import Select from "react-select";
 
@@ -28,7 +28,7 @@ import {
   Form,
   Input,
   Row,
-  Col, Dropdown, DropdownToggle, DropdownItem, DropdownMenu
+  Col
 } from "reactstrap";
 
 
@@ -36,6 +36,8 @@ import {
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import CovidForm from "components/CovidForm/CovidForm";
 
+//import locations from "variables/list_locations";
+import time from "variables/times";
 import locations from "variables/list_locations";
 
 function User() {
@@ -47,29 +49,28 @@ function User() {
     alergies: "",
     conditions: "",
     medications: "",
-
+    covid_free: false,
   });
-  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const dropdownToggle = (e) => {
-    setDropdownOpen(!dropdownOpen);
-  };
-const location = locations.map(opt => ({ label: opt, value: opt }));
+  //const location = locations.map(opt => ({ label: opt, value: opt }));
+
+  //Time dropdown select
+  const hour = time.map(opt => ({ label: opt, value: opt }));
+
+  //Location dropdown select
+  // const locationNumber = Object.keys(locations)
+  // const locationName = Object.values(locations)
+
+  // const location = locationName.map(opt => ({ label: opt, value: opt }));
+  // console.log("LOCATION::", location)
+
+  //const[location, setLocation] = useState();
 
 
 
 
+  //POST user data to database
   let handleSubmit = async () => {
-
-    let checkInData = new FormData();
-    checkInData.append("name", formValue.name);
-    checkInData.append("time", formValue.time);
-    checkInData.append("location", formValue.location);
-    checkInData.append("reason", formValue.reason);
-    checkInData.append("alergies", formValue.alergies);
-    checkInData.append("conditions", formValue.conditions);
-    checkInData.append("medications", formValue.medications);
-
     try {
       // make axios post request
       const response = await axios({
@@ -87,7 +88,9 @@ const location = locations.map(opt => ({ label: opt, value: opt }));
       console.log(error);
     }
   };
+
   const handleChange = (event) => {
+
     const { name, value } = event.target;
     setFormValue((prevState) => {
       return {
@@ -95,15 +98,47 @@ const location = locations.map(opt => ({ label: opt, value: opt }));
         [name]: value,
       };
     });
+
   };
 
+  const handleTimeChange = (event) => {
+    setFormValue((prevState) => {
+      return {
+        ...prevState,
+        time: event.value,
+      };
+    });
+  };
+
+  const handleLocationChange=(event) => {
+    setFormValue((prevState) => {
+      return {
+        ...prevState,
+        location: event.value,
+      };
+    });
+  }
+  const handleCovidChange=(event) => {
+    setFormValue((prevState) => {
+      return {
+        ...prevState,
+        covid_free: event.value,
+      };
+    });
+  }
+  
+
+  console.log("FORM:", formValue);
+  //conditional COVID form
+  const [showForm, setShowForm] = useState(false);
+  const load = (e) => { e.preventDefault(); setShowForm(!showForm); };
 
   return (
     <>
       <PanelHeader size="sm" />
       <div className="content">
         <Row>
-          <Col md="6">
+          <Col md="12">
             <Card>
               <CardHeader>
                 <h5 className="title">Patient Check In</h5>
@@ -114,41 +149,24 @@ const location = locations.map(opt => ({ label: opt, value: opt }));
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Time</label>
-
-                        <Input
+                        <Select options={hour} onChange={handleTimeChange} ></Select>
+                        {/* <Input
                           type="text"
                           value={formValue.time}
                           onChange={handleChange}
                           name="time"
-                        />
+                        /> */}
                       </FormGroup>
                     </Col>
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Location</label>
-                        <Select options={location}></Select>
-                        {/* <Dropdown
-                          nav
-                          isOpen={dropdownOpen}
-                          toggle={(e) => dropdownToggle(e)}
-                        >
-                          <DropdownToggle caret nav>
-                            <p>
-                              <span className="d-lg-none d-md-block">Location</span>
-                            </p>
-                          </DropdownToggle>
-                          <DropdownMenu right>
-                            <DropdownItem tag="a">Action</DropdownItem>
-                            <DropdownItem tag="a">Another Action</DropdownItem>
-                            <DropdownItem tag="a">Something else here</DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown> */}
-                        <Input
-                          type="text"
-                          value={formValue.location}
-                          onChange={handleChange}
-                          name="location"
-                        />
+
+                        <Select options={locations} onChange={handleLocationChange}>
+
+                        </Select>
+
+
                       </FormGroup>
                     </Col>
 
@@ -217,7 +235,19 @@ const location = locations.map(opt => ({ label: opt, value: opt }));
                           name="medications"
                         />
                       </FormGroup>
-                      <button className="button-container btn-neutral btn-round" type="submit">Check In</button>
+                      <Row>
+                        <Col md="12">
+                          <FormGroup>
+                            <button className="button-container btn-neutral btn-round" onClick={load}>Click here if you need to complete the COVID Screening</button>
+                            {showForm && <CovidForm />}
+                          </FormGroup>
+                        </Col>
+                      </Row>
+
+                      <Col md="12">
+                        <button className="button-container btn-neutral btn-round" type="submit">Check In</button>
+                      </Col>
+
                     </Col>
                   </Row>
 
@@ -225,7 +255,7 @@ const location = locations.map(opt => ({ label: opt, value: opt }));
               </CardBody>
             </Card>
           </Col>
-          <Col md="6">
+          {/* <Col md="6">
             <Card className="card-user">
               <div className="image"></div>
               <CardBody>
@@ -234,10 +264,11 @@ const location = locations.map(opt => ({ label: opt, value: opt }));
                     <h5 className="title">COVID SCREENING</h5>
                   </a>
                 </div>
+
                 <CovidForm />
               </CardBody>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
       </div>
     </>
