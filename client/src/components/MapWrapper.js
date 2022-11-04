@@ -365,12 +365,12 @@ const MapWrapper = (props) => {
   return (
     <MapContainer 
       bounds={bound} 
-      boundsOptions={bound} 
       crs={CRS.Simple} 
       center={center} 
       zoom={0}
       scrollWheelZoom={true} 
       style={{ height: "100%"}}
+      maxBounds={bound}
     >
       {/* this is our actual map image */}
       <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
