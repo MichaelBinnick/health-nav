@@ -47,6 +47,7 @@ const MapWrapper = (props) => {
   // declaration of state
   const [currentLine, setCurrentLine] = useState(routeCoords);
     
+  // logic for demo nav w. dummy user
   const navDemo = (interval) => {
 
     setSelectedLocation('Emergency');
@@ -91,6 +92,7 @@ const MapWrapper = (props) => {
     }   
   })
   
+  // this logic is important for selecting a location based on what's chosen in directory ("locations" in sidebar)
   let defaultLocation = props.locationId;
   if (defaultLocation) {
     let locationSplit = defaultLocation.split('');
@@ -108,7 +110,7 @@ const MapWrapper = (props) => {
   const [demoPath, setDemoPath] = useState([...routeStr]);
   const [navigatingDemo, setNavigatingDemo] = useState(false);
         
-        // options required for drawing map
+  // options required for drawing map
   const center = [300, 300];
   const bound = [[0, 0], [600,600]]
 
@@ -388,15 +390,12 @@ const MapWrapper = (props) => {
       {/* this highlights the selected room and creates a marker in it with more information on click */}
       {selectedLocation && <Polygon positions={polys[selectedLocation]} key={polys[selectedLocation]} />}
       {selectedLocation && 
-        <Marker position={[currentDest.y, currentDest.x]}>
-          <Popup>
-            <em>{currentDest.name}</em> <br />
+        
+          <Popup position={[currentDest.y + 20, currentDest.x]}>
+            <strong>{currentDest.name.toUpperCase()}</strong> <br />
             Hours of Operation: <br />
             {currentDest.open} - {currentDest.close} <br />
-            Coordinates: <br />
-            x: {currentDest.x}, y: {currentDest.y}
           </Popup>
-        </ Marker>
       }
 
       {/* this creates hidden polys for each room that allow you to click them */}
