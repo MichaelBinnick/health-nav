@@ -1294,6 +1294,8 @@ const dijkCoords = (path) => {
 
 // const polyTest1Str = dijkCoords(startEnd.path).path;
 
+// this is the test route data we use for the demo
+
 const polyTest2Str = dijkCoords(crossRoad.path).path;
 const polyTest2Coords = dijkCoords(crossRoad.path).results;
 
@@ -1305,7 +1307,8 @@ const polyTest3Coords = dijkCoords(lost.path).results;
 const polyTest4Str = dijkCoords(redirect.path).path;
 const polyTest4Coords = dijkCoords(redirect.path).results;
 
-
+// routeStr - an array of strings, where each item is the name of a node (e.g. 'er1')
+// routeCoords - an array of arrays, where each item is a set of coords (e.g. [0, 0])
 const routeStr = polyTest2Str.concat(polyTest3Str.concat(polyTest4Str));
 const routeCoords = polyTest2Coords.concat(polyTest3Coords.concat(polyTest4Coords));
 // const testPolyline = dijkCoords(tester.path);

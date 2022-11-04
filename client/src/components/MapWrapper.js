@@ -7,8 +7,8 @@ import {
   dijkNodes, 
   dijkstra,
   dijkCoords,
-  routeStr,
-  routeCoords
+  routeStr, // ['e3', 'j23', 'j22', 'j21', etc...]
+  routeCoords // [ [195, 587], [195, 580], [195, 570], etc...]
 } from 'helpers/dijkstra';
 
 // custom icon for current location
@@ -44,7 +44,7 @@ const LogCoordinates = () => {
 // this is the component
 const MapWrapper = (props) => {
   
-  // declaration of state
+  // declaration of some state
   const [currentLine, setCurrentLine] = useState(routeCoords);
     
   // logic for demo nav w. dummy user
@@ -373,7 +373,7 @@ const MapWrapper = (props) => {
       style={{ height: "100%"}}
     >
       {/* this is our actual map image */}
-      <ImageOverlay url="../map.png" bounds={bound} />
+      <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
 
       {/* Button start navDemo onClick */}
       {!navigatingDemo && <Marker
@@ -417,7 +417,7 @@ const MapWrapper = (props) => {
       {/* render polyline conditionally based on navigating state (true/false) */}
       {navigatingDemo && <Polyline 
         positions={currentLine} 
-        color='red'
+        color='blue'
         // smoothFactor makes line pathing more direct
         smoothFactor={0}
       />}
