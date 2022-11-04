@@ -271,3 +271,4 @@ const isCheckedFalse = (isChecked) => {
 }
 
 export default User;
+// module.exports = { handleLocationChange };
