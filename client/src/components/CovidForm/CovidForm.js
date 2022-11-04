@@ -11,10 +11,8 @@ const questions = [
 ];
 
 
-function CovidForm() {
-  const [isChecked, setIsChecked] = useState([false, false, false, false, false, false]);
-
-
+function CovidForm({isChecked, setIsChecked}) {
+  
 
   return (
     <div className="Covid description text-left">

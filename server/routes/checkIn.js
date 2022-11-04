@@ -13,25 +13,29 @@ router.post("/", (request, response) => {
     location,
     name,
     time,
-    alergies,
+    covid_free,
+    allergies,
     medications,
     conditions,
-    reason } = request.body;
+    reason,
+     } = request.body;
 
   console.log("BODY:", request.body);
 
   db.query(
-    "INSERT INTO checkins (location_id, patient_name, time, allergies, medications, conditions, visit_reason) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+    "INSERT INTO checkins (location_id, patient_name, time, covid_free, allergies, medications, conditions, visit_reason) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
     [location,
       name,
       time,
-      alergies,
+      covid_free,
+      allergies,
       medications,
       conditions,
-      reason]
+      reason, 
+    ]
   )
     .then((rows) => {
-      console.log("Successful", rows)
+      console.log("Successful", rows);
       response.status(204).json({});
     })
     .catch(error => console.log(error));

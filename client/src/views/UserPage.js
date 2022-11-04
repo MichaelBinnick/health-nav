@@ -47,13 +47,11 @@ function User() {
     time: "",
     location: "",
     reason: "",
-    alergies: "",
+    allergies: "",
     conditions: "",
     medications: "",
     covid_free: false,
   });
-
-
 
   //Time dropdown select
   const hour = time.map(opt => ({ label: opt, value: opt }));
@@ -79,7 +77,6 @@ function User() {
   };
 
   const handleChange = (event) => {
-
     const { name, value } = event.target;
     setFormValue((prevState) => {
       return {
@@ -87,7 +84,6 @@ function User() {
         [name]: value,
       };
     });
-
   };
 
   const handleTimeChange = (event) => {
@@ -107,12 +103,12 @@ function User() {
       };
     });
   }
-  
+
   const handleCovidChange=(event) => {
     setFormValue((prevState) => {
       return {
         ...prevState,
-        covid_free: event.value,
+        covid_free: isCheckedFalse(isChecked),
       };
     });
   }
@@ -122,6 +118,15 @@ function User() {
   //conditional COVID form
   const [showForm, setShowForm] = useState(false);
   const load = (e) => { e.preventDefault(); setShowForm(!showForm); };
+
+  //checkbox state
+  const [isChecked, setIsChecked] = useState([false, false, false, false, false, false]);
+//function to check if isChecked has all values to false:
+
+const isCheckedFalse = (isChecked) => {
+  return isChecked.every(element => element ===false)
+}
+
 
   return (
     <>
@@ -191,12 +196,12 @@ function User() {
                   <Row>
                     <Col md="12">
                       <FormGroup>
-                        <label>Alergies</label>
+                        <label>Allergies</label>
                         <Input
                           type="text"
-                          value={formValue.alergies}
+                          value={formValue.allergies}
                           onChange={handleChange}
-                          name="alergies"
+                          name="allergies"
                         />
                       </FormGroup>
                     </Col>
@@ -229,13 +234,13 @@ function User() {
                         <Col md="12">
                           <FormGroup>
                             <button className="button-container btn-neutral btn-round" onClick={load}>Click here if you need to complete the COVID Screening</button>
-                            {showForm && <CovidForm onChange={handleCovidChange}/>}
+                            {showForm && <CovidForm  isChecked={isChecked} setIsChecked={setIsChecked}/>}
                           </FormGroup>
                         </Col>
                       </Row>
 
                       <Col md="12">
-                        <button className="button-container btn-neutral btn-round" type="submit">Check In</button>
+                        <button className="button-container btn-neutral btn-round" type="submit" onClick={handleCovidChange} >Check In</button>
                       </Col>
 
                     </Col>
