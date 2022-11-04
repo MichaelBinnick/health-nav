@@ -50,7 +50,6 @@ const MapWrapper = (props) => {
   // logic for demo nav w. dummy user
   const navDemo = (interval) => {
 
-    setSelectedLocation('Emergency');
     // each interval represents a 'step' taken along the path
     setTimeout(() => {
       
@@ -89,7 +88,7 @@ const MapWrapper = (props) => {
     // hardcoded nav demo w. dummy user (triggers on button click)
     if (navigatingDemo) {
       navDemo(300);
-    }   
+    }
   })
   
   // this logic is important for selecting a location based on what's chosen in directory ("locations" in sidebar)
@@ -383,19 +382,19 @@ const MapWrapper = (props) => {
         eventHandlers={
             {click: () => {
               setNavigatingDemo(true);
+              setSelectedLocation('Emergency');
               setDemoPath(([...routeStr]));
             }}}
       />}
 
       {/* this highlights the selected room and creates a marker in it with more information on click */}
       {selectedLocation && <Polygon positions={polys[selectedLocation]} key={polys[selectedLocation]} />}
-      {selectedLocation && 
-        
-          <Popup position={[currentDest.y + 20, currentDest.x]}>
-            <strong>{currentDest.name.toUpperCase()}</strong> <br />
-            Hours of Operation: <br />
-            {currentDest.open} - {currentDest.close} <br />
-          </Popup>
+      {selectedLocation && !navigatingDemo &&
+        <Popup position={[currentDest.y + 20, currentDest.x]}>
+          <strong>{currentDest.name.toUpperCase()}</strong> <br />
+          Hours of Operation: <br />
+          {currentDest.open} - {currentDest.close} <br />
+        </Popup>
       }
 
       {/* this creates hidden polys for each room that allow you to click them */}
