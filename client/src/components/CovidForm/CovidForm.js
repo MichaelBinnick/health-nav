@@ -10,7 +10,10 @@ const questions = [
   { name: "Vomiting or diarrhea for more than 24 gours" }
 ];
 
+
 function CovidForm() {
+  const [isChecked, setIsChecked] = useState([false, false, false, false, false, false]);
+
 
 
   return (
@@ -23,8 +26,8 @@ function CovidForm() {
             <li key={index}>
               <div className="checkbox-wrapper">
 
-                  <Checkbox label = {name}></Checkbox>
-                  {/* <label htmlFor={`${index}`}>{name}</label> */}
+                <Checkbox label={name} index={index} isChecked={isChecked} setIsChecked={setIsChecked} ></Checkbox>
+                {/* <label htmlFor={`${index}`}>{name}</label> */}
               </div>
             </li>
           );

@@ -41,6 +41,7 @@ import time from "variables/times";
 import locations from "variables/list_locations";
 
 function User() {
+
   const [formValue, setFormValue] = useState({
     name: "",
     time: "",
@@ -52,22 +53,10 @@ function User() {
     covid_free: false,
   });
 
-  //const location = locations.map(opt => ({ label: opt, value: opt }));
+
 
   //Time dropdown select
   const hour = time.map(opt => ({ label: opt, value: opt }));
-
-  //Location dropdown select
-  // const locationNumber = Object.keys(locations)
-  // const locationName = Object.values(locations)
-
-  // const location = locationName.map(opt => ({ label: opt, value: opt }));
-  // console.log("LOCATION::", location)
-
-  //const[location, setLocation] = useState();
-
-
-
 
   //POST user data to database
   let handleSubmit = async () => {
@@ -118,6 +107,7 @@ function User() {
       };
     });
   }
+  
   const handleCovidChange=(event) => {
     setFormValue((prevState) => {
       return {
@@ -239,7 +229,7 @@ function User() {
                         <Col md="12">
                           <FormGroup>
                             <button className="button-container btn-neutral btn-round" onClick={load}>Click here if you need to complete the COVID Screening</button>
-                            {showForm && <CovidForm />}
+                            {showForm && <CovidForm onChange={handleCovidChange}/>}
                           </FormGroup>
                         </Col>
                       </Row>
