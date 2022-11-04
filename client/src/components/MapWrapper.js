@@ -43,9 +43,9 @@ const LogCoordinates = () => {
 
 // this is the component
 const MapWrapper = (props) => {
-  
+
   // declaration of some state
-  const [currentLine, setCurrentLine] = useState(routeCoords);
+  const [currentLine, setCurrentLine] = useState([]);
   
   // logic for demo nav w. dummy user
   const navDemo = (interval) => {
@@ -57,19 +57,19 @@ const MapWrapper = (props) => {
       if (demoPath.length > 1) {
 
         // create shallow copy of demo path
-        const popDemoPath = [...demoPath];
+        const shiftDemoPath = [...demoPath];
   
         // remove first element of copy to indicate step taken
-        popDemoPath.shift();
+        shiftDemoPath.shift();
   
         // reset demoPath state to be new reduced path
-        setDemoPath(popDemoPath);
+        setDemoPath(shiftDemoPath);
         
         // redraw the nav line based on current location
         setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results);
         
         // change current location to indicate step taken
-        setCurrentLocation(popDemoPath[0]);
+        setCurrentLocation(shiftDemoPath[0]);
         // console.log('current loc:', currentLocation);
   
   

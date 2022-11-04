@@ -1309,7 +1309,20 @@ const polyTest4Coords = dijkCoords(redirect.path).results;
 
 // routeStr - an array of strings, where each item is the name of a node (e.g. 'er1')
 // routeCoords - an array of arrays, where each item is a set of coords (e.g. [0, 0])
-const routeStr = polyTest2Str.concat(polyTest3Str.concat(polyTest4Str));
+const routeStr = [
+  'e3',  'j23', 'j22', 'j21', 'j20', 'j19', 'j18', 'j17',
+  'j16', 'j15', 'j14', 'j13', 'j12', 'j11', 'j10', 'j9',
+  'j8',  'j7',  'j6',  'j5',  'j4',  'j3',  'j2',  'j1',
+  'q24', 'q23', 'z31', 'z30', 'z29', 'z28', 'z27', 'z26',
+  'z25', 'z24', 'z23', 'z22', 'z21', 'z20', 'z19', 'z18',
+  'z17', 'z16', 'z15', 'z14', 'z13', 'z12', 'z11', 'z10',
+  'z9',  'z8',  'z7',  'z6',  'z5',  'z4',  'z3',  'z2',
+  'z1',  'z1',  't24', 't25', 't26', 't27', 't28', 't28',
+  't27', 't26', 't25', 't24', 'z1',  't23', 't22', 't21',
+  't20', 't19', 't18', 't17', 't16', 't15', 't14', 't13',
+  't12', 't11', 't10', 't9',  't8',  't7',  't6',  't5',
+  't4',  't3',  't2',  't1',  'er1'
+]
 const routeCoords = polyTest2Coords.concat(polyTest3Coords.concat(polyTest4Coords));
 // const testPolyline = dijkCoords(tester.path);
 // console.log('polyline test:', testPolyline);
@@ -1333,6 +1346,7 @@ const node2 = 'er1';
 
 nodeWeights(node1, node2);
 
+console.log('route is:', routeStr);
 
 module.exports = { 
   graph, 
