@@ -5,26 +5,24 @@ import * as L from 'leaflet';
 import { 
   graph, 
   dijkNodes, 
-  printTable, 
-  tracePath, 
-  formatGraph, 
   dijkstra,
-  startEnd,
-  crossRoad,
-  lost,
-  redirect,
-  polyTest1,
-  polyTest2,
-  polyTest3,
-  polyTest4,
-  dijkCoords
+  dijkCoords,
+  routeStr,
+  routeCoords
 } from 'helpers/dijkstra';
 
 // custom icon for current location
 const iconPerson = new L.Icon({
   iconUrl: require('./personIcon.png'),
   iconRetinaUrl: require('./personIcon.png'),
-  iconSize: 40,
+  iconSize: 60,
+});
+
+// custom icon for demo button
+const iconDemo = new L.Icon({
+  iconUrl: require('./start-button.png'),
+  iconRetinaUrl: require('./start-button.png'),
+  iconSize: 140,
 });
 
 
@@ -46,31 +44,54 @@ const LogCoordinates = () => {
 // this is the component
 const MapWrapper = (props) => {
   
-  // test data for polyline
-  const testPolyline = [
-    [ 190, 585 ],
-    [ 203, 505 ],
-    [ 190, 482 ],
-    [ 195, 365 ],
-    [ 220, 360 ],
-    [ 350, 360 ],
-    [ 340, 206 ],
-    [ 346, 62 ],
-    [ 450, 60 ]
-  ];
+  // declaration of state
+  const [currentLine, setCurrentLine] = useState(routeCoords);
+    
+  // logic for demo nav w. dummy user
+  const navDemo = (interval) => {
 
-  // this currently takes 'steps' along the navPath every x ms using setTimeout
+    // each interval represents a 'step' taken along the path
+    setTimeout(() => {
+      
+      // once demoPath is 1, we don't want to continue
+      if (demoPath.length > 1) {
+  
+        // create shallow copy of demo path
+        const popDemoPath = [...demoPath];
+  
+        // remove first element of copy to indicate step taken
+        popDemoPath.shift();
+  
+        // reset demoPath state to be new reduced path
+        setDemoPath(popDemoPath);
+        
+        // redraw the nav line based on current location
+        setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results);
+        
+        // change current location to indicate step taken
+        setCurrentLocation(popDemoPath[0]);
+        // console.log('current loc:', currentLocation);
+  
+  
+        // logic to take when demo is over (cleanup)
+        if (demoPath.length === 2) {
+          setNavigatingDemo(false);
+          setDemoPath([]);
+          console.log('reached end of demo');
+        } 
+      } 
+    }, interval)  
+  }
+
   useEffect(() => {
-    if (navPath.length > 0) {
-      setTimeout(() => {
-        const popNavPath = [...navPath];
-        popNavPath.shift();
-        setNavPath(popNavPath);
-        setCurrentLocation(popNavPath[0])
-      }, 20000)
+    
+    // hardcoded nav demo w. dummy user (triggers on button click)
+    if (navigatingDemo) {
+      navDemo(300);
     }
   })
-
+  
+  // this logic is important for selecting a location based on what's chosen in directory ("locations" in sidebar)
   let defaultLocation = props.locationId;
   if (defaultLocation) {
     let locationSplit = defaultLocation.split('');
@@ -78,13 +99,16 @@ const MapWrapper = (props) => {
     defaultLocation = locationSplit.join('');
     console.log('defaultLocation:', defaultLocation);
   }
-  // declaration of states
-  
+        
+  // more state
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
-  const [currentLocation, setCurrentLocation] = useState(testPolyline[0]);
-  const [navPath, setNavPath] = useState([...testPolyline]);
-  const [navigating, setNavigating] = useState(true);
+  const [currentLocation, setCurrentLocation] = useState(routeStr[0]);
 
+  const [navPath, setNavPath] = useState([]);
+  const [navigating, setNavigating] = useState(true);
+  const [demoPath, setDemoPath] = useState([...routeStr]);
+  const [navigatingDemo, setNavigatingDemo] = useState(false);
+        
   // options required for drawing map
   const center = [300, 300];
   const bound = [[0, 0], [600,600]]
@@ -349,20 +373,28 @@ const MapWrapper = (props) => {
       style={{ height: "100%"}}
     >
       {/* this is our actual map image */}
-      <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
+      <ImageOverlay url="../map.png" bounds={bound} />
+
+      {/* Button start navDemo onClick */}
+      {!navigatingDemo && <Marker
+        icon={iconDemo}
+        position={[380, 480]} 
+        eventHandlers={
+            {click: () => {
+              setNavigatingDemo(true);
+              setSelectedLocation('Emergency');
+              setDemoPath(([...routeStr]));
+            }}}
+      />}
 
       {/* this highlights the selected room and creates a marker in it with more information on click */}
       {selectedLocation && <Polygon positions={polys[selectedLocation]} key={polys[selectedLocation]} />}
-      {selectedLocation && 
-        <Marker position={[currentDest.y, currentDest.x]}>
-          <Popup>
-            <em>{currentDest.name}</em> <br />
-            Hours of Operation: <br />
-            {currentDest.open} - {currentDest.close} <br />
-            Coordinates: <br />
-            x: {currentDest.x}, y: {currentDest.y}
-          </Popup>
-        </ Marker>
+      {selectedLocation && !navigatingDemo &&
+        <Popup position={[currentDest.y + 20, currentDest.x]}>
+          <strong>{currentDest.name.toUpperCase()}</strong> <br />
+          Hours of Operation: <br />
+          {currentDest.open} - {currentDest.close} <br />
+        </Popup>
       }
 
       {/* this creates hidden polys for each room that allow you to click them */}
@@ -383,16 +415,16 @@ const MapWrapper = (props) => {
       <LogCoordinates />
 
       {/* render polyline conditionally based on navigating state (true/false) */}
-      {navigating && <Polyline 
-        positions={navPath} 
+      {navigatingDemo && <Polyline 
+        positions={currentLine} 
         color='red'
         // smoothFactor makes line pathing more direct
-        smoothFactor={70}
+        smoothFactor={0}
       />}
 
       {/* icon for current location */}
       {currentLocation && <Marker
-        position={currentLocation}
+        position={[dijkNodes[currentLocation].y, dijkNodes[currentLocation].x]}
         icon={iconPerson}
       />}
       

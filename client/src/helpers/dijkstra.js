@@ -1287,22 +1287,27 @@ const dijkCoords = (path) => {
     results.push(coords);
   }
 
-  return results;
+  return { results, path };
 }
 
-const polyTest1 = dijkCoords(startEnd.path);
-console.log(polyTest1);
+// const fullPath = dijkCoords([])
 
-const polyTest2 = dijkCoords(crossRoad.path);
-console.log(polyTest2);
+// const polyTest1Str = dijkCoords(startEnd.path).path;
 
-const polyTest3 = dijkCoords(lost.path);
-console.log(polyTest3);
-
-const polyTest4 = dijkCoords(redirect.path);
-console.log(polyTest4);
+const polyTest2Str = dijkCoords(crossRoad.path).path;
+const polyTest2Coords = dijkCoords(crossRoad.path).results;
 
 
+const polyTest3Str = dijkCoords(lost.path).path;
+const polyTest3Coords = dijkCoords(lost.path).results;
+
+
+const polyTest4Str = dijkCoords(redirect.path).path;
+const polyTest4Coords = dijkCoords(redirect.path).results;
+
+
+const routeStr = polyTest2Str.concat(polyTest3Str.concat(polyTest4Str));
+const routeCoords = polyTest2Coords.concat(polyTest3Coords.concat(polyTest4Coords));
 // const testPolyline = dijkCoords(tester.path);
 // console.log('polyline test:', testPolyline);
 
@@ -1337,9 +1342,7 @@ module.exports = {
   crossRoad,
   lost,
   redirect,
-  polyTest1,
-  polyTest2,
-  polyTest3,
-  polyTest4,
-  dijkCoords
+  dijkCoords,
+  routeStr,
+  routeCoords
 };
