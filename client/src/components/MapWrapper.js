@@ -11,6 +11,8 @@ import {
   routeCoords
 } from 'helpers/dijkstra';
 
+
+
 // custom icon for current location
 const iconPerson = new L.Icon({
   iconUrl: require('./personIcon.png'),
@@ -43,6 +45,15 @@ const LogCoordinates = () => {
 
 // this is the component
 const MapWrapper = (props) => {
+
+  // const dropdownSelected = props.dropdownName;
+  // console.log("dropdownSelected:", dropdownSelected);
+
+  const startDropSelected = props.startDrop;
+  console.log("startDropSelected:", startDropSelected);
+
+  const endDropSelected = props.endDrop;
+  console.log("endDropSelected:", endDropSelected);
   
   // declaration of state
   const [currentLine, setCurrentLine] = useState(routeCoords);
