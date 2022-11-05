@@ -22,9 +22,9 @@ const iconPerson = new L.Icon({
 
 // custom icon for demo button
 const iconDemo = new L.Icon({
-  iconUrl: require('./start-button.png'),
-  iconRetinaUrl: require('./start-button.png'),
-  iconSize: 140,
+  iconUrl: require('./map-QR.png'),
+  iconRetinaUrl: require('./map-QR.png'),
+  iconSize: [250, 300]
 });
 
 
@@ -53,9 +53,13 @@ const MapWrapper = (props) => {
   //state of end passed down as props
   const endSelected = props.end;
   console.log("endSelected:", endSelected);
+
+  const navGo = props.goHandler;
+  console.log("goHandler:", navGo)
   
   // declaration of state
   const [currentLine, setCurrentLine] = useState(routeCoords);
+
     
   // logic for demo nav w. dummy user
   const navDemo = (interval) => {
@@ -99,6 +103,11 @@ const MapWrapper = (props) => {
     if (navigatingDemo) {
       navDemo(300);
     }
+
+    if (props.start) {
+      setCurrentLocation(props.start)
+    }
+
   })
   
   // this logic is important for selecting a location based on what's chosen in directory ("locations" in sidebar)

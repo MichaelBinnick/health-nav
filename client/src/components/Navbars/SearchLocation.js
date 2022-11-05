@@ -102,7 +102,7 @@ export default function SearchLocation() {
             Go
           </Button>
         </Col>
-        <MapWrapper start={start} end={end} />
+        <MapWrapper start={start} end={end} goHandler={goHandler}/>
       </Row>
     </Container>
   );
