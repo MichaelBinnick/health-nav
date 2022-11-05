@@ -46,14 +46,13 @@ const LogCoordinates = () => {
 // this is the component
 const MapWrapper = (props) => {
 
-  // const dropdownSelected = props.dropdownName;
-  // console.log("dropdownSelected:", dropdownSelected);
+  //state of start passed down as props
+  const startSelected = props.start;
+  console.log("startSelected:", startSelected);
 
-  const startDropSelected = props.startDrop;
-  console.log("startDropSelected:", startDropSelected);
-
-  const endDropSelected = props.endDrop;
-  console.log("endDropSelected:", endDropSelected);
+  //state of end passed down as props
+  const endSelected = props.end;
+  console.log("endSelected:", endSelected);
   
   // declaration of state
   const [currentLine, setCurrentLine] = useState(routeCoords);
