@@ -52,3 +52,8 @@
 
 // react
 @import "now-ui-dashboard/react/react-differences";
+
+
+::-webkit-scrollbar{
+  display: none;
+}

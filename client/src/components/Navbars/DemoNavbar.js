@@ -15,14 +15,13 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useParams } from "react";
 import { Link, useLocation } from "react-router-dom";
 import locations from "variables/list_locations";
 import {
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Container,
   InputGroup,
   InputGroupText,
@@ -34,8 +33,11 @@ import {
   Nav,
   NavItem
 } from "reactstrap";
+
 import Select from "react-select";
 import routes from "routes.js";
+import SearchLocation from "./SearchLocation";
+
 
 
 
@@ -46,25 +48,17 @@ function DemoNavbar(props) {
   const [color, setColor] = React.useState("transparent");
   const sidebarToggle = React.useRef();
 
-  const handleLocationChange=(event) => {
-    setFormValue((prevState) => {
-      return {
-        ...prevState,
-        location: event.value,
-      };
-    });
-  }
-
-  const [formValue, setFormValue] = useState({
-    name: "",
-    time: "",
-    location: "",
-    reason: "",
-    alergies: "",
-    conditions: "",
-    medications: "",
-    covid_free: false,
-  });
+  //Displays SearchLocation only on Mpas view
+  const [displaySearch, setDisplaySearch] = useState(false);
+  const path = props.location.pathname;
+  console.log("OOOOO", path);
+  
+  const display = () => {
+    if (displaySearch && path.startsWith("/admin/maps")) {
+      setDisplaySearch(true);
+    }
+    setDisplaySearch(false);
+  };
 
   const toggle = () => {
     if (isOpen) {
@@ -74,38 +68,12 @@ function DemoNavbar(props) {
     }
     setIsOpen(!isOpen);
   };
-  const dropdownToggle = (e) => {
-    setDropdownOpen(!dropdownOpen);
-  };
-  const getBrand = () => {
-    var name;
-    routes.map((prop, key) => {
-      if (prop.collapse) {
-        prop.views.map((prop, key) => {
-          if (prop.path === props.location.pathname) {
-            name = prop.name;
-          }
-          return null;
-        });
-      } else {
-        if (prop.redirect) {
-          if (prop.path === props.location.pathname) {
-            name = prop.name;
-          }
-        } else {
-          if (prop.path === props.location.pathname) {
-            name = prop.name;
-          }
-        }
-      }
-      return null;
-    });
-    return name;
-  };
+
   const openSidebar = () => {
     document.documentElement.classList.toggle("nav-open");
     sidebarToggle.current.classList.toggle("toggled");
   };
+
   // function that adds color white/transparent to the navbar on resize (this is for the collapse)
   const updateColor = () => {
     if (window.innerWidth < 993 && isOpen) {
@@ -126,6 +94,7 @@ function DemoNavbar(props) {
       sidebarToggle.current.classList.toggle("toggled");
     }
   }, [location]);
+
   return (
     // add or remove classes depending if we are on full-screen-maps page or not
     <Navbar
@@ -139,12 +108,14 @@ function DemoNavbar(props) {
         props.location.pathname.indexOf("full-screen-maps") !== -1
           ? "navbar-absolute fixed-top"
           : "navbar-absolute fixed-top " +
-            (color === "transparent" ? "navbar-transparent " : "")
+          (color === "transparent" ? "navbar-transparent " : "")
       }
     >
       <Container fluid>
         <div className="navbar-wrapper">
+
           <div className="navbar-toggle">
+
             <button
               type="button"
               ref={sidebarToggle}
@@ -155,33 +126,14 @@ function DemoNavbar(props) {
               <span className="navbar-toggler-bar bar2" />
               <span className="navbar-toggler-bar bar3" />
             </button>
+
           </div>
-          <NavbarBrand href="/">{getBrand()}</NavbarBrand>
+          {display() && <SearchLocation />}
+
         </div>
-        <NavbarToggler onClick={toggle}>
-          <span className="navbar-toggler-bar navbar-kebab" />
-          <span className="navbar-toggler-bar navbar-kebab" />
-          <span className="navbar-toggler-bar navbar-kebab" />
-        </NavbarToggler>
+
         <Collapse isOpen={isOpen} navbar className="justify-content-end">
-          
-          <form>
-         
-          <Row className="row-cols-lg-auto g-3 align-items-center">
-            <Col className="pr-1" md="12">
-              <Select placeholder="current" options={locations} onChange={handleLocationChange}></Select>
-            </Col>
-            <Col className="pr-1" md="12">
-              <Select placeholder="Destination" options={locations} onChange={handleLocationChange}></Select>
-            </Col >
-            <Col className="pr-1" md="12">
-              <Button >
-                Go
-              </Button>
-            </Col>
-          </Row>
-  
-          </form>
+
         </Collapse>
       </Container>
     </Navbar>
