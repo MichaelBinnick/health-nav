@@ -7,8 +7,8 @@ import {
   dijkNodes, 
   dijkstra,
   dijkCoords,
-  routeStr,
-  routeCoords
+  routeStr, // ['e3', 'j23', 'j22', 'j21', etc...]
+  routeCoords // [ [195, 587], [195, 580], [195, 570], etc...]
 } from 'helpers/dijkstra';
 
 
@@ -46,6 +46,12 @@ const LogCoordinates = () => {
 // this is the component
 const MapWrapper = (props) => {
 
+  // graph visualizer
+  const graphNodes = Object.keys(graph);
+
+  // declaration of some state
+  const [currentLine, setCurrentLine] = useState([]);
+  
   //state of start passed down as props
   const startSelected = props.start;
   console.log("startSelected:", startSelected);
@@ -68,37 +74,31 @@ const MapWrapper = (props) => {
     [346, 62],
     [450, 60]
   ];
-  
-  // declaration of state
-  const [currentLine, setCurrentLine] = useState(routeCoords);
-
     
   // logic for demo nav w. dummy user
   const navDemo = (interval) => {
-
+    
     // each interval represents a 'step' taken along the path
     setTimeout(() => {
       
       // once demoPath is 1, we don't want to continue
       if (demoPath.length > 1) {
-  
+
         // create shallow copy of demo path
-        const popDemoPath = [...demoPath];
+        const shiftDemoPath = [...demoPath];
   
         // remove first element of copy to indicate step taken
-        popDemoPath.shift();
+        shiftDemoPath.shift();
   
         // reset demoPath state to be new reduced path
-        setDemoPath(popDemoPath);
+        setDemoPath(shiftDemoPath);
+        
+        // change current location to indicate step taken
+        setCurrentLocation(shiftDemoPath[0]);
         
         // redraw the nav line based on current location
         setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results);
-        
-        // change current location to indicate step taken
-        setCurrentLocation(popDemoPath[0]);
-        // console.log('current loc:', currentLocation);
-  
-  
+
         // logic to take when demo is over (cleanup)
         if (demoPath.length === 2) {
           setNavigatingDemo(false);
@@ -113,7 +113,7 @@ const MapWrapper = (props) => {
     
     // hardcoded nav demo w. dummy user (triggers on button click)
     if (navigatingDemo) {
-      navDemo(300);
+      navDemo(50);
     }
 
     if (props.start) {
@@ -141,8 +141,8 @@ const MapWrapper = (props) => {
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
   const [currentLocation, setCurrentLocation] = useState(routeStr[0]);
 
-  const [navPath, setNavPath] = useState([]);
-  const [navigating, setNavigating] = useState(true);
+  // const [navPath, setNavPath] = useState([]);
+  // const [navigating, setNavigating] = useState(true);
   const [demoPath, setDemoPath] = useState([...routeStr]);
   const [navigatingDemo, setNavigatingDemo] = useState(false);
         
@@ -400,22 +400,23 @@ const MapWrapper = (props) => {
   };
 
   return (
-    <MapContainer
+    <MapContainer 
       bounds={bound}
-      boundsOptions={bound}
-      crs={CRS.Simple}
-      center={center}
+      crs={CRS.Simple} 
+      center={center} 
       zoom={0}
-      scrollWheelZoom={true}
-      style={{ height: "100%" }}
+      scrollWheelZoom={true} 
+      style={{ height: "100%", background: 'white'}}
+      maxBounds={bound}
+      attributionControl={false}
     >
       {/* this is our actual map image */}
-      <ImageOverlay url="../map.png" bounds={bound} />
+      <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
 
       {/* Button start navDemo onClick */}
       {!navigatingDemo && <Marker
         icon={iconDemo}
-        position={[380, 480]} 
+        position={[480, 500]} 
         eventHandlers={
             {click: () => {
               setNavigatingDemo(true);
@@ -456,7 +457,11 @@ const MapWrapper = (props) => {
       {/* render polyline conditionally based on navigating state (true/false) */}
       {navigatingDemo && <Polyline 
         positions={currentLine} 
-        color='red'
+        color='blue'
+        weight={5}
+        opacity={.7}
+        lineJoin={'bevel'}
+        dashArray={'15'}
         // smoothFactor makes line pathing more direct
         smoothFactor={0}
       />}
@@ -466,6 +471,19 @@ const MapWrapper = (props) => {
         position={[dijkNodes[currentLocation].y, dijkNodes[currentLocation].x]}
         icon={iconPerson}
       />}
+      
+
+      {/* graph visualizer */}
+      {/* {graphNodes.map(node => {
+        // console.log('placing marker ', node, ' at ', [dijkNodes[node].y, dijkNodes[node].x])
+        return <Marker position={[dijkNodes[node].y, dijkNodes[node].x]}>
+          <Popup>
+            name: {node} <br />
+            y: {dijkNodes[node].y} <br /> 
+            x: {dijkNodes[node].x}
+          </Popup>
+        </Marker>
+      })} */}
 
     </MapContainer>
   );
