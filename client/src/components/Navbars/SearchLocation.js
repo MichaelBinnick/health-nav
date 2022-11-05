@@ -18,7 +18,7 @@ function SearchLocation() {
     setSelected(event.label);
   };
   const dropdownName = selected;
-
+  console.log("DORP:", dropdownName)
   return (
     <Container md="12">
       <Row className="row-cols-lg-auto g-3 align-items-center">

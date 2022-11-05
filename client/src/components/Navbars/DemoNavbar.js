@@ -47,8 +47,18 @@ function DemoNavbar(props) {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [color, setColor] = React.useState("transparent");
   const sidebarToggle = React.useRef();
-  
 
+  //Displays SearchLocation only on Mpas view
+  const [displaySearch, setDisplaySearch] = useState(false);
+  const path = props.location.pathname;
+  console.log("OOOOO", path);
+  
+  const display = () => {
+    if (displaySearch && path.startsWith("/admin/maps")) {
+      setDisplaySearch(true);
+    }
+    setDisplaySearch(false);
+  };
 
   const toggle = () => {
     if (isOpen) {
@@ -103,9 +113,9 @@ function DemoNavbar(props) {
     >
       <Container fluid>
         <div className="navbar-wrapper">
-        
+
           <div className="navbar-toggle">
-          
+
             <button
               type="button"
               ref={sidebarToggle}
@@ -116,9 +126,10 @@ function DemoNavbar(props) {
               <span className="navbar-toggler-bar bar2" />
               <span className="navbar-toggler-bar bar3" />
             </button>
-            
+
           </div>
-          <SearchLocation/>
+          {displaySearch && <SearchLocation />}
+
         </div>
 
         <Collapse isOpen={isOpen} navbar className="justify-content-end">
