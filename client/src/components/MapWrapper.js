@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { MapContainer, ImageOverlay, useMap, Marker, Popup, Polygon, Polyline} from 'react-leaflet';
+import { MapContainer, ImageOverlay, useMap, Marker, Popup, Polygon, Polyline } from 'react-leaflet';
 import { CRS } from 'leaflet';
 import * as L from 'leaflet';
 import { 
@@ -11,6 +11,8 @@ import {
   routeCoords // [ [195, 587], [195, 580], [195, 570], etc...]
 } from 'helpers/dijkstra';
 
+
+
 // custom icon for current location
 const iconPerson = new L.Icon({
   iconUrl: require('./personIcon.png'),
@@ -20,9 +22,9 @@ const iconPerson = new L.Icon({
 
 // custom icon for demo button
 const iconDemo = new L.Icon({
-  iconUrl: require('./start-button.png'),
-  iconRetinaUrl: require('./start-button.png'),
-  iconSize: 140,
+  iconUrl: require('./map-QR.png'),
+  iconRetinaUrl: require('./map-QR.png'),
+  iconSize: [250, 300]
 });
 
 
@@ -34,12 +36,12 @@ const LogCoordinates = () => {
     if (!map) return;
 
     map.on('click', (e) => {
-      console.log('x:', e.latlng.lng, ' y:', e.latlng.lat)
-    })
-  }, [map])
-  
-  return null
-}
+      console.log('x:', e.latlng.lng, ' y:', e.latlng.lat);
+    });
+  }, [map]);
+
+  return null;
+};
 
 // this is the component
 const MapWrapper = (props) => {
@@ -50,6 +52,29 @@ const MapWrapper = (props) => {
   // declaration of some state
   const [currentLine, setCurrentLine] = useState([]);
   
+  //state of start passed down as props
+  const startSelected = props.start;
+  console.log("startSelected:", startSelected);
+
+  //state of end passed down as props
+  const endSelected = props.end;
+  console.log("endSelected:", endSelected);
+
+  const navGo = props.goHandler;
+  console.log("goHandler:", navGo)
+  // test data for polyline
+  const testPolyline = [
+    [190, 585],
+    [203, 505],
+    [190, 482],
+    [195, 365],
+    [220, 360],
+    [350, 360],
+    [340, 206],
+    [346, 62],
+    [450, 60]
+  ];
+    
   // logic for demo nav w. dummy user
   const navDemo = (interval) => {
     
@@ -90,6 +115,11 @@ const MapWrapper = (props) => {
     if (navigatingDemo) {
       navDemo(50);
     }
+
+    if (props.start) {
+      setCurrentLocation(props.start)
+    }
+
   })
   
   // this logic is important for selecting a location based on what's chosen in directory ("locations" in sidebar)
@@ -100,6 +130,12 @@ const MapWrapper = (props) => {
     defaultLocation = locationSplit.join('');
     console.log('defaultLocation:', defaultLocation);
   }
+  
+  const dropdownSelected = props.dropdownName;
+  console.log("dropdownSelected:", dropdownSelected);
+
+  // declaration of states
+
         
   // more state
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
@@ -112,7 +148,7 @@ const MapWrapper = (props) => {
         
   // options required for drawing map
   const center = [300, 300];
-  const bound = [[0, 0], [600,600]]
+  const bound = [[0, 0], [600, 600]];
 
   // dimensions for room overlays/polygons
   const polys = {
@@ -401,18 +437,20 @@ const MapWrapper = (props) => {
 
       {/* this creates hidden polys for each room that allow you to click them */}
       {polyNames.map(poly => {
-        return <Polygon 
-          positions={polys[poly]} 
-          key={polys[poly].name} 
+        return <Polygon
+          positions={polys[poly]}
+          key={polys[poly].name}
           pathOptions={genPolyOptions}
           eventHandlers={
-            {click: () => {
-              setSelectedLocation(locations[poly].name);
-            }}
+            {
+              click: () => {
+                setSelectedLocation(locations[poly].name);
+              }
+            }
           }
-        />
+        />;
       })}
-    
+
       {/* dev purposes */}
       <LogCoordinates />
 
@@ -448,7 +486,7 @@ const MapWrapper = (props) => {
       })} */}
 
     </MapContainer>
-  )
-}
+  );
+};
 
 export default MapWrapper;

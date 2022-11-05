@@ -35,8 +35,6 @@ import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import { Link } from "react-router-dom";
 
 
-
-
 function RegularTables() {
 
   const [locationsDB, setLocationsDB] = useState([]);
