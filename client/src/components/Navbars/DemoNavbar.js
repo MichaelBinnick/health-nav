@@ -128,7 +128,7 @@ function DemoNavbar(props) {
             </button>
 
           </div>
-          {displaySearch && <SearchLocation />}
+          {display() && <SearchLocation />}
 
         </div>
 
