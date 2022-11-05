@@ -46,10 +46,7 @@ const LogCoordinates = () => {
 const MapWrapper = (props) => {
 
   // graph visualizer
-  const graphNodes = Object.keys(newGraph);
-  // console.log('graphNodes', graphNodes)
-  // console.log('conversion:', dijkNodes[graphNodes[0]].y)
-  //
+  // const graphNodes = Object.keys(newGraph);
 
   // declaration of some state
   const [currentLine, setCurrentLine] = useState([]);
@@ -72,13 +69,15 @@ const MapWrapper = (props) => {
         // reset demoPath state to be new reduced path
         setDemoPath(shiftDemoPath);
         
-        // redraw the nav line based on current location
-        setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results);
-        
         // change current location to indicate step taken
         setCurrentLocation(shiftDemoPath[0]);
-        // console.log('current loc:', currentLocation);
-  
+        
+        // redraw the nav line based on current location
+        console.log('endLine: coords', dijkNodes[demoPath[demoPath.length -1]]);
+        console.log('startLine coords:', dijkNodes[currentLocation]);
+        console.log('dijk work?', dijkstra(newGraph, currentLocation, demoPath[demoPath.length -1]))
+        setCurrentLine(dijkCoords(dijkstra(newGraph, currentLocation, demoPath[demoPath.length -1])));
+        
   
         // logic to take when demo is over (cleanup)
         if (demoPath.length === 2) {
@@ -111,8 +110,8 @@ const MapWrapper = (props) => {
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
   const [currentLocation, setCurrentLocation] = useState(routeStr[0]);
 
-  const [navPath, setNavPath] = useState([]);
-  const [navigating, setNavigating] = useState(true);
+  // const [navPath, setNavPath] = useState([]);
+  // const [navigating, setNavigating] = useState(true);
   const [demoPath, setDemoPath] = useState([...routeStr]);
   const [navigatingDemo, setNavigatingDemo] = useState(false);
         
@@ -442,7 +441,7 @@ const MapWrapper = (props) => {
       
 
       {/* graph visualizer */}
-      {graphNodes.map(node => {
+      {/* {graphNodes.map(node => {
         // console.log('placing marker ', node, ' at ', [dijkNodes[node].y, dijkNodes[node].x])
         return <Marker position={[newNodes[node].y, newNodes[node].x]}>
           <Popup>
@@ -451,7 +450,7 @@ const MapWrapper = (props) => {
             x: {newNodes[node].x}
           </Popup>
         </Marker>
-      })}
+      })} */}
 
     </MapContainer>
   )
