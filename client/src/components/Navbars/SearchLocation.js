@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import { Row, Col, Button, Container } from "reactstrap";
 import Select from "react-select";
 import MapWrapper from "components/MapWrapper";
+import { Link } from "react-router-dom";
 
 // dijk helpers
 import {
@@ -53,7 +54,7 @@ const locations = {
 // had to be an object of objects to capture the value within
 const navLocations = Object.values(locations);
 
-export default function SearchLocation() {
+export default function SearchLocation(props) {
   // states for search/dropdowns
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
@@ -99,10 +100,11 @@ export default function SearchLocation() {
         </Col>
         <Col xs={{ order: "last" }}>
           <Button className="btn-round" onClick={goHandler}>
+
+            {/* <Link to={}></Link> */}
             Go
           </Button>
         </Col>
-        <MapWrapper start={start} end={end} goHandler={goHandler}/>
       </Row>
     </Container>
   );

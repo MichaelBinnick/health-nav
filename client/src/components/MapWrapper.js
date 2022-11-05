@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { MapContainer, ImageOverlay, useMap, Marker, Popup, Polygon, Polyline } from 'react-leaflet';
 import { CRS } from 'leaflet';
 import * as L from 'leaflet';
+import SearchLocation from './Navbars/SearchLocation';
 import { 
   graph, 
   dijkNodes, 
@@ -130,9 +131,8 @@ const MapWrapper = (props) => {
     defaultLocation = locationSplit.join('');
     console.log('defaultLocation:', defaultLocation);
   }
-  
-  const dropdownSelected = props.dropdownName;
-  console.log("dropdownSelected:", dropdownSelected);
+
+  let startPoint = props.start
 
   // declaration of states
 

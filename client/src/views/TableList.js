@@ -71,6 +71,7 @@ function RegularTables() {
                   <tbody>
                     {locationsDB.map((location, key) => {
                       const locationRoute = "/admin/maps/" + location.name;
+                      console.log("**********", locationRoute)
                       return (
                     <tr key={key}>
                       <td>

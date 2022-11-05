@@ -40,6 +40,15 @@ const dashRoutes = [
     invisible: true
   },
 
+  // {
+  //   path: "/maps/:start/:end",
+  //   name: "NavSearch",
+  //   icon: "location_map-big",
+  //   component: Maps,
+  //   layout: "/admin",
+  //   invisible: true
+  // },
+
   {
     path: "/maps",
     name: "Maps",
