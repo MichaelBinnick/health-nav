@@ -20,7 +20,7 @@ import React from "react";
 import PerfectScrollbar from "perfect-scrollbar";
 
 // reactstrap components
-import { Route, Switch, Redirect, useLocation } from "react-router-dom";
+import { Route, Switch, Redirect, useLocation , useParams} from "react-router-dom";
 
 // core components
 import SearchLocation from "components/Navbars/SearchLocation";
