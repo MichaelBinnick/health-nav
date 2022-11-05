@@ -52,13 +52,8 @@ function DemoNavbar(props) {
   const [displaySearch, setDisplaySearch] = useState(false);
   const path = props.location.pathname;
   console.log("OOOOO", path);
-  
-  const display = () => {
-    if (displaySearch && path.startsWith("/admin/maps")) {
-      setDisplaySearch(true);
-    }
-    setDisplaySearch(false);
-  };
+
+
 
   const toggle = () => {
     if (isOpen) {
@@ -128,7 +123,7 @@ function DemoNavbar(props) {
             </button>
 
           </div>
-          {display() && <SearchLocation />}
+          {path.startsWith("/admin/maps") && <SearchLocation />}
 
         </div>
 

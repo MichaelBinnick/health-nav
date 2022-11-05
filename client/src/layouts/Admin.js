@@ -23,10 +23,9 @@ import PerfectScrollbar from "perfect-scrollbar";
 import { Route, Switch, Redirect, useLocation , useParams} from "react-router-dom";
 
 // core components
-import SearchLocation from "components/Navbars/SearchLocation";
 import Footer from "components/Footer/Footer";
 import Sidebar from "components/Sidebar/Sidebar";
-
+import DemoNavbar from "components/Navbars/DemoNavbar";
 import routes from "routes.js";
  
 let ps;
@@ -34,7 +33,7 @@ let ps;
 function Admin(props) {
   const location = useLocation();
   const [backgroundColor, setBackgroundColor] = React.useState("blue");
-
+  
   const mainPanel = React.useRef();
 
   React.useEffect(() => {
@@ -62,10 +61,12 @@ function Admin(props) {
     <div className="wrapper">
       <Sidebar {...props} routes={routes} backgroundColor={backgroundColor} />
       <div className="main-panel" ref={mainPanel}>
-        <SearchLocation {...props} />
+      <DemoNavbar {...props} />
         <Switch>
+        
           {routes.map((prop, key) => {
             return (
+              
               <Route
                 path={prop.layout + prop.path}
                 component={prop.component}
