@@ -71,6 +71,7 @@ const MapWrapper = (props) => {
     }
   });
 
+  //Props passed from Map.js
   let defaultLocation = props.locationId;
   if (defaultLocation) {
     let locationSplit = defaultLocation.split('');
@@ -78,8 +79,10 @@ const MapWrapper = (props) => {
     defaultLocation = locationSplit.join('');
     console.log('defaultLocation:', defaultLocation);
   }
-
   
+  const dropdownSelected = props.dropdownName;
+  console.log("dropdownSelected:", dropdownSelected);
+
   // declaration of states
 
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');

@@ -104,7 +104,7 @@ function User() {
     });
   }
 
-  const handleCovidChange=(event) => {
+  const handleCovidChange=() => {
     setFormValue((prevState) => {
       return {
         ...prevState,

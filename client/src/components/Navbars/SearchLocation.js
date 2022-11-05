@@ -7,20 +7,20 @@ import MapWrapper from 'components/MapWrapper';
 
 
 
-
-
 function SearchLocation() {
-  
-  const [selected, setSelected] = useState([]);
-  const locationId = selected
+  const getInitalState = () => {
+    const selected = "";
+    return selected;
+  };
+  const [selected, setSelected] = useState(getInitalState);
 
   const handleLocationChange = (event) => {
-    setSelected(event.target.value);
+    setSelected(event.label);
   };
-  console.log("LOCATION:",locationId)
+  const dropdownName = selected;
 
   return (
-    <Container md = "12">
+    <Container md="12">
       <Row className="row-cols-lg-auto g-3 align-items-center">
         <Col xs={{ order: 'first' }}>
           <Select className="description" placeholder="Destination" options={locations} onChange={handleLocationChange}></Select>
@@ -31,7 +31,7 @@ function SearchLocation() {
         <Col xs={{ order: 'last' }} >
           <Button className="btn-round">Go</Button>
         </Col>
-        {/* <MapWrapper locationId={locationId}/> */}
+        <MapWrapper dropdownName={dropdownName} />
       </Row>
     </Container>
 
