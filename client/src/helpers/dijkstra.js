@@ -1,62 +1,6 @@
-// const graph = {
-//   a: { b: 5, c: 2 },
-//   b: { a: 5, c: 7, d: 8 },
-//   c: { a: 2, b: 7, d: 4, e: 8 },
-//   d: { b: 8, c: 4, e: 6, f: 4 },
-//   e: { c: 8, d: 6, f: 3 },
-//   f: { e: 3, d: 4 },
-// };
+// oldGraph
 
 // const graph = {
-//   //Entrances
-//   e1: { n8: 78 },
-//   e2: { n5: 35 },
-//   e3: { rr4: 81 },
-//   e4: { n3: 10},
-//   e5: { er1: 47 },
-//   // //Health Services
-//   h1: { v3: 47, rr1: 22 },
-//   h2: { v4: 21, n1: 35 },
-//   h3: { rr3: 29, n8: 43 },
-//   h4: { n6: 36, rr3: 29 },
-//   h5: { er1: 131, s2: 24 },
-//   h6: { n9: 117, rr4: 23 },
-
-//   // //Visitor Services
-//   v1: { n7: 22 },
-//   v2: { rr1: 54, n7: 74, rr2: 90 },
-//   v3: { n8: 15, h1: 47 },
-//   v4: { rr2: 30, h2: 21 },
-
-//   // //Emergency
-//   er1: { n6: 104, e5: 46, er1: 131 },
-
-//   // //Restrooms
-//   rr1: { h1: 22, v2: 54 },
-//   rr2: { v2: 90, v4: 30 },
-//   rr3: { h4: 29, h3: 29 },
-//   rr4: { h6: 24, e3: 81 },
-//   rr5: { s2: 50, s3: 46 },
- 
-//   // //Hospital Staff
-//   s1: { n2: 154, n6: 144 },
-//   s2: { h5: 24, rr5: 50 },
-//   s3: { rr5: 46, n3: 47 },
-
-//   // //Connecting Nodes
-//   n1: { h2: 35, n9: 25, n2: 130 },
-//   n2: { n1: 130, s1: 154, n2: 137 },
-//   n3: { s3: 47, n2: 137, e4: 10 },
-//   // n4: { n6: 97 },
-//   n5: { n9: 35, e2: 35 },
-//   n6: { s1: 144, h4: 36, er1: 104 },
-//   n7: { v2: 47, v1: 22 },
-//   n8: { e1: 78, v3: 15, h3: 43 },
-//   n9: { n1: 25, n5: 35, h6: 117 }
-// };
-
-
-// oldGraph = {
 //   //Entrances
 //   e1: { t30: 11 },
 // //   e2: {},
@@ -184,10 +128,14 @@
 
 // }
 
-
-// oldNodes = {
+// const dijkNodes = {
   
 //   // Entrances
+//   // i0: { 
+//     //   y: 195, 
+//     //   x: 360, 
+//     //   name: 'i0' 
+//     // }
 //   e1: {
 //     name: 'Entrance - Pediatric / e1',
 //     x: 65,
@@ -1166,6 +1114,7 @@
 //   }
 // }
 
+// new nodes
 const dijkNodes = {
   j100: { x: 360, y: 195, name: 'j100' },
   j99: { x: 362.27, y: 195, name: 'j99' },
@@ -1915,6 +1864,7 @@ const dijkNodes = {
   e0: { x: 60.360000000000014, y: 347.09000000000003, name: 'e0' }
 }
 
+// new graph
 const graph = {
   j99: { j98: 2.27, i0: 2.27 },
   j98: { j97: 2.27, j99: 2.27 },
@@ -2260,7 +2210,7 @@ const graph = {
   h2: { h1: 2.27, h3: 2.27 },
   h1: { i109: 2.27, h2: 2.27 },
 
-  g132: { g131: 2.27, g133: 2.27 },
+  g132: { g131: 2.27 },
   g131: { g130: 2.27, g132: 2.27 },
   g130: { g129: 2.27, g131: 2.27 },
   g129: { g128: 2.27, g130: 2.27 },
@@ -2676,6 +2626,7 @@ const tracePath = (table, start, end) => {
     if (next === start) {
       break;
     }
+    // console.log('next', next);
     next = table[next].vertex;
   }
 
@@ -2703,8 +2654,9 @@ const dijkstra = (graph, start, end) => {
   let vertex;
   while ((vertex = unvisited.shift())) {
     // Explore unvisited neighbors
+    // console.log(vertex);
     let neighbors = map[vertex].filter((n) => !visited.includes(n.vertex));
-
+    
     // Add neighbors to the unvisited list
     unvisited.push(...neighbors.map((n) => n.vertex));
 
@@ -2746,7 +2698,7 @@ const dijkstra = (graph, start, end) => {
 const dijkCoords = (path) => {
   
   const results = [];
-
+  console.log('path:', path);
   for (const node of path) {
     // ['e1', 'e2', 'e3']
     // console.log('node', node);
@@ -2766,6 +2718,41 @@ const dijkCoords = (path) => {
 
 // routeStr - an array of strings, where each item is the name of a node (e.g. 'er1')
 // routeCoords - an array of arrays, where each item is a set of coords (e.g. [0, 0])
+// const startEnd = dijkstra(graph, "e3", "er1");
+// console.log(startEnd);
+
+// const crossRoad = dijkstra(graph, "e3", "z1");
+// console.log(crossRoad);
+
+// const lost = dijkstra(graph, "z1", "t28");
+// console.log(lost);
+
+// const redirect = dijkstra(graph, "t28", "er1");
+// console.log(redirect);
+// const polyTest2Str = dijkCoords(crossRoad.path).path;
+
+// const polyTest3Str = dijkCoords(lost.path).path;
+
+// const polyTest4Str = dijkCoords(redirect.path).path;
+
+
+// const routeStr = [
+//   'e3',  'j23', 'j22', 'j21', 'j20', 'j19', 'j18', 'j17',
+//   'j16', 'j15', 'j14', 'j13', 'j12', 'j11', 'j10', 'j9',
+//   'j8',  'j7',  'j6',  'j5',  'j4',  'j3',  'j2',  'j1',
+//   'q24', 'q23', 'z31', 'z30', 'z29', 'z28', 'z27', 'z26',
+//   'z25', 'z24', 'z23', 'z22', 'z21', 'z20', 'z19', 'z18',
+//   'z17', 'z16', 'z15', 'z14', 'z13', 'z12', 'z11', 'z10',
+//   'z9',  'z8',  'z7',  'z6',  'z5',  'z4',  'z3',  'z2',
+//   'z1',  'z1',  't24', 't25', 't26', 't27', 't28', 't28',
+//   't27', 't26', 't25', 't24', 'z1',  't23', 't22', 't21',
+//   't20', 't19', 't18', 't17', 't16', 't15', 't14', 't13',
+//   't12', 't11', 't10', 't9',  't8',  't7',  't6',  't5',
+//   't4',  't3',  't2',  't1',  'er1'
+// ];
+// // polyTest2Str.concat(polyTest3Str.concat(polyTest4Str));
+// console.log("routeStr", routeStr);
+// new routeStr
 const routeStr = [
   'j0',  'j1',  'j2',  'j3',  'j4',  'j5',  'j6',  'j7',
   'j8',  'j9',  'j10', 'j11', 'j12', 'j13', 'j14', 'j15',
@@ -2838,7 +2825,7 @@ const createNewGraph = () => {
   return results.reverse();
 }
 
-console.log(createNewGraph())
+// console.log(createNewGraph())
 
 
 // console.log('route is:', routeStr);

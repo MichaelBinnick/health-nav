@@ -72,12 +72,8 @@ const MapWrapper = (props) => {
         setCurrentLocation(shiftDemoPath[0]);
         
         // redraw the nav line based on current location
-        console.log('endStr', demoPath[demoPath.length -1]);
-        console.log('startStr:', currentLocation);
-        // console.log('dijk work?', dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path)
-        setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1])));
-        
-  
+        setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results);
+
         // logic to take when demo is over (cleanup)
         if (demoPath.length === 2) {
           setNavigatingDemo(false);
