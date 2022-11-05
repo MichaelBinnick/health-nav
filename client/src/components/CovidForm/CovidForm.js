@@ -12,17 +12,16 @@ const questions = [
 
 
 function CovidForm({isChecked, setIsChecked}) {
-  
 
   return (
-    <div className="Covid description text-left">
+    <div className="description text-left inline-block">
       <p className="description text-center">DO YOU HAVE ANY OF THE FOLLOWING SYMPTOMS:</p>
       <ul className="description list-unstyled"  >
 
         {questions.map(({ name }, index) => {
           return (
             <li key={index}>
-              <div className="checkbox-wrapper">
+              <div>
 
                 <Checkbox label={name} index={index} isChecked={isChecked} setIsChecked={setIsChecked} ></Checkbox>
                 {/* <label htmlFor={`${index}`}>{name}</label> */}

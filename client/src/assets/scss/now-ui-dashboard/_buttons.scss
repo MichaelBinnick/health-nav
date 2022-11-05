@@ -170,6 +170,7 @@
     border-radius: $btn-round-radius;
     padding-right: $padding-round-horizontal;
     padding-left: $padding-round-horizontal;
+    margin-top: 10px;
 
     &.btn-simple:not(.btn-sm):not(.btn-lg){
         padding: $padding-btn-vertical - 1  $padding-round-horizontal - 1;

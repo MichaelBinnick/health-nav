@@ -1,13 +1,8 @@
-import { useState } from "react";
-
-
 const Checkbox = ({ label, index, isChecked, setIsChecked }) => {
-
-
 
   return (
     <div className="checkbox-wrapper">
-      <label>
+      <label >
         <input type="checkbox" checked={isChecked[index]} onChange={() =>
           setIsChecked((prev) => {
             prev[index] = !prev[index];
