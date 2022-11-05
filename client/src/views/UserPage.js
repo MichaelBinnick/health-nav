@@ -95,24 +95,24 @@ function User() {
     });
   };
 
-  const handleLocationChange=(event) => {
+  const handleLocationChange = (event) => {
     setFormValue((prevState) => {
       return {
         ...prevState,
         location: event.value,
       };
     });
-  }
+  };
 
-  const handleCovidChange=() => {
+  const handleCovidChange = () => {
     setFormValue((prevState) => {
       return {
         ...prevState,
         covid_free: isCheckedFalse(isChecked),
       };
     });
-  }
-  
+  };
+
 
   console.log("FORM:", formValue);
   //conditional COVID form
@@ -121,11 +121,11 @@ function User() {
 
   //checkbox state
   const [isChecked, setIsChecked] = useState([false, false, false, false, false, false]);
-//function to check if isChecked has all values to false:
+  //function to check if isChecked has all values to false:
 
-const isCheckedFalse = (isChecked) => {
-  return isChecked.every(element => element ===false)
-}
+  const isCheckedFalse = (isChecked) => {
+    return isChecked.every(element => element === false);
+  };
 
 
   return (
@@ -150,12 +150,16 @@ const isCheckedFalse = (isChecked) => {
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Location</label>
-                        <Select options={locations} onChange={handleLocationChange}></Select>
+                   
+
+                        
+                        <Select className="selectDropdown" options={locations} onChange={handleLocationChange}></Select>
+                        
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
-                    <Col className="pr-1" md="12">
+                    <Col md="12">
                       <FormGroup>
                         <label>Patient Name</label>
                         <Input
@@ -217,40 +221,27 @@ const isCheckedFalse = (isChecked) => {
                           name="medications"
                         />
                       </FormGroup>
-                      <Row>
+                      <Row >
                         <Col md="12">
-                          <FormGroup>
+                          <FormGroup className="text-center">
                             <button className="button-container btn-neutral btn-round" onClick={load}>Click here if you need to complete the COVID Screening</button>
-                            {showForm && <CovidForm  isChecked={isChecked} setIsChecked={setIsChecked}/>}
+                            {showForm && <CovidForm className="text-center" isChecked={isChecked} setIsChecked={setIsChecked} />}
                           </FormGroup>
                         </Col>
                       </Row>
-
-                      <Col md="12">
-                        <button className="button-container btn-neutral btn-round" type="submit" onClick={handleCovidChange} >Check In</button>
-                      </Col>
-
+                      <Row>
+                        <Col md="12">
+                          <FormGroup className="text-center">
+                            <button className="button-container btn-neutral btn-round text-center" type="submit" onClick={handleCovidChange} >Check In</button>
+                          </FormGroup>
+                        </Col>
+                      </Row>
                     </Col>
                   </Row>
-
                 </Form>
               </CardBody>
             </Card>
           </Col>
-          {/* <Col md="6">
-            <Card className="card-user">
-              <div className="image"></div>
-              <CardBody>
-                <div className="author">
-                  <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                    <h5 className="title">COVID SCREENING</h5>
-                  </a>
-                </div>
-
-                <CovidForm />
-              </CardBody>
-            </Card>
-          </Col> */}
         </Row>
       </div>
     </>

@@ -123,3 +123,8 @@
 .form-check-radio input[type="radio"]:disabled + .form-check-sign::after {
   color: $dark-gray;
 }
+
+.checkbox-wrapper{
+  text-align: left;
+  margin-left: 20%;
+}
