@@ -2698,7 +2698,7 @@ const dijkstra = (graph, start, end) => {
 const dijkCoords = (path) => {
   
   const results = [];
-  console.log('path:', path);
+  // console.log('path:', path);
   for (const node of path) {
     // ['e1', 'e2', 'e3']
     // console.log('node', node);
