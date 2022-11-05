@@ -184,14 +184,6 @@ const graph = {
 }
 
 const dijkNodes = {
-  /* necessary format for node:
-
-  'a1': {
-    x: 0,
-    y: 0
-  }
-
-  */
   
   // Entrances
   e1: {
@@ -1346,8 +1338,8 @@ const createDijkNodes = () => {
   
   const coordsResult = {};
 
-  for (let i = 50; i >= 0; i--) {
-    coordsResult[`j${i}`] = {x: 587 - (i * 4.54), y: 195, name: `j${i}`};
+  for (let i = 135; i >= 0; i--) {
+    coordsResult[`g${i}`] = {y: 442.43 - (i * 2.27), x: 60.360000000000014, name: `g${i}`};
   }
 
   return coordsResult;
@@ -1355,6 +1347,18 @@ const createDijkNodes = () => {
   // {e1: { e2: 10 }, e2: { e1: 10, e3: 10 }}
 }
 
+const createNewGraph = () => {
+  const results = {};
+
+  for (let i = 135; i >= 0; i--) {
+    results[`g${i}`] = '';
+  }
+
+  return results;
+}
+
+console.log("newNodes returns:", createDijkNodes());
+console.log("newGraph returns:", createNewGraph());
 
 // insert node names here to find weight
 const node1 = 'e3';

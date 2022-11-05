@@ -10,6 +10,7 @@ import {
   routeStr, // ['e3', 'j23', 'j22', 'j21', etc...]
   routeCoords // [ [195, 587], [195, 580], [195, 570], etc...]
 } from 'helpers/dijkstra';
+import {newNodes, newGraph} from '../helpers/demoNav/graphNodes.js'
 
 // custom icon for current location
 const iconPerson = new L.Icon({
@@ -45,9 +46,9 @@ const LogCoordinates = () => {
 const MapWrapper = (props) => {
 
   // graph visualizer
-  const graphNodes = Object.keys(graph);
+  const graphNodes = Object.keys(newGraph);
   // console.log('graphNodes', graphNodes)
-  console.log('conversion:', dijkNodes[graphNodes[0]].y)
+  // console.log('conversion:', dijkNodes[graphNodes[0]].y)
   //
 
   // declaration of some state
@@ -443,11 +444,11 @@ const MapWrapper = (props) => {
       {/* graph visualizer */}
       {graphNodes.map(node => {
         // console.log('placing marker ', node, ' at ', [dijkNodes[node].y, dijkNodes[node].x])
-        return <Marker position={[dijkNodes[node].y, dijkNodes[node].x]}>
+        return <Marker position={[newNodes[node].y, newNodes[node].x]}>
           <Popup>
             name: {node} <br />
-            y: {dijkNodes[node].y} <br /> 
-            x: {dijkNodes[node].x}
+            y: {newNodes[node].y} <br /> 
+            x: {newNodes[node].x}
           </Popup>
         </Marker>
       })}
