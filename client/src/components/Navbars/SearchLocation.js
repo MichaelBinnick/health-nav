@@ -86,6 +86,7 @@ export default function SearchLocation() {
             options={navLocations}
             onChange={onChangeHandlerStart}
             value={start.e}
+            autosize={true}
           ></Select>
         </Col>
         <Col>
@@ -95,6 +96,7 @@ export default function SearchLocation() {
             options={navLocations}
             onChange={onChangeHandlerEnd}
             value={end.e}
+            
           ></Select>
         </Col>
         <Col xs={{ order: "last" }}>
