@@ -47,7 +47,15 @@ const LogCoordinates = () => {
 const MapWrapper = (props) => {
 
   // graph visualizer
-  const graphNodes = Object.keys(graph);
+  const graphNodes1 = Object.keys(graph);
+  const graphNodes = [
+    'y1', 'y2', 'y3', 'y4', 'y5', 'y6',
+    'z1', 'z2', 'z3', 'z4', 'z5', 'z6',
+    'v1', 'v2', 'v3',
+    'er1',
+    'rr1', 'rr2', 'rr3', 'rr4', 'rr5',
+    's1', 's2', 's3'
+  ]
 
   // declaration of some state
   const [currentLine, setCurrentLine] = useState([]);
@@ -474,7 +482,18 @@ const MapWrapper = (props) => {
       
 
       {/* graph visualizer */}
-      {/* {graphNodes.map(node => {
+      {graphNodes.map(node => {
+        // console.log('placing marker ', node, ' at ', [dijkNodes[node].y, dijkNodes[node].x])
+        return <Marker position={[dijkNodes[node].y, dijkNodes[node].x]} icon={iconPerson}>
+          <Popup>
+            name: {node} <br />
+            y: {dijkNodes[node].y} <br /> 
+            x: {dijkNodes[node].x}
+          </Popup>
+        </Marker>
+      })}
+
+      {graphNodes1.map(node => {
         // console.log('placing marker ', node, ' at ', [dijkNodes[node].y, dijkNodes[node].x])
         return <Marker position={[dijkNodes[node].y, dijkNodes[node].x]}>
           <Popup>
@@ -483,7 +502,7 @@ const MapWrapper = (props) => {
             x: {dijkNodes[node].x}
           </Popup>
         </Marker>
-      })} */}
+      })}
 
     </MapContainer>
   );
