@@ -10,7 +10,6 @@ import {
   routeStr, // ['e3', 'j23', 'j22', 'j21', etc...]
   routeCoords // [ [195, 587], [195, 580], [195, 570], etc...]
 } from 'helpers/dijkstra';
-import {newNodes, newGraph} from '../helpers/demoNav/graphNodes.js'
 
 // custom icon for current location
 const iconPerson = new L.Icon({
@@ -73,10 +72,10 @@ const MapWrapper = (props) => {
         setCurrentLocation(shiftDemoPath[0]);
         
         // redraw the nav line based on current location
-        console.log('endLine: coords', dijkNodes[demoPath[demoPath.length -1]]);
-        console.log('startLine coords:', dijkNodes[currentLocation]);
-        console.log('dijk work?', dijkstra(newGraph, currentLocation, demoPath[demoPath.length -1]).path)
-        setCurrentLine(dijkCoords(dijkstra(newGraph, currentLocation, demoPath[demoPath.length -1])));
+        console.log('endStr', demoPath[demoPath.length -1]);
+        console.log('startStr:', currentLocation);
+        // console.log('dijk work?', dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path)
+        setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1])));
         
   
         // logic to take when demo is over (cleanup)
