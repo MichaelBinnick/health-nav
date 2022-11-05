@@ -45,7 +45,7 @@ const LogCoordinates = () => {
 const MapWrapper = (props) => {
 
   // graph visualizer
-  // const graphNodes = Object.keys(newGraph);
+  const graphNodes = Object.keys(graph);
 
   // declaration of some state
   const [currentLine, setCurrentLine] = useState([]);
@@ -88,7 +88,7 @@ const MapWrapper = (props) => {
     
     // hardcoded nav demo w. dummy user (triggers on button click)
     if (navigatingDemo) {
-      navDemo(100);
+      navDemo(50);
     }
   })
   
@@ -438,11 +438,11 @@ const MapWrapper = (props) => {
       {/* graph visualizer */}
       {/* {graphNodes.map(node => {
         // console.log('placing marker ', node, ' at ', [dijkNodes[node].y, dijkNodes[node].x])
-        return <Marker position={[newNodes[node].y, newNodes[node].x]}>
+        return <Marker position={[dijkNodes[node].y, dijkNodes[node].x]}>
           <Popup>
             name: {node} <br />
-            y: {newNodes[node].y} <br /> 
-            x: {newNodes[node].x}
+            y: {dijkNodes[node].y} <br /> 
+            x: {dijkNodes[node].x}
           </Popup>
         </Marker>
       })} */}
