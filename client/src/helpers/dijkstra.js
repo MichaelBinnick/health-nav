@@ -75,7 +75,7 @@ const graph = {
   v1: { z14: 8 },
   v2: { z3: 9 },
   v3: { z26: 8 },
-  v4: { },
+  // v4: { },
   // //Emergency
   er1: { t1: 10 },
   //RestRooms
@@ -1296,15 +1296,15 @@ const dijkCoords = (path) => {
 
 // this is the test route data we use for the demo
 
-const polyTest2Str = dijkCoords(crossRoad.path).path;
+// const polyTest2Str = dijkCoords(crossRoad.path).path;
 const polyTest2Coords = dijkCoords(crossRoad.path).results;
 
 
-const polyTest3Str = dijkCoords(lost.path).path;
+// const polyTest3Str = dijkCoords(lost.path).path;
 const polyTest3Coords = dijkCoords(lost.path).results;
 
 
-const polyTest4Str = dijkCoords(redirect.path).path;
+// const polyTest4Str = dijkCoords(redirect.path).path;
 const polyTest4Coords = dijkCoords(redirect.path).results;
 
 // routeStr - an array of strings, where each item is the name of a node (e.g. 'er1')
@@ -1322,7 +1322,7 @@ const routeStr = [
   't20', 't19', 't18', 't17', 't16', 't15', 't14', 't13',
   't12', 't11', 't10', 't9',  't8',  't7',  't6',  't5',
   't4',  't3',  't2',  't1',  'er1'
-]
+];
 const routeCoords = polyTest2Coords.concat(polyTest3Coords.concat(polyTest4Coords));
 // const testPolyline = dijkCoords(tester.path);
 // console.log('polyline test:', testPolyline);
@@ -1340,13 +1340,29 @@ const nodeWeights = (node1, node2) => {
   return weight;
 }
 
+// create graph nodes function
+const createDijkNodes = () => {
+  // 587 - 360, 23 node currently
+  
+  const coordsResult = {};
+
+  for (let i = 50; i >= 0; i--) {
+    coordsResult[`j${i}`] = {x: 587 - (i * 4.54), y: 195, name: `j${i}`};
+  }
+
+  return coordsResult;
+  // output should be in form:
+  // {e1: { e2: 10 }, e2: { e1: 10, e3: 10 }}
+}
+
+
 // insert node names here to find weight
 const node1 = 'e3';
 const node2 = 'er1';
 
 nodeWeights(node1, node2);
 
-console.log('route is:', routeStr);
+// console.log('route is:', routeStr);
 
 module.exports = { 
   graph, 

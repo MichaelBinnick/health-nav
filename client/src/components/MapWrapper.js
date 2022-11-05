@@ -44,6 +44,12 @@ const LogCoordinates = () => {
 // this is the component
 const MapWrapper = (props) => {
 
+  // graph visualizer
+  const graphNodes = Object.keys(graph);
+  // console.log('graphNodes', graphNodes)
+  console.log('conversion:', dijkNodes[graphNodes[0]].y)
+  //
+
   // declaration of some state
   const [currentLine, setCurrentLine] = useState([]);
   
@@ -433,6 +439,19 @@ const MapWrapper = (props) => {
         icon={iconPerson}
       />}
       
+
+      {/* graph visualizer */}
+      {graphNodes.map(node => {
+        // console.log('placing marker ', node, ' at ', [dijkNodes[node].y, dijkNodes[node].x])
+        return <Marker position={[dijkNodes[node].y, dijkNodes[node].x]}>
+          <Popup>
+            name: {node} <br />
+            y: {dijkNodes[node].y} <br /> 
+            x: {dijkNodes[node].x}
+          </Popup>
+        </Marker>
+      })}
+
     </MapContainer>
   )
 }
