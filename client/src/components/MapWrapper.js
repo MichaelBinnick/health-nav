@@ -129,6 +129,14 @@ const MapWrapper = (props) => {
 
   })
   
+  // this logic is important for selecting a location based on what's chosen in directory ("locations" in sidebar)
+  let defaultLocation = props.locationId;
+  if (defaultLocation) {
+    let locationSplit = defaultLocation.split('');
+    locationSplit[0] = locationSplit[0].toUpperCase();
+    defaultLocation = locationSplit.join('');
+    console.log('defaultLocation:', defaultLocation);
+  }
   
   const dropdownSelected = props.dropdownName;
   console.log("dropdownSelected:", dropdownSelected);
@@ -137,7 +145,7 @@ const MapWrapper = (props) => {
   
   
   // more state
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
   const [currentLocation, setCurrentLocation] = useState(routeStr[0]);
   
   // const [navPath, setNavPath] = useState([]);
@@ -148,16 +156,6 @@ const MapWrapper = (props) => {
   // options required for drawing map
   const center = [300, 300];
   const bound = [[0, 0], [600, 600]];
-  // this logic is important for selecting a location based on what's chosen in directory ("locations" in sidebar)
-  let defaultLocation = props.locationId;
-  if (defaultLocation) {
-    let locationSplit = defaultLocation.split('');
-    // locationSplit[0] = locationSplit[0].toUpperCase();
-    defaultLocation = locationSplit.join('');
-    console.log('defaultLocation:', defaultLocation);
-    setSelectedLocation(defaultLocation);
-
-  }
   
   // dimensions for room overlays/polygons
   const polys = {
@@ -482,7 +480,7 @@ const MapWrapper = (props) => {
       />}
       
 
-      {/* graph visualizer */}
+      {/* graph visualizer loops */}
       {/* {graphNodes.map(node => {
         // console.log('placing marker ', node, ' at ', [dijkNodes[node].y, dijkNodes[node].x])
         return <Marker position={[dijkNodes[node].y, dijkNodes[node].x]} icon={iconPerson}>
