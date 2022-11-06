@@ -8,7 +8,6 @@ import {
   dijkstra,
   dijkCoords,
   routeStr, // ['e3', 'j23', 'j22', 'j21', etc...]
-  routeCoords // [ [195, 587], [195, 580], [195, 570], etc...]
 } from 'helpers/dijkstra';
 
 
@@ -463,7 +462,7 @@ const MapWrapper = (props) => {
       <LogCoordinates />
 
       {/* render polyline conditionally based on navigating state (true/false) */}
-      {navigatingDemo && <Polyline 
+      {navigatingDemo && <Polyline
         positions={currentLine} 
         color='blue'
         weight={5}
@@ -482,7 +481,7 @@ const MapWrapper = (props) => {
       
 
       {/* graph visualizer */}
-      {graphNodes.map(node => {
+      {/* {graphNodes.map(node => {
         // console.log('placing marker ', node, ' at ', [dijkNodes[node].y, dijkNodes[node].x])
         return <Marker position={[dijkNodes[node].y, dijkNodes[node].x]} icon={iconPerson}>
           <Popup>
@@ -491,9 +490,9 @@ const MapWrapper = (props) => {
             x: {dijkNodes[node].x}
           </Popup>
         </Marker>
-      })}
+      })} */}
 
-      {graphNodes1.map(node => {
+      {/* {graphNodes1.map(node => {
         // console.log('placing marker ', node, ' at ', [dijkNodes[node].y, dijkNodes[node].x])
         return <Marker position={[dijkNodes[node].y, dijkNodes[node].x]}>
           <Popup>
@@ -502,7 +501,7 @@ const MapWrapper = (props) => {
             x: {dijkNodes[node].x}
           </Popup>
         </Marker>
-      })}
+      })} */}
 
     </MapContainer>
   );
