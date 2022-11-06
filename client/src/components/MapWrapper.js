@@ -129,34 +129,36 @@ const MapWrapper = (props) => {
 
   })
   
-  // this logic is important for selecting a location based on what's chosen in directory ("locations" in sidebar)
-  let defaultLocation = props.locationId;
-  if (defaultLocation) {
-    let locationSplit = defaultLocation.split('');
-    locationSplit[0] = locationSplit[0].toUpperCase();
-    defaultLocation = locationSplit.join('');
-    console.log('defaultLocation:', defaultLocation);
-  }
   
   const dropdownSelected = props.dropdownName;
   console.log("dropdownSelected:", dropdownSelected);
-
+  
   // declaration of states
-
-        
+  
+  
   // more state
-  const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
+  const [selectedLocation, setSelectedLocation] = useState('');
   const [currentLocation, setCurrentLocation] = useState(routeStr[0]);
-
+  
   // const [navPath, setNavPath] = useState([]);
   // const [navigating, setNavigating] = useState(true);
   const [demoPath, setDemoPath] = useState([...routeStr]);
   const [navigatingDemo, setNavigatingDemo] = useState(false);
-        
+  
   // options required for drawing map
   const center = [300, 300];
   const bound = [[0, 0], [600, 600]];
+  // this logic is important for selecting a location based on what's chosen in directory ("locations" in sidebar)
+  let defaultLocation = props.locationId;
+  if (defaultLocation) {
+    let locationSplit = defaultLocation.split('');
+    // locationSplit[0] = locationSplit[0].toUpperCase();
+    defaultLocation = locationSplit.join('');
+    console.log('defaultLocation:', defaultLocation);
+    setSelectedLocation(defaultLocation);
 
+  }
+  
   // dimensions for room overlays/polygons
   const polys = {
     /* bounds for location polygons
@@ -395,7 +397,7 @@ const MapWrapper = (props) => {
   };
 
   // variable created for readability; look up selectedLocation in locations object
-  const currentDest = locations[selectedLocation];
+  // const locations[selectedLocation] = locations[selectedLocation];
 
   // this is necessary to iterate over each Polygon and draw them
   const polyNames = Object.keys(polys);
@@ -435,10 +437,10 @@ const MapWrapper = (props) => {
       {/* this highlights the selected room and creates a marker in it with more information on click */}
       {selectedLocation && <Polygon positions={polys[selectedLocation]} key={polys[selectedLocation]} />}
       {selectedLocation && !navigatingDemo &&
-        <Popup position={[currentDest.y + 20, currentDest.x]}>
-          <strong>{currentDest.name.toUpperCase()}</strong> <br />
+        <Popup position={[locations[selectedLocation].y + 20, locations[selectedLocation].x]}>
+          <strong>{locations[selectedLocation].name.toUpperCase()}</strong> <br />
           Hours of Operation: <br />
-          {currentDest.open} - {currentDest.close} <br />
+          {locations[selectedLocation].open} - {locations[selectedLocation].close} <br />
         </Popup>
       }
 

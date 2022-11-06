@@ -21,6 +21,7 @@ import Icons from "views/Icons.js";
 import TableList from "views/TableList.js";
 import Maps from "views/Maps.js";
 import UserPage from "views/UserPage.js";
+import MapsNav from "views/MapsNav.js"
 
 const dashRoutes = [
 
@@ -36,6 +37,15 @@ const dashRoutes = [
     name: "Map1",
     icon: "location_map-big",
     component: Maps,
+    layout: "/admin",
+    invisible: true
+  },
+
+  {
+    path: "/nav/:start/:end",
+    name: "NavSearch",
+    icon: "location_map-big",
+    component: MapsNav,
     layout: "/admin",
     invisible: true
   },

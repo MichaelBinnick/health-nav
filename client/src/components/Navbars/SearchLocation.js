@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import { Row, Col, Button, Container } from "reactstrap";
 import Select from "react-select";
 import MapWrapper from "components/MapWrapper";
+import { Link } from "react-router-dom";
 
 // dijk helpers
 import {
@@ -98,9 +99,12 @@ export default function SearchLocation() {
           ></Select>
         </Col>
         <Col xs={{ order: "last" }}>
-          <Button className="btn-round" onClick={goHandler}>
-            Go
-          </Button>
+          
+          <Link to={"/admin/nav/" + start + "/" + end}>
+            <Button className="btn-round" >Go</Button>
+          </Link>
+          
+          
         </Col>
         <MapWrapper start={start} end={end} goHandler={goHandler}/>
       </Row>
