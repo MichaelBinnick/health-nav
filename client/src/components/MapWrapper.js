@@ -58,14 +58,6 @@ const MapWrapper = (props) => {
 
   // declaration of some state
   const [currentLine, setCurrentLine] = useState([]);
-  
-  //state of start passed down as props
-  const startSelected = props.start;
-  // console.log("startSelected:", startSelected);
-
-  //state of end passed down as props
-  const endSelected = props.end;
-  // console.log("endSelected:", endSelected);
 
   // test data for polyline
   const testPolyline = [
@@ -242,14 +234,14 @@ const MapWrapper = (props) => {
       navDemo(50);
     }
 
-    if (props.start) {
+    // set state based on navBar selections
+    if (props.start && !navigatingDemo) {
       setCurrentLocation(props.start);
     }
-
-    if (props.end) {
+    // same but for endpoint
+    if (props.end && !navigatingDemo) {
       setEndpoint(props.end);
       setSelectedLocation(formatEndpoint(props.end));
-      // setCurrentLine(dijkCoords(dijkstra(graph, 'z2', 'z1').path).results);
     }
 
   })
@@ -276,7 +268,7 @@ const MapWrapper = (props) => {
   // const [navigating, setNavigating] = useState(true);
   const [demoPath, setDemoPath] = useState([...routeStr]);
   const [navigatingDemo, setNavigatingDemo] = useState(false);
-  
+
   // options required for drawing map
   const center = [300, 300];
   const bound = [[0, 0], [600, 600]];
