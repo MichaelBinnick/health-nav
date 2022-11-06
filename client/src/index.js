@@ -23,6 +23,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./assets/scss/now-ui-dashboard.scss?v1.5.0";
 import "./assets/css/demo.css";
 
+
 import AdminLayout from "./layouts/Admin.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -33,5 +34,6 @@ root.render(
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Redirect to="/admin/maps" />
     </Switch>
+  
   </BrowserRouter>
 );

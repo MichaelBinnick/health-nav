@@ -28,6 +28,7 @@ import Sidebar from "components/Sidebar/Sidebar";
 import DemoNavbar from "components/Navbars/DemoNavbar";
 import routes from "routes.js";
  
+import NotificationContainer from 'react-notifications';
 let ps;
 
 function Admin(props) {
@@ -76,6 +77,7 @@ function Admin(props) {
           })}
           {/* <Redirect from="/admin" to="/admin/dashboard" /> */}
         </Switch>
+        <NotificationContainer/>
         <Footer fluid />
       </div>
     </div>

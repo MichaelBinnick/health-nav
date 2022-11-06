@@ -35,6 +35,7 @@ import {
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import CovidForm from "components/CovidForm/CovidForm";
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 //import locations from "variables/list_locations";
 import time from "variables/times";
@@ -64,13 +65,16 @@ function User() {
         method: "POST",
         url: "http://localhost:8080/checkin",
         data: formValue,
-      });
 
-      if (response.status === 200) {
-        formValue.message("User created successfully");
-      } else {
-        formValue.message("Some error occured");
-      }
+      });
+      NotificationManager.success('You have added a new book!', 'Successful!', 5000);
+
+      console.log(response.data);
+      // if (response.status === 200) {
+      //   formValue.message("User created successfully");
+      // } else {
+      //   formValue.message("Some error occured");
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -126,6 +130,20 @@ function User() {
   const isCheckedFalse = (isChecked) => {
     return isChecked.every(element => element === false);
   };
+  const customStyles = {
+    control: (css) => ({
+      ...css,
+      width: "22.5em",
+      height: "10px",
+      padding: 0,
+      borderRadius: "30px"
+    }),
+    menu: ({ width, ...css }) => ({
+      ...css,
+      width: 250,
+      minWidth: "20%"
+    }),
+  };
 
 
   return (
@@ -144,17 +162,21 @@ function User() {
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Time</label>
-                        <Select options={hour} onChange={handleTimeChange} ></Select>
+                        <Select
+                          options={hour}
+                          onChange={handleTimeChange}
+                          styles={customStyles}>
+                        </Select>
                       </FormGroup>
                     </Col>
                     <Col md="5">
                       <FormGroup>
                         <label>Appointment Location</label>
-                   
-
-                        
-                        <Select className="selectDropdown" options={locations} onChange={handleLocationChange}></Select>
-                        
+                        <Select
+                          options={locations}
+                          onChange={handleLocationChange}
+                          styles={customStyles}>
+                        </Select>
                       </FormGroup>
                     </Col>
                   </Row>
@@ -244,6 +266,7 @@ function User() {
           </Col>
         </Row>
       </div>
+
     </>
   );
 }

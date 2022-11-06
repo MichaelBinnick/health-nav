@@ -49,9 +49,8 @@ function DemoNavbar(props) {
   const sidebarToggle = React.useRef();
 
   //Displays SearchLocation only on Mpas view
-  const [displaySearch, setDisplaySearch] = useState(false);
   const path = props.location.pathname;
-  console.log("OOOOO", path);
+
 
 
 
@@ -108,9 +107,7 @@ function DemoNavbar(props) {
     >
       <Container fluid>
         <div className="navbar-wrapper">
-
           <div className="navbar-toggle">
-
             <button
               type="button"
               ref={sidebarToggle}
@@ -123,12 +120,15 @@ function DemoNavbar(props) {
             </button>
 
           </div>
-          {path.startsWith("/admin/maps") && <SearchLocation />}
+
 
         </div>
-
+        <NavbarToggler onClick={toggle}>
+<i></i>
+        {/* <FontAwesomeIcon icon="fa-light fa-magnifying-glass-location" /> */}
+        </NavbarToggler>
         <Collapse isOpen={isOpen} navbar className="justify-content-end">
-
+          {path.startsWith("/admin/maps") && <SearchLocation />}
         </Collapse>
       </Container>
     </Navbar>
