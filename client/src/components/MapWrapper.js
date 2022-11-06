@@ -254,7 +254,7 @@ const MapWrapper = (props) => {
     // hardcoded nav demo w. dummy user (triggers on button click)
     if (navigationOn) {
       // console.log('about to nav');
-      navDemo(5);
+      navDemo(50);
     }
 
     // set state based on navBar selections
