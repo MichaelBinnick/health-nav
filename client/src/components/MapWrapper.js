@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { MapContainer, ImageOverlay, useMap, Marker, Popup, Polygon, Polyline } from 'react-leaflet';
 import { CRS } from 'leaflet';
 import * as L from 'leaflet';
@@ -46,34 +46,45 @@ const LogCoordinates = () => {
 const MapWrapper = (props) => {
 
   // graph visualizer
-  const graphNodes1 = Object.keys(graph);
-  const graphNodes = [
-    'y1', 'y2', 'y3', 'y4', 'y5', 'y6',
-    'z1', 'z2', 'z3', 'z4', 'z5', 'z6',
-    'v1', 'v2', 'v3',
-    'er1',
-    'rr1', 'rr2', 'rr3', 'rr4', 'rr5',
-    's1', 's2', 's3'
-  ]
+  // const graphNodes1 = Object.keys(graph);
+  // const graphNodes = [
+  //   'y1', 'y2', 'y3', 'y4', 'y5', 'y6',
+  //   'z1', 'z2', 'z3', 'z4', 'z5', 'z6',
+  //   'v1', 'v2', 'v3',
+  //   'er1',
+  //   'rr1', 'rr2', 'rr3', 'rr4', 'rr5',
+  //   's1', 's2', 's3'
+  // ]
+
+  // this logic is important for selecting a location based on what's chosen in directory ("locations" in sidebar)
+  let defaultLocation = props.locationId;
+  if (defaultLocation) {
+    let locationSplit = defaultLocation.split('');
+    locationSplit[0] = locationSplit[0].toUpperCase();
+    defaultLocation = locationSplit.join('');
+    console.log('defaultLocation:', defaultLocation);
+  }
+
+  // declaration of states
+
+  const [currentLocation, setCurrentLocation] = useState(routeStr[0]);
+  const [endpoint, setEndpoint] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
+
+  const [isDemo, setIsDemo] = useState(true);
+  const [demoPath, setDemoPath] = useState((!props.start && [...routeStr]) || []);
+  const [navigatingDemo, setNavigatingDemo] = useState(false);
 
   // declaration of some state
   const [currentLine, setCurrentLine] = useState([]);
+  const [propLocals, setPropLocals] = useState({start: '', end: ''});
 
-  // test data for polyline
-  const testPolyline = [
-    [190, 585],
-    [203, 505],
-    [190, 482],
-    [195, 365],
-    [220, 360],
-    [350, 360],
-    [340, 206],
-    [346, 62],
-    [450, 60]
-  ];
+  if (!propLocals.start || !propLocals.end) {
+    setPropLocals({start: props.start, end: props.end})
+  }
     
   // logic for demo nav w. dummy user
-  const navDemo = (interval) => {
+  const navDemo = useCallback((interval) => {
     
     // each interval represents a 'step' taken along the path
     setTimeout(() => {
@@ -104,7 +115,7 @@ const MapWrapper = (props) => {
         } 
       } 
     }, interval)  
-  }
+  }, [currentLocation, demoPath])
 
   const formatEndpoint = (nodeName) => {
     let result = "";
@@ -227,6 +238,7 @@ const MapWrapper = (props) => {
     return result;
   }
 
+
   useEffect(() => {
     
     // hardcoded nav demo w. dummy user (triggers on button click)
@@ -235,39 +247,19 @@ const MapWrapper = (props) => {
     }
 
     // set state based on navBar selections
-    if (props.start && !navigatingDemo) {
-      setCurrentLocation(props.start);
+    if (propLocals && !navigatingDemo) {
+      setIsDemo(false);
+      setCurrentLocation(propLocals.start);
+      setEndpoint(propLocals.end);
+      setSelectedLocation(formatEndpoint(endpoint))
     }
-    // same but for endpoint
-    if (props.end && !navigatingDemo) {
-      setEndpoint(props.end);
-      setSelectedLocation(formatEndpoint(props.end));
+    
+    if (endpoint) {
+      setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, endpoint).path).results);
+      setNavigatingDemo(true);
     }
-
-  })
+  }, [currentLocation, endpoint, navDemo, propLocals, navigatingDemo])
   
-  // this logic is important for selecting a location based on what's chosen in directory ("locations" in sidebar)
-  let defaultLocation = props.locationId;
-  if (defaultLocation) {
-    let locationSplit = defaultLocation.split('');
-    locationSplit[0] = locationSplit[0].toUpperCase();
-    defaultLocation = locationSplit.join('');
-    console.log('defaultLocation:', defaultLocation);
-  }
-  
-  
-  // declaration of states
-  
-  
-  // more state
-  const [endpoint, setEndpoint] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
-  const [currentLocation, setCurrentLocation] = useState(routeStr[0]);
-  
-  // const [navPath, setNavPath] = useState([]);
-  // const [navigating, setNavigating] = useState(true);
-  const [demoPath, setDemoPath] = useState([...routeStr]);
-  const [navigatingDemo, setNavigatingDemo] = useState(false);
 
   // options required for drawing map
   const center = [300, 300];
@@ -521,6 +513,7 @@ const MapWrapper = (props) => {
     stroke: false,
     fillOpacity: .0
   };
+
 
   return (
     <MapContainer 
