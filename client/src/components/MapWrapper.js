@@ -118,8 +118,10 @@ const MapWrapper = (props) => {
         if (walkerPath.length === 2) {
           
           setNavigationOn(false);
+          setNavigatingDemo(false);
           setWalkerPath([]);
-          setCurrentLocation(props.start)
+          props.start && setCurrentLocation(props.start);
+          !props.start && setEndpoint('');
           console.log('reached end of demo');
         } 
       } 
@@ -252,11 +254,12 @@ const MapWrapper = (props) => {
     // hardcoded nav demo w. dummy user (triggers on button click)
     if (navigationOn) {
       // console.log('about to nav');
-      navDemo(50);
+      navDemo(5);
     }
 
     // set state based on navBar selections
-    if (propLocals && !navigatingDemo && !navigationOn) {
+    if (propLocals.start && !navigatingDemo && !navigationOn) {
+      console.log('thing happens');
       setCurrentLocation(propLocals.start);
       setEndpoint(propLocals.end);
       setSelectedLocation(formatEndpoint(endpoint))
@@ -265,7 +268,6 @@ const MapWrapper = (props) => {
     if (endpoint) {
       const path = dijkCoords(dijkstra(graph, currentLocation, endpoint).path).results
       setCurrentLine(path);
-      // setNavigationDemo(true);
     }
 
     if (endpoint && walkerPath.length === 0) {
@@ -560,7 +562,7 @@ const MapWrapper = (props) => {
 
       {/* this highlights the selected room and creates a marker in it with more information on click */}
       {selectedLocation && <Polygon positions={polys[selectedLocation]} key={polys[selectedLocation]} />}
-      {selectedLocation && !navigatingDemo &&
+      {selectedLocation && !navigatingDemo && !navigationOn &&
         <Popup position={[locations[selectedLocation].y + 20, locations[selectedLocation].x]}>
           <strong>{locations[selectedLocation].name.toUpperCase()}</strong> <br />
           Hours of Operation: <br />
