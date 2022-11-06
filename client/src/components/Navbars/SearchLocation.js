@@ -124,7 +124,7 @@ export default function SearchLocation() {
           
           
         </Col>
-        <MapWrapper start={start} end={end} goHandler={goHandler}/>
+        
       </Row>
     </Container>
   );
