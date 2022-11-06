@@ -80,7 +80,7 @@ const MapWrapper = (props) => {
   const [walkerPath, setWalkerPath] = useState((navigatingDemo && [...routeStr]) || []);
 
 
-  if (!propLocals.start || !propLocals.end) {
+  if (props.start && (!propLocals.start || !propLocals.end)) {
     setPropLocals({start: props.start, end: props.end})
   }
     
@@ -109,7 +109,9 @@ const MapWrapper = (props) => {
         setCurrentLocation(shiftDemoPath[0]);
         
         // redraw the nav line based on current location
-
+        if (!endpoint) {
+          setEndpoint(walkerPath[walkerPath.length - 1])
+        }
         setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, endpoint).path).results);
         
         // logic to take when demo is over (cleanup)
@@ -117,12 +119,12 @@ const MapWrapper = (props) => {
           
           setNavigationOn(false);
           setWalkerPath([]);
-          setCurrentLocation(propLocals.start)
+          setCurrentLocation(props.start)
           console.log('reached end of demo');
         } 
       } 
     }, interval)  
-  }, [currentLocation, walkerPath, endpoint])
+  }, [currentLocation, walkerPath, endpoint, props.start])
 
   const formatEndpoint = (nodeName) => {
     let result = "";
@@ -550,6 +552,7 @@ const MapWrapper = (props) => {
         eventHandlers={
             {click: () => {
               setNavigatingDemo(true);
+              setNavigationOn(true);
               setSelectedLocation('Emergency');
               setWalkerPath(([...routeStr]));
             }}}
@@ -603,7 +606,7 @@ const MapWrapper = (props) => {
       />}
       
       {/* turn nav on button */}
-      {!navigationOn && <Marker 
+      {!navigationOn && props.start && <Marker 
         position={[400, 500]}
         icon={iconDemo}
         eventHandlers={
