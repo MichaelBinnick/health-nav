@@ -77,9 +77,24 @@ export default function SearchLocation() {
     console.log(go);
   };
 
+  const customStyles={
+    control: (css) => ({
+      ...css,
+      width: 250,
+      height:"10px",
+      padding: 0,
+      borderRadius:"30px"
+    }),
+    menu: ({ width, ...css }) => ({
+      ...css,
+      width: 250,
+      minWidth: "20%"
+    }),
+  }
+
   return (
     <Container md="12">
-      <Row className="row-cols-lg-auto g-3 align-items-center">
+      <Row className="row-cols-lg-auto g-0 align-items-center">
         <Col xs={{ order: "first" }}>
           <Select
             className="description"
@@ -87,15 +102,18 @@ export default function SearchLocation() {
             options={navLocations}
             onChange={onChangeHandlerStart}
             value={start.e}
+            styles={customStyles}
           ></Select>
         </Col>
         <Col>
           <Select
-            className="description"
+            className="description selectNav"
+            width='200px'
             placeholder="Destination"
             options={navLocations}
             onChange={onChangeHandlerEnd}
             value={end.e}
+            styles={customStyles}
           ></Select>
         </Col>
         <Col xs={{ order: "last" }}>

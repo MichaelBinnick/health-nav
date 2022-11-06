@@ -16,7 +16,7 @@
 
 */
 
-// import Notifications from "views/Notifications.js";
+
 import Icons from "views/Icons.js";
 import TableList from "views/TableList.js";
 import Maps from "views/Maps.js";
