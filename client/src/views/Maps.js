@@ -29,7 +29,7 @@ function FullScreenMap() {
   const locationId = params.name
   const start = params.start
   const end = params.end
-  console.log("LOCATION:", params)
+  // console.log("LOCATION:", params)
   return (
     <>
       <PanelHeader size="sm" />
