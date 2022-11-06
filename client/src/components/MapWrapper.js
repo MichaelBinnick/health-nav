@@ -71,13 +71,14 @@ const MapWrapper = (props) => {
   const [endpoint, setEndpoint] = useState('');
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
 
-  const [isDemo, setIsDemo] = useState(true);
-  const [demoPath, setDemoPath] = useState((!props.start && [...routeStr]) || []);
   const [navigatingDemo, setNavigatingDemo] = useState(false);
-
-  // declaration of some state
+  const [navigationOn, setNavigationOn] = useState(false);
+  
   const [currentLine, setCurrentLine] = useState([]);
   const [propLocals, setPropLocals] = useState({start: '', end: ''});
+
+  const [walkerPath, setWalkerPath] = useState((navigatingDemo && [...routeStr]) || []);
+
 
   if (!propLocals.start || !propLocals.end) {
     setPropLocals({start: props.start, end: props.end})
@@ -90,32 +91,37 @@ const MapWrapper = (props) => {
     setTimeout(() => {
       
       // once demoPath is 1, we don't want to continue
-      if (demoPath.length > 1) {
-
+      
+      if (walkerPath.length > 1) {
+        
         // create shallow copy of demo path
-        const shiftDemoPath = [...demoPath];
-  
+        const shiftDemoPath = [...walkerPath];
         // remove first element of copy to indicate step taken
+        
         shiftDemoPath.shift();
-  
+        
+        
         // reset demoPath state to be new reduced path
-        setDemoPath(shiftDemoPath);
+        setWalkerPath(shiftDemoPath);
         
         // change current location to indicate step taken
+        
         setCurrentLocation(shiftDemoPath[0]);
         
         // redraw the nav line based on current location
-        setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results);
+
+        setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, endpoint).path).results);
         
+        console.log('walkerPath.length:', walkerPath.length);
         // logic to take when demo is over (cleanup)
-        if (demoPath.length === 2) {
-          setNavigatingDemo(false);
-          setDemoPath([]);
+        if (walkerPath.length === 1) {
+          setNavigationOn(false);
+          setWalkerPath([]);
           console.log('reached end of demo');
         } 
       } 
     }, interval)  
-  }, [currentLocation, demoPath])
+  }, [currentLocation, walkerPath, endpoint])
 
   const formatEndpoint = (nodeName) => {
     let result = "";
@@ -238,27 +244,34 @@ const MapWrapper = (props) => {
     return result;
   }
 
-
   useEffect(() => {
     
     // hardcoded nav demo w. dummy user (triggers on button click)
-    if (navigatingDemo) {
+    if (navigationOn) {
+      console.log('about to nav');
       navDemo(50);
     }
 
     // set state based on navBar selections
     if (propLocals && !navigatingDemo) {
-      setIsDemo(false);
       setCurrentLocation(propLocals.start);
       setEndpoint(propLocals.end);
       setSelectedLocation(formatEndpoint(endpoint))
     }
     
     if (endpoint) {
-      setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, endpoint).path).results);
-      setNavigatingDemo(true);
+      const path = dijkCoords(dijkstra(graph, currentLocation, endpoint).path).results
+      setCurrentLine(path);
+      // setNavigationDemo(true);
     }
-  }, [currentLocation, endpoint, navDemo, propLocals, navigatingDemo])
+
+    if (endpoint && walkerPath.length === 0) {
+      console.log('setting walker path');
+      console.log('current', currentLocation);
+      console.log('end', endpoint)
+      setWalkerPath(dijkstra(graph, currentLocation, endpoint).path);
+    }
+  }, [currentLocation, endpoint, navDemo, propLocals, navigatingDemo, navigationOn, walkerPath])
   
 
   // options required for drawing map
@@ -530,14 +543,14 @@ const MapWrapper = (props) => {
       <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
 
       {/* Button start navDemo onClick */}
-      {!navigatingDemo && <Marker
+      {!navigatingDemo && !props.start && <Marker
         icon={iconDemo}
         position={[480, 500]} 
         eventHandlers={
             {click: () => {
               setNavigatingDemo(true);
               setSelectedLocation('Emergency');
-              setDemoPath(([...routeStr]));
+              setWalkerPath(([...routeStr]));
             }}}
       />}
 
@@ -571,7 +584,7 @@ const MapWrapper = (props) => {
       <LogCoordinates />
 
       {/* render polyline conditionally based on navigating state (true/false) */}
-      {navigatingDemo && <Polyline
+      {navigationOn && <Polyline
         positions={currentLine} 
         color='blue'
         weight={5}
@@ -588,6 +601,15 @@ const MapWrapper = (props) => {
         icon={iconPerson}
       />}
       
+      {/* turn nav on button */}
+      {!navigationOn && <Marker 
+        position={[400, 500]}
+        icon={iconDemo}
+        eventHandlers={
+          {click: () => {
+            setNavigationOn(true);
+          }}}
+      />}
 
       {/* graph visualizer loops */}
       {/* {graphNodes.map(node => {

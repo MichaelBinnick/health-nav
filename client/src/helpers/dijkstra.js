@@ -1162,7 +1162,7 @@ const dijkNodes = {
   },
   //  Health-Services
   z1: {
-    name: 'pediatric - prep & recovery / h1',
+    name: 'pediatric - prep & recovery / z1',
     x: 120,
     y: 225,
     open: "9am",
