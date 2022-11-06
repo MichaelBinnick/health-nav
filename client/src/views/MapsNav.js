@@ -26,10 +26,8 @@ import MapWrapper from "components/MapWrapper";
 
 function FullScreenMap() {
   const params = useParams()
-  const locationId = params.name
   const start = params.start
   const end = params.end
-  console.log("LOCATION:", params)
   return (
     <>
       <PanelHeader size="sm" />
@@ -44,7 +42,7 @@ function FullScreenMap() {
                   className="map"
                   // style={{ position: "relative", overflow: "hidden" }}
                 >
-                  <MapWrapper locationId={locationId} start={start} end={end}/>
+                  <MapWrapper start={start} end={end}/>
                 </div>
               </CardBody>
             </Card>
