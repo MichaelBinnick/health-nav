@@ -115,7 +115,7 @@ export default function SearchLocation() {
             styles={customStyles}
           ></Select>
         </Col>
-        <Col xs={{ order: "last" }}>
+        <Col >
           <Button className="btn-round" onClick={goHandler}>
             Go
           </Button>

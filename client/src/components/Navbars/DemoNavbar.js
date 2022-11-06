@@ -37,7 +37,7 @@ import {
 import Select from "react-select";
 import routes from "routes.js";
 import SearchLocation from "./SearchLocation";
-
+import {ReactComponent as Logo} from './search_ideogra.svg'
 
 
 
@@ -118,14 +118,11 @@ function DemoNavbar(props) {
               <span className="navbar-toggler-bar bar2" />
               <span className="navbar-toggler-bar bar3" />
             </button>
-
           </div>
-
-
         </div>
         <NavbarToggler onClick={toggle}>
-<i></i>
-        {/* <FontAwesomeIcon icon="fa-light fa-magnifying-glass-location" /> */}
+          <Logo margin-rigth={"20px"} height={30}/>
+      
         </NavbarToggler>
         <Collapse isOpen={isOpen} navbar className="justify-content-end">
           {path.startsWith("/admin/maps") && <SearchLocation />}
