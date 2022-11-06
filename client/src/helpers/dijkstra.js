@@ -3180,7 +3180,7 @@ const createNewGraph = () => {
   return results.reverse();
 }
 
-console.log('path segment:', createNewGraph())
+// console.log('path segment:', createNewGraph())
 
 
 // console.log('route is:', routeStr);

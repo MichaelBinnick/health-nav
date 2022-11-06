@@ -61,14 +61,12 @@ const MapWrapper = (props) => {
   
   //state of start passed down as props
   const startSelected = props.start;
-  console.log("startSelected:", startSelected);
+  // console.log("startSelected:", startSelected);
 
   //state of end passed down as props
   const endSelected = props.end;
-  console.log("endSelected:", endSelected);
+  // console.log("endSelected:", endSelected);
 
-  const navGo = props.goHandler;
-  console.log("goHandler:", navGo)
   // test data for polyline
   const testPolyline = [
     [190, 585],
@@ -105,7 +103,7 @@ const MapWrapper = (props) => {
         
         // redraw the nav line based on current location
         setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results);
-
+        
         // logic to take when demo is over (cleanup)
         if (demoPath.length === 2) {
           setNavigatingDemo(false);
@@ -118,70 +116,123 @@ const MapWrapper = (props) => {
 
   const formatEndpoint = (nodeName) => {
     let result = "";
+
+    // entrances
     if (nodeName[0] === 'y') {
+
       if (nodeName[1] === "1") {
+        // pediatric - front door left
         result = '';
+
       } else if (nodeName[1] === '2') {
+        // adult/inpatient - front door right
         result = '';
+
       } else if (nodeName[1] === '3') {
+        // inpatient - far right
         result = '';
+
       } else if (nodeName[1] === '4') {
+        // dietary - upper right corner
         result = '';
+
       } else if (nodeName[1] === '5') {
+        // er - upper left corner
         result = '';
+
       } else if (nodeName[1] === '6') {
-        result = '';
+        // front doors - 
+        result = 'Front doors';
       } 
     }
+
+    // health services
     if (nodeName[0] === 'z') {
+
       if (nodeName[1] === "1") {
+        // pediatric - prep
+        result = "Pediatric - Prep & Recovery";
 
       } else if (nodeName[1] === '2') {
+        // adult - prep
+        result = "Adult - Prep & Recovery";
 
       } else if (nodeName[1] === '3') {
+        // lab
+        result = "Lab";
 
       } else if (nodeName[1] === '4') {
+        // imaging
+        result = "Imaging";
 
       } else if (nodeName[1] === '5') {
+        // surgery
+        result = "Surgery";
 
       } else if (nodeName[1] === '6') {
-
+        // inpatient
+        result = "Inpatient";
       } 
     }
+
+    // waiting and admin
     if (nodeName[0] === 'v') {
+
       if (nodeName[1] === "1") {
-
+        // admin
+        result = "Admin";
       } else if (nodeName[1] === '2') {
-
+        // pediatric - waiting
+        result = "Pediatric - Waiting";
       } else if (nodeName[1] === '3') {
-
+        // adult - waiting
+        result = "Adult";
       }
     }
+
+    // er
     if (nodeName === 'er1') {
-      
+      // emergency
+      result = "Emergency";
     }
+
+    // restrooms
     if (nodeName[0] === 'r' && nodeName[1] === 'r') {
+
       if (nodeName[2] === "1") {
+        // no poly yet
 
       } else if (nodeName[2] === '2') {
+        // no poly yet
 
       } else if (nodeName[2] === '3') {
+        // no poly yet
 
       } else if (nodeName[2] === '4') {
+        // no poly yet
 
       } else if (nodeName[2] === '5') {
+        // no poly yet
 
       }
     }
+
+    // staff
     if (nodeName[0] === 's') {
+
       if (nodeName[1] === "1") {
-
+        // staff
+        result = "Staff";
       } else if (nodeName[1] === '2') {
-
+        // utility
+        result = "Utility";
       } else if (nodeName[1] === '3') {
-
+        // dietary
+        result = "Dietary";
       }
     }
+
+    return result;
   }
 
   useEffect(() => {
@@ -192,11 +243,13 @@ const MapWrapper = (props) => {
     }
 
     if (props.start) {
-      setCurrentLocation(props.start)
+      setCurrentLocation(props.start);
     }
 
     if (props.end) {
-      
+      setEndpoint(props.end);
+      setSelectedLocation(formatEndpoint(props.end));
+      // setCurrentLine(dijkCoords(dijkstra(graph, 'z2', 'z1').path).results);
     }
 
   })
@@ -210,14 +263,12 @@ const MapWrapper = (props) => {
     console.log('defaultLocation:', defaultLocation);
   }
   
-  const dropdownSelected = props.dropdownName;
-  console.log("dropdownSelected:", dropdownSelected);
   
   // declaration of states
   
   
   // more state
-  const [endpoint, setEndpoint]
+  const [endpoint, setEndpoint] = useState('');
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
   const [currentLocation, setCurrentLocation] = useState(routeStr[0]);
   
