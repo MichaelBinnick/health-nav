@@ -150,6 +150,9 @@ function User() {
     <>
       <PanelHeader size="sm" />
       <div className="content">
+        <div>
+          <NotificationManager></NotificationManager>
+        </div>
         <Row>
           <Col md="12">
             <Card>

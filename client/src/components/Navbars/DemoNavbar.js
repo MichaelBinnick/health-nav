@@ -125,7 +125,7 @@ function DemoNavbar(props) {
       
         </NavbarToggler>
         <Collapse isOpen={isOpen} navbar className="justify-content-end">
-          {path.startsWith("/admin/maps") && <SearchLocation />}
+          {(path.startsWith("/admin/maps") ||path.startsWith("/admin/nav"))  && <SearchLocation />}
         </Collapse>
       </Container>
     </Navbar>
