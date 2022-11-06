@@ -7,8 +7,7 @@ import {
   dijkNodes, 
   dijkstra,
   dijkCoords,
-  routeStr,
-  routeCoords
+  routeStr, // ['e3', 'j23', 'j22', 'j21', etc...]
 } from 'helpers/dijkstra';
 
 
@@ -46,6 +45,20 @@ const LogCoordinates = () => {
 // this is the component
 const MapWrapper = (props) => {
 
+  // graph visualizer
+  const graphNodes1 = Object.keys(graph);
+  const graphNodes = [
+    'y1', 'y2', 'y3', 'y4', 'y5', 'y6',
+    'z1', 'z2', 'z3', 'z4', 'z5', 'z6',
+    'v1', 'v2', 'v3',
+    'er1',
+    'rr1', 'rr2', 'rr3', 'rr4', 'rr5',
+    's1', 's2', 's3'
+  ]
+
+  // declaration of some state
+  const [currentLine, setCurrentLine] = useState([]);
+  
   //state of start passed down as props
   const startSelected = props.start;
   console.log("startSelected:", startSelected);
@@ -68,37 +81,31 @@ const MapWrapper = (props) => {
     [346, 62],
     [450, 60]
   ];
-  
-  // declaration of state
-  const [currentLine, setCurrentLine] = useState(routeCoords);
-
     
   // logic for demo nav w. dummy user
   const navDemo = (interval) => {
-
+    
     // each interval represents a 'step' taken along the path
     setTimeout(() => {
       
       // once demoPath is 1, we don't want to continue
       if (demoPath.length > 1) {
-  
+
         // create shallow copy of demo path
-        const popDemoPath = [...demoPath];
+        const shiftDemoPath = [...demoPath];
   
         // remove first element of copy to indicate step taken
-        popDemoPath.shift();
+        shiftDemoPath.shift();
   
         // reset demoPath state to be new reduced path
-        setDemoPath(popDemoPath);
+        setDemoPath(shiftDemoPath);
+        
+        // change current location to indicate step taken
+        setCurrentLocation(shiftDemoPath[0]);
         
         // redraw the nav line based on current location
         setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, demoPath[demoPath.length -1]).path).results);
-        
-        // change current location to indicate step taken
-        setCurrentLocation(popDemoPath[0]);
-        // console.log('current loc:', currentLocation);
-  
-  
+
         // logic to take when demo is over (cleanup)
         if (demoPath.length === 2) {
           setNavigatingDemo(false);
@@ -113,7 +120,7 @@ const MapWrapper = (props) => {
     
     // hardcoded nav demo w. dummy user (triggers on button click)
     if (navigatingDemo) {
-      navDemo(300);
+      navDemo(50);
     }
 
     if (props.start) {
@@ -122,34 +129,36 @@ const MapWrapper = (props) => {
 
   })
   
+  
+  const dropdownSelected = props.dropdownName;
+  console.log("dropdownSelected:", dropdownSelected);
+  
+  // declaration of states
+  
+  
+  // more state
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const [currentLocation, setCurrentLocation] = useState(routeStr[0]);
+  
+  // const [navPath, setNavPath] = useState([]);
+  // const [navigating, setNavigating] = useState(true);
+  const [demoPath, setDemoPath] = useState([...routeStr]);
+  const [navigatingDemo, setNavigatingDemo] = useState(false);
+  
+  // options required for drawing map
+  const center = [300, 300];
+  const bound = [[0, 0], [600, 600]];
   // this logic is important for selecting a location based on what's chosen in directory ("locations" in sidebar)
   let defaultLocation = props.locationId;
   if (defaultLocation) {
     let locationSplit = defaultLocation.split('');
-    locationSplit[0] = locationSplit[0].toUpperCase();
+    // locationSplit[0] = locationSplit[0].toUpperCase();
     defaultLocation = locationSplit.join('');
     console.log('defaultLocation:', defaultLocation);
+    setSelectedLocation(defaultLocation);
+
   }
   
-  const dropdownSelected = props.dropdownName;
-  console.log("dropdownSelected:", dropdownSelected);
-
-  // declaration of states
-
-        
-  // more state
-  const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
-  const [currentLocation, setCurrentLocation] = useState(routeStr[0]);
-
-  const [navPath, setNavPath] = useState([]);
-  const [navigating, setNavigating] = useState(true);
-  const [demoPath, setDemoPath] = useState([...routeStr]);
-  const [navigatingDemo, setNavigatingDemo] = useState(false);
-        
-  // options required for drawing map
-  const center = [300, 300];
-  const bound = [[0, 0], [600, 600]];
-
   // dimensions for room overlays/polygons
   const polys = {
     /* bounds for location polygons
@@ -388,7 +397,7 @@ const MapWrapper = (props) => {
   };
 
   // variable created for readability; look up selectedLocation in locations object
-  const currentDest = locations[selectedLocation];
+  // const locations[selectedLocation] = locations[selectedLocation];
 
   // this is necessary to iterate over each Polygon and draw them
   const polyNames = Object.keys(polys);
@@ -400,22 +409,23 @@ const MapWrapper = (props) => {
   };
 
   return (
-    <MapContainer
+    <MapContainer 
       bounds={bound}
-      boundsOptions={bound}
-      crs={CRS.Simple}
-      center={center}
+      crs={CRS.Simple} 
+      center={center} 
       zoom={0}
-      scrollWheelZoom={true}
-      style={{ height: "100%" }}
+      scrollWheelZoom={true} 
+      style={{ height: "100%", background: 'white'}}
+      maxBounds={bound}
+      attributionControl={false}
     >
       {/* this is our actual map image */}
-      <ImageOverlay url="../map.png" bounds={bound} />
+      <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
 
       {/* Button start navDemo onClick */}
       {!navigatingDemo && <Marker
         icon={iconDemo}
-        position={[380, 480]} 
+        position={[480, 500]} 
         eventHandlers={
             {click: () => {
               setNavigatingDemo(true);
@@ -427,10 +437,10 @@ const MapWrapper = (props) => {
       {/* this highlights the selected room and creates a marker in it with more information on click */}
       {selectedLocation && <Polygon positions={polys[selectedLocation]} key={polys[selectedLocation]} />}
       {selectedLocation && !navigatingDemo &&
-        <Popup position={[currentDest.y + 20, currentDest.x]}>
-          <strong>{currentDest.name.toUpperCase()}</strong> <br />
+        <Popup position={[locations[selectedLocation].y + 20, locations[selectedLocation].x]}>
+          <strong>{locations[selectedLocation].name.toUpperCase()}</strong> <br />
           Hours of Operation: <br />
-          {currentDest.open} - {currentDest.close} <br />
+          {locations[selectedLocation].open} - {locations[selectedLocation].close} <br />
         </Popup>
       }
 
@@ -454,9 +464,13 @@ const MapWrapper = (props) => {
       <LogCoordinates />
 
       {/* render polyline conditionally based on navigating state (true/false) */}
-      {navigatingDemo && <Polyline 
+      {navigatingDemo && <Polyline
         positions={currentLine} 
-        color='red'
+        color='blue'
+        weight={5}
+        opacity={.7}
+        lineJoin={'bevel'}
+        dashArray={'15'}
         // smoothFactor makes line pathing more direct
         smoothFactor={0}
       />}
@@ -466,6 +480,30 @@ const MapWrapper = (props) => {
         position={[dijkNodes[currentLocation].y, dijkNodes[currentLocation].x]}
         icon={iconPerson}
       />}
+      
+
+      {/* graph visualizer */}
+      {/* {graphNodes.map(node => {
+        // console.log('placing marker ', node, ' at ', [dijkNodes[node].y, dijkNodes[node].x])
+        return <Marker position={[dijkNodes[node].y, dijkNodes[node].x]} icon={iconPerson}>
+          <Popup>
+            name: {node} <br />
+            y: {dijkNodes[node].y} <br /> 
+            x: {dijkNodes[node].x}
+          </Popup>
+        </Marker>
+      })} */}
+
+      {/* {graphNodes1.map(node => {
+        // console.log('placing marker ', node, ' at ', [dijkNodes[node].y, dijkNodes[node].x])
+        return <Marker position={[dijkNodes[node].y, dijkNodes[node].x]}>
+          <Popup>
+            name: {node} <br />
+            y: {dijkNodes[node].y} <br /> 
+            x: {dijkNodes[node].x}
+          </Popup>
+        </Marker>
+      })} */}
 
     </MapContainer>
   );

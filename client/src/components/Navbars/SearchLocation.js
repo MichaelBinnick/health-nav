@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import { Row, Col, Button, Container } from "reactstrap";
 import Select from "react-select";
 import MapWrapper from "components/MapWrapper";
+import { Link } from "react-router-dom";
 
 // dijk helpers
 import {
@@ -18,25 +19,25 @@ import {
 
 const locations = {
   //Entrances
-  1: { label: "Entrance 1", value: "e1" },
-  2: { label: "Entrance 2", value: "e2" },
-  3: { label: "Entrance 3", value: "e3" },
-  4: { label: "Entrance 4", value: "e4" },
-  5: { label: "Entrance 5", value: "e5" },
-  6: { label: "Entrance 6", value: "e6" },
+  1: { label: "Entrance 1", value: "y1" },
+  2: { label: "Entrance 2", value: "y2" },
+  3: { label: "Entrance 3", value: "y3" },
+  4: { label: "Entrance 4", value: "y4" },
+  5: { label: "Entrance 5", value: "y5" },
+  6: { label: "Entrance 6", value: "y6" },
   //Health-Services
-  7: { label: "Prep & Recovery (Pediatric)", value: "h1" },
-  8: { label: "Prep & Recovery (Adult)", value: "h2" },
-  9: { label: "Lab", value: "h3" },
-  10: { label: "Imaging", value: "h4" },
-  11: { label: "Surgery", value: "h5" },
-  12: { label: "Inpatient", value: "h6" },
+  7: { label: "Prep & Recovery (Pediatric)", value: "z1" },
+  8: { label: "Prep & Recovery (Adult)", value: "z2" },
+  9: { label: "Lab", value: "z3" },
+  10: { label: "Imaging", value: "z4" },
+  11: { label: "Surgery", value: "z5" },
+  12: { label: "Inpatient", value: "z6" },
   //Visitor Services
   13: { label: "Admin", value: "v1" },
   14: { label: "Waiting (Pediatric)", value: "v2" },
   15: { label: "Waiting (Adult)", value: "v3" },
   // Emergency
-  16: { label: "Emergency", value: "e1" },
+  16: { label: "Emergency", value: "er1" },
   //Restrooms
   17: { label: "Restroom 1", value: "rr1" },
   18: { label: "Restroom 2", value: "rr2" },
@@ -115,10 +116,13 @@ export default function SearchLocation() {
             styles={customStyles}
           ></Select>
         </Col>
-        <Col >
-          <Button className="btn-round" onClick={goHandler}>
-            Go
-          </Button>
+        <Col xs={{ order: "last" }}>
+          
+          <Link to={"/admin/nav/" + start + "/" + end}>
+            <Button className="btn-round" >Go</Button>
+          </Link>
+          
+          
         </Col>
         <MapWrapper start={start} end={end} goHandler={goHandler}/>
       </Row>
