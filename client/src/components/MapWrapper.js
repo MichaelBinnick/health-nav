@@ -116,6 +116,74 @@ const MapWrapper = (props) => {
     }, interval)  
   }
 
+  const formatEndpoint = (nodeName) => {
+    let result = "";
+    if (nodeName[0] === 'y') {
+      if (nodeName[1] === "1") {
+        result = '';
+      } else if (nodeName[1] === '2') {
+        result = '';
+      } else if (nodeName[1] === '3') {
+        result = '';
+      } else if (nodeName[1] === '4') {
+        result = '';
+      } else if (nodeName[1] === '5') {
+        result = '';
+      } else if (nodeName[1] === '6') {
+        result = '';
+      } 
+    }
+    if (nodeName[0] === 'z') {
+      if (nodeName[1] === "1") {
+
+      } else if (nodeName[1] === '2') {
+
+      } else if (nodeName[1] === '3') {
+
+      } else if (nodeName[1] === '4') {
+
+      } else if (nodeName[1] === '5') {
+
+      } else if (nodeName[1] === '6') {
+
+      } 
+    }
+    if (nodeName[0] === 'v') {
+      if (nodeName[1] === "1") {
+
+      } else if (nodeName[1] === '2') {
+
+      } else if (nodeName[1] === '3') {
+
+      }
+    }
+    if (nodeName === 'er1') {
+      
+    }
+    if (nodeName[0] === 'r' && nodeName[1] === 'r') {
+      if (nodeName[2] === "1") {
+
+      } else if (nodeName[2] === '2') {
+
+      } else if (nodeName[2] === '3') {
+
+      } else if (nodeName[2] === '4') {
+
+      } else if (nodeName[2] === '5') {
+
+      }
+    }
+    if (nodeName[0] === 's') {
+      if (nodeName[1] === "1") {
+
+      } else if (nodeName[1] === '2') {
+
+      } else if (nodeName[1] === '3') {
+
+      }
+    }
+  }
+
   useEffect(() => {
     
     // hardcoded nav demo w. dummy user (triggers on button click)
@@ -125,6 +193,10 @@ const MapWrapper = (props) => {
 
     if (props.start) {
       setCurrentLocation(props.start)
+    }
+
+    if (props.end) {
+      
     }
 
   })
@@ -145,6 +217,7 @@ const MapWrapper = (props) => {
   
   
   // more state
+  const [endpoint, setEndpoint]
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation || '');
   const [currentLocation, setCurrentLocation] = useState(routeStr[0]);
   
