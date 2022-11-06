@@ -92,7 +92,7 @@ const MapWrapper = (props) => {
       
       // once demoPath is 1, we don't want to continue
       
-      if (walkerPath.length > 1) {
+      if (walkerPath.length >= 1) {
         
         // create shallow copy of demo path
         const shiftDemoPath = [...walkerPath];
@@ -112,11 +112,12 @@ const MapWrapper = (props) => {
 
         setCurrentLine(dijkCoords(dijkstra(graph, currentLocation, endpoint).path).results);
         
-        console.log('walkerPath.length:', walkerPath.length);
         // logic to take when demo is over (cleanup)
-        if (walkerPath.length === 1) {
+        if (walkerPath.length === 2) {
+          
           setNavigationOn(false);
           setWalkerPath([]);
+          setCurrentLocation(propLocals.start)
           console.log('reached end of demo');
         } 
       } 
@@ -248,12 +249,12 @@ const MapWrapper = (props) => {
     
     // hardcoded nav demo w. dummy user (triggers on button click)
     if (navigationOn) {
-      console.log('about to nav');
+      // console.log('about to nav');
       navDemo(50);
     }
 
     // set state based on navBar selections
-    if (propLocals && !navigatingDemo) {
+    if (propLocals && !navigatingDemo && !navigationOn) {
       setCurrentLocation(propLocals.start);
       setEndpoint(propLocals.end);
       setSelectedLocation(formatEndpoint(endpoint))
