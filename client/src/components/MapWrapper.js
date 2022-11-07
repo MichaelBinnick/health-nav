@@ -21,9 +21,10 @@ const iconPerson = new L.Icon({
 
 // custom icon for demo button
 const iconDemo = new L.Icon({
-  iconUrl: require('./map-QR.png'),
-  iconRetinaUrl: require('./map-QR.png'),
-  iconSize: [250, 300]
+  iconUrl: require('./map-QR_3.png'),
+  iconRetinaUrl: require('./map-QR_3.png'),
+  iconSize: [250, 250],
+  
 });
 
 
@@ -540,17 +541,18 @@ const MapWrapper = (props) => {
       center={center} 
       zoom={0}
       scrollWheelZoom={true} 
-      style={{ height: "100%", background: 'white'}}
+      style={{ height: "100%", background: "url(" + "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDTlFAm1uUxldhZsCc0PWW4_OclcMcs3h3jg&usqp=CAU.png" + ")", boxShadow: "inset 0 0 100px black" }}
       maxBounds={bound}
       attributionControl={false}
-    >
+      >
+      {/* "url(" + "https://images.pexels.com/photos/6203473/pexels-photo-6203473.jpeg?auto=compress&cs=tinysrgb&w=400" + ")" */}
       {/* this is our actual map image */}
-      <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
+      <ImageOverlay url="../new_map.png" bounds={bound} />
 
       {/* Button start navDemo onClick */}
       {!navigatingDemo && !props.start && <Marker
         icon={iconDemo}
-        position={[480, 500]} 
+        position={[375, 485]} 
         eventHandlers={
             {click: () => {
               setNavigatingDemo(true);
@@ -609,7 +611,7 @@ const MapWrapper = (props) => {
       
       {/* turn nav on button */}
       {!navigationOn && props.start && <Marker 
-        position={[400, 500]}
+        position={[200, 200]}
         icon={iconDemo}
         eventHandlers={
           {click: () => {

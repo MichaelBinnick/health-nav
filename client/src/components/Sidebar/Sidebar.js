@@ -22,7 +22,7 @@ import { Nav } from "reactstrap";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
 
-import logo from "logo-white.svg";
+import logo from "map-logo.svg";
 
 var ps;
 
@@ -48,21 +48,24 @@ function Sidebar(props) {
   return (
     <div className="sidebar" data-color={props.backgroundColor}>
       <div className="logo">
-        <a
+        {/* <a
           href=""
           className="simple-text logo-mini"
           target="_blank"
         >
           <div className="logo-img">
-            <img src={logo} alt="react-logo" />
+            <img src={logo} alt="react-logo"/>
           </div>
-        </a>
+        </a> */}
         <a
           href=""
           className="simple-text logo-normal"
           target="_blank"
         >
-          Health Nav
+           <div className="logo-img" >
+            <img src={logo} alt="react-logo"/>
+          </div>
+          {/* Health Nav */}
         </a>
       </div>
       <div className="sidebar-wrapper" ref={sidebar}>
