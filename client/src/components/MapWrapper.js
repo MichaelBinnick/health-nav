@@ -215,10 +215,12 @@ const MapWrapper = (props) => {
     if (nodeName[0] === 'r' && nodeName[1] === 'r') {
 
       if (nodeName[2] === "1") {
-        // no poly yet
+        // "Restroom - Pediatric"
+        result = "Restroom - Pediatric"
 
       } else if (nodeName[2] === '2') {
         // no poly yet
+
 
       } else if (nodeName[2] === '3') {
         // no poly yet
@@ -415,6 +417,36 @@ const MapWrapper = (props) => {
       [467, 336],
       [502, 336]
     ],
+    "Restroom - Pediatric": [
+      [200, 112],
+      [200, 125],
+      [185, 123],
+      [185, 112]
+    ],
+    "Restroom - Adult": [
+      [210, 280],
+      [210, 296],
+      [190, 296],
+      [190, 280]
+    ],
+    "Restroom - Imaging": [
+      [290, 70],
+      [290, 83],
+      [276, 83],
+      [276, 70]
+    ],
+    "Restroom - Inpatient": [
+      [226, 495],
+      [226, 513],
+      [204, 513],
+      [204, 495]
+    ],
+    "Restroom - Utility": [
+      [464, 252],
+      [464, 277],
+      [452, 277],
+      [452, 252]
+    ]
   };
 
   // data for each location
@@ -519,6 +551,41 @@ const MapWrapper = (props) => {
       open: "9am",
       close: '5pm'
     },
+    "Restroom - Pediatric": {
+      name: "Restroom - Pediatric",
+      x: 118,
+      y: 198,
+      open: " ",
+      close: 'N/A -'
+    },
+    "Restroom - Adult": {
+      name: "Restroom - Adult",
+      x: 288,
+      y: 209,
+      open: " ",
+      close: 'N/A -'
+    },
+    "Restroom - Imaging": {
+      name: "Restroom - Imaging",
+      x: 77,
+      y: 287,
+      open: " ",
+      close: 'N/A -'
+    },
+    "Restroom - Inpatient": {
+      name: "Restroom - Inpatient",
+      x: 504,
+      y: 221,
+      open: " ",
+      close: 'N/A -'
+    },
+    "Restroom - Utility": {
+      name: "Restroom - Utility",
+      x: 265,
+      y: 461,
+      open: " ",
+      close: 'N/A -'
+    }
   };
 
   // variable created for readability; look up selectedLocation in locations object
@@ -545,9 +612,9 @@ const MapWrapper = (props) => {
       maxBounds={bound}
       attributionControl={false}
       >
-      {/* "url(" + "https://images.pexels.com/photos/6203473/pexels-photo-6203473.jpeg?auto=compress&cs=tinysrgb&w=400" + ")" */}
+    
       {/* this is our actual map image */}
-      <ImageOverlay url="../new_map.png" bounds={bound} />
+      <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
 
       {/* Button start navDemo onClick */}
       {!navigatingDemo && !props.start && <Marker
@@ -611,7 +678,7 @@ const MapWrapper = (props) => {
       
       {/* turn nav on button */}
       {!navigationOn && props.start && <Marker 
-        position={[200, 200]}
+        position={[375, 485]}
         icon={iconDemo}
         eventHandlers={
           {click: () => {
