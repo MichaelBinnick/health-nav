@@ -70,7 +70,7 @@ export default function SearchLocation() {
     let newEnd = setEnd(e.value);
     return newEnd;
   };
-
+  
   // when user clicks the go button in the navbar, dijkstra's funtion is called with the state values from start and end
   const goHandler = () => {
     const go = dijkstra(graph, start, end);
@@ -83,7 +83,8 @@ export default function SearchLocation() {
       width: 250,
       height:"10px",
       padding: 0,
-      borderRadius:"30px"
+      borderRadius:"30px",
+      marginTop: "20px"
     }),
     menu: ({ width, ...css }) => ({
       ...css,
@@ -93,30 +94,25 @@ export default function SearchLocation() {
   }
 
   return (
-
-  
-  
-    
-  
     // <Navbar >
     <Container md="12">
       <Row className="row-cols-lg-auto g-0 align-items-center">
         <Col xs={{ order: "first" }}>
           <Select
             className="description"
-            placeholder="Current"
+            placeholder="Choose starting point..."
             options={navLocations}
             onChange={onChangeHandlerStart}
             value={start.e}
             styles={customStyles}
           ></Select>
         </Col>
-        <Col>
+        <Col style={{ paddingRight: 0 }}>
           <Select
             
             className="description selectNav"
             width='200px'
-            placeholder="Destination"
+            placeholder="Choose destination..."
             options={navLocations}
             onChange={onChangeHandlerEnd}
             value={end.e}
@@ -126,12 +122,9 @@ export default function SearchLocation() {
         <Col xs={{ order: "last" }}>
           
           <Link to={"/admin/nav/" + start + "/" + end}>
-            <Button className="btn-round" >Go</Button>
+            { start && end  ? <Button className="btn-round" >Go</Button> : null }
           </Link>
-          
-          
-        </Col>
-        
+        </Col> 
       </Row>
     </Container>
     // </Navbar>

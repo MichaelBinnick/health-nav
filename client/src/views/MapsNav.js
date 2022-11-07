@@ -18,16 +18,16 @@
 import React from "react";
 
 // reactstrap components
-import { Row, Col, Card, CardHeader, CardBody } from "reactstrap";
+import { Row, Col, Card, CardBody } from "reactstrap";
 import { useParams } from "react-router-dom";
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import MapWrapper from "components/MapWrapper";
 
 function FullScreenMap() {
-  const params = useParams()
-  const start = params.start
-  const end = params.end
+  const params = useParams();
+  const start = params.start;
+  const end = params.end;
   return (
     <>
       <PanelHeader size="sm" />
@@ -35,14 +35,13 @@ function FullScreenMap() {
         <Row>
           <Col xs={12}>
             <Card>
-              <CardHeader>Find your destination</CardHeader>
               <CardBody>
                 <div
                   id="map"
                   className="map"
-                  // style={{ position: "relative", overflow: "hidden" }}
+                // style={{ position: "relative", overflow: "hidden" }} 
                 >
-                  <MapWrapper start={start} end={end}/>
+                  <MapWrapper start={start} end={end} />
                 </div>
               </CardBody>
             </Card>

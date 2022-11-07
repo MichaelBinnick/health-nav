@@ -48,9 +48,10 @@ function DemoNavbar(props) {
   const [color, setColor] = React.useState("transparent");
   const sidebarToggle = React.useRef();
 
-  //Displays SearchLocation only on Mpas view
+  //Displays SearchLocation only on Maps view
   const path = props.location.pathname;
 
+  
 
 
 
@@ -76,9 +77,11 @@ function DemoNavbar(props) {
       setColor("transparent");
     }
   };
+
   React.useEffect(() => {
     window.addEventListener("resize", updateColor);
   }, []);
+
   React.useEffect(() => {
     if (
       window.innerWidth < 993 &&
