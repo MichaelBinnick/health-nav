@@ -44,7 +44,7 @@ function Footer(props) {
             </li>
             <li>
               <a
-                href="https://presentation.creative-tim.com?ref=nudr-footer"
+                href="https://www.linkedin.com/in/nick-holm-bb230b256/"
                 target="_blank"
               >
                 Nick
@@ -60,25 +60,7 @@ function Footer(props) {
             </li>
           </ul>
         </nav>
-        <div className="copyright">
-          &copy; {1900 + new Date().getYear()}, Designed by{" "}
-          <a
-            href="https://www.invisionapp.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Invision
-          </a>
-          . Coded by{" "}
-          <a
-            href="https://www.creative-tim.com?ref=nudr-footer"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Creative Tim
-          </a>
-          .
-        </div>
+        
       </Container>
     </footer>
   );

@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Row, Col, Button, Container } from "reactstrap";
+import { Row, Col, Button, Container, NavbarBrand, Navbar } from "reactstrap";
 import Select from "react-select";
 import MapWrapper from "components/MapWrapper";
 import { Link } from "react-router-dom";
@@ -93,6 +93,12 @@ export default function SearchLocation() {
   }
 
   return (
+
+  
+  
+    
+  
+    // <Navbar >
     <Container md="12">
       <Row className="row-cols-lg-auto g-0 align-items-center">
         <Col xs={{ order: "first" }}>
@@ -107,6 +113,7 @@ export default function SearchLocation() {
         </Col>
         <Col>
           <Select
+            
             className="description selectNav"
             width='200px'
             placeholder="Destination"
@@ -127,5 +134,6 @@ export default function SearchLocation() {
         
       </Row>
     </Container>
+    // </Navbar>
   );
 }

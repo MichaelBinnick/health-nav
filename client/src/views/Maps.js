@@ -24,6 +24,8 @@ import { useParams } from "react-router-dom";
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import MapWrapper from "components/MapWrapper";
 
+import logo from "health1.png";
+
 function FullScreenMap() {
   const params = useParams()
   const locationId = params.name
@@ -37,12 +39,12 @@ function FullScreenMap() {
         <Row>
           <Col xs={12}>
             <Card>
-              <CardHeader>Find your destination</CardHeader>
+          
               <CardBody>
                 <div
                   id="map"
                   className="map"
-                  // style={{ position: "relative", overflow: "hidden" }}
+                  // style={{ position: "fixed", minHeight:"auto", minWidth:"100vw", maxWidth:"100vw", objectFit:"contain"}}
                 >
                   <MapWrapper locationId={locationId} start={start} end={end}/>
                 </div>
