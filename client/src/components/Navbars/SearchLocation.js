@@ -97,7 +97,7 @@ export default function SearchLocation() {
     // <Navbar >
     <Container md="12">
       <Row className="row-cols-lg-auto g-0 align-items-center">
-        <Col xs={{ order: "first" }}>
+        <Col xs={{ order: "first" }} style={{ paddingRight: 20 }}>
           <Select
             className="description"
             placeholder="Choose starting point..."
@@ -107,9 +107,8 @@ export default function SearchLocation() {
             styles={customStyles}
           ></Select>
         </Col>
-        <Col style={{ paddingRight: 0 }}>
+        <Col style={{ paddingLeft: 0 }}>
           <Select
-            
             className="description selectNav"
             width='200px'
             placeholder="Choose destination..."
