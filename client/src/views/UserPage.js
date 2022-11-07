@@ -35,11 +35,12 @@ import {
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import CovidForm from "components/CovidForm/CovidForm";
-import { NotificationContainer, NotificationManager } from 'react-notifications';
+
 
 //import locations from "variables/list_locations";
 import time from "variables/times";
 import locations from "variables/list_locations";
+
 
 function User() {
 
@@ -64,17 +65,12 @@ function User() {
       const response = await axios({
         method: "POST",
         url: "http://localhost:8080/checkin",
-        data: formValue,
-
+        data: formValue, 
       });
-      NotificationManager.success('You have added a new book!', 'Successful!', 5000);
+    //   if (response.status === 204) {
+      
+    // }
 
-      console.log(response.data);
-      // if (response.status === 200) {
-      //   formValue.message("User created successfully");
-      // } else {
-      //   formValue.message("Some error occured");
-      // }
     } catch (error) {
       console.log(error);
     }
@@ -150,9 +146,14 @@ function User() {
     <>
       <PanelHeader size="sm" />
       <div className="content">
+
         <Row>
           <Col md="12">
             <Card>
+              <div className="app-container">
+                
+
+              </div>
               <CardHeader>
                 <h5 className="title">Patient Check In</h5>
               </CardHeader>
@@ -265,6 +266,7 @@ function User() {
             </Card>
           </Col>
         </Row>
+
       </div>
 
     </>
