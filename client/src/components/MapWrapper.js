@@ -46,8 +46,34 @@ const LogCoordinates = () => {
 // this is the component
 const MapWrapper = (props) => {
 
+  const newNodes = {
+    x23: { y: 187.21, x: 190, name: 'x23' },
+    x22: { y: 184.94, x: 190, name: 'x22' },
+    x21: { y: 182.67000000000002, x: 190, name: 'x21' },
+    x20: { y: 180.4, x: 190, name: 'x20' },
+    x19: { y: 178.13, x: 190, name: 'x19' },
+    x18: { y: 175.86, x: 190, name: 'x18' },
+    x17: { y: 173.59, x: 190, name: 'x17' },
+    x16: { y: 171.32, x: 190, name: 'x16' },
+    x15: { y: 169.05, x: 190, name: 'x15' },
+    x14: { y: 166.78, x: 190, name: 'x14' },
+    x13: { y: 164.51, x: 190, name: 'x13' },
+    x12: { y: 162.24, x: 190, name: 'x12' },
+    x11: { y: 159.97, x: 190, name: 'x11' },
+    x10: { y: 157.7, x: 190, name: 'x10' },
+    x9: { y: 155.43, x: 190, name: 'x9' },
+    x8: { y: 153.16, x: 190, name: 'x8' },
+    x7: { y: 150.89, x: 190, name: 'x7' },
+    x6: { y: 148.62, x: 190, name: 'x6' },
+    x5: { y: 146.35, x: 190, name: 'x5' },
+    x4: { y: 144.08, x: 190, name: 'x4' },
+    x3: { y: 141.81, x: 190, name: 'x3' },
+    x2: { y: 139.54, x: 190, name: 'x2' },
+    x1: { y: 137.27, x: 190, name: 'x1' },
+  }
+
   // graph visualizer
-  // const graphNodes1 = Object.keys(graph);
+  // const graphNodes1 = Object.keys(newNodes);
   // const graphNodes = [
   //   'y1', 'y2', 'y3', 'y4', 'y5', 'y6',
   //   'z1', 'z2', 'z3', 'z4', 'z5', 'z6',
@@ -101,7 +127,7 @@ const MapWrapper = (props) => {
         
         shiftDemoPath.shift();
         
-        
+        console.log('visits:', shiftDemoPath[0]);
         // reset demoPath state to be new reduced path
         setWalkerPath(shiftDemoPath);
         
