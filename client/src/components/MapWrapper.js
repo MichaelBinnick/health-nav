@@ -215,10 +215,12 @@ const MapWrapper = (props) => {
     if (nodeName[0] === 'r' && nodeName[1] === 'r') {
 
       if (nodeName[2] === "1") {
-        // no poly yet
+        // "Restroom - Pediatric"
+        result = "Restroom - Pediatric"
 
       } else if (nodeName[2] === '2') {
         // no poly yet
+
 
       } else if (nodeName[2] === '3') {
         // no poly yet
@@ -610,9 +612,9 @@ const MapWrapper = (props) => {
       maxBounds={bound}
       attributionControl={false}
       >
-      {/* "url(" + "https://images.pexels.com/photos/6203473/pexels-photo-6203473.jpeg?auto=compress&cs=tinysrgb&w=400" + ")" */}
+    
       {/* this is our actual map image */}
-      <ImageOverlay url="../new_map.png" bounds={bound} />
+      <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
 
       {/* Button start navDemo onClick */}
       {!navigatingDemo && !props.start && <Marker
@@ -676,7 +678,7 @@ const MapWrapper = (props) => {
       
       {/* turn nav on button */}
       {!navigationOn && props.start && <Marker 
-        position={[200, 200]}
+        position={[375, 485]}
         icon={iconDemo}
         eventHandlers={
           {click: () => {
