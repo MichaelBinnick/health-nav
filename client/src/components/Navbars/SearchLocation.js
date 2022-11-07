@@ -19,12 +19,8 @@ import {
 
 const locations = {
   //Entrances
-  1: { label: "Entrance 1", value: "y1" },
-  2: { label: "Entrance 2", value: "y2" },
-  3: { label: "Entrance 3", value: "y3" },
-  4: { label: "Entrance 4", value: "y4" },
-  5: { label: "Entrance 5", value: "y5" },
-  6: { label: "Entrance 6", value: "y6" },
+
+  6: { label: "Front Doors", value: "y6" },
   //Health-Services
   7: { label: "Prep & Recovery (Pediatric)", value: "z1" },
   8: { label: "Prep & Recovery (Adult)", value: "z2" },
