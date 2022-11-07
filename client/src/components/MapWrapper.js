@@ -216,20 +216,23 @@ const MapWrapper = (props) => {
 
       if (nodeName[2] === "1") {
         // "Restroom - Pediatric"
-        result = "Restroom - Pediatric"
+        result = "Restroom - Pediatric";
 
       } else if (nodeName[2] === '2') {
-        // no poly yet
-
+        // "Restroom - Adult"
+        result = "Restroom - Adult";
 
       } else if (nodeName[2] === '3') {
-        // no poly yet
+        // "Restroom - Imaging"
+        result = "Restroom - Imaging";
 
       } else if (nodeName[2] === '4') {
-        // no poly yet
+        //   "Restroom - Inpatient"
+        result =  "Restroom - Inpatient";
 
       } else if (nodeName[2] === '5') {
-        // no poly yet
+        // "Restroom - Utility"
+        result = "Restroom - Utility";
 
       }
     }

@@ -35,7 +35,6 @@ function FullScreenMap() {
         <Row>
           <Col xs={12}>
             <Card>
-              <CardHeader>Find your destination</CardHeader>
               <CardBody>
                 <div
                   id="map"
