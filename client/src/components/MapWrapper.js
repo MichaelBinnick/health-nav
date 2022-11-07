@@ -614,7 +614,7 @@ const MapWrapper = (props) => {
       >
     
       {/* this is our actual map image */}
-      <ImageOverlay url="https://i.imgur.com/Y9n9Yir.png" bounds={bound} />
+      <ImageOverlay url="https://i.imgur.com/Ql46McI.png" bounds={bound} />
 
       {/* Button start navDemo onClick */}
       {!navigatingDemo && !props.start && <Marker
