@@ -127,7 +127,7 @@ const MapWrapper = (props) => {
         
         shiftDemoPath.shift();
         
-        console.log('visits:', shiftDemoPath[0]);
+        // console.log('visits:', shiftDemoPath[0]);
         // reset demoPath state to be new reduced path
         setWalkerPath(shiftDemoPath);
         
@@ -286,12 +286,12 @@ const MapWrapper = (props) => {
     // hardcoded nav demo w. dummy user (triggers on button click)
     if (navigationOn) {
       // console.log('about to nav');
-      navDemo(50);
+      navDemo(10);
     }
 
     // set state based on navBar selections
     if (propLocals.start && !navigatingDemo && !navigationOn) {
-      console.log('thing happens');
+      // console.log('thing happens');
       setCurrentLocation(propLocals.start);
       setEndpoint(propLocals.end);
       setSelectedLocation(formatEndpoint(endpoint))
@@ -303,9 +303,9 @@ const MapWrapper = (props) => {
     }
 
     if (endpoint && walkerPath.length === 0) {
-      console.log('setting walker path');
-      console.log('current', currentLocation);
-      console.log('end', endpoint)
+      // console.log('setting walker path');
+      // console.log('current', currentLocation);
+      // console.log('end', endpoint)
       setWalkerPath(dijkstra(graph, currentLocation, endpoint).path);
     }
   }, [currentLocation, endpoint, navDemo, propLocals, navigatingDemo, navigationOn, walkerPath])
