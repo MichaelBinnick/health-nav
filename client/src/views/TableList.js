@@ -56,7 +56,7 @@ function RegularTables() {
           <Col xs={12}>
             <Card>
               <CardHeader>
-                <CardTitle className="text-primary" tag="h4">Locations</CardTitle>
+                <CardTitle className="text-primary" tag="h4">Hospital Departments</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive className="table" striped>
