@@ -17,7 +17,7 @@
 */
 
 
-import Icons from "views/Icons.js";
+// import Icons from "views/Icons.js";
 import TableList from "views/TableList.js";
 import Maps from "views/Maps.js";
 import UserPage from "views/UserPage.js";
