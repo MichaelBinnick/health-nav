@@ -2907,6 +2907,25 @@ const formatGraph = (g) => {
   return tmp;
 };
 
+/* an implementation of dijkstra's algorith:
+find the shortest path given a graph of points(nodes)
+and the distances between each node and its neighbouring
+nodes 
+
+format for graph is an object with each key being its own
+object. the keys are the neighbouring nodes
+with the values being the distances (weights)
+
+i.e.
+{
+  e1: { e2: 2, e3: 5 }
+}
+
+start and end should be given in string format, the key
+of the nodes from the graph object
+
+i.e. "e1",  [ dijkstra(graph, e1, e2) to call ]
+*/
 const dijkstra = (graph, start, end) => {
   let map = formatGraph(graph);
 
@@ -2957,7 +2976,8 @@ const dijkstra = (graph, start, end) => {
 
 };
 
-// given a path (from dijkstra), format for Polyline
+/* given a path (from dijkstra), format it for the
+leaflet Polyline */
 const dijkCoords = (path) => {
   
   const results = [];
@@ -2979,43 +2999,7 @@ const dijkCoords = (path) => {
 }
 
 
-// routeStr - an array of strings, where each item is the name of a node (e.g. 'er1')
-// routeCoords - an array of arrays, where each item is a set of coords (e.g. [0, 0])
-// const startEnd = dijkstra(graph, "e3", "er1");
-// console.log(startEnd);
-
-// const crossRoad = dijkstra(graph, "e3", "z1");
-// console.log(crossRoad);
-
-// const lost = dijkstra(graph, "z1", "t28");
-// console.log(lost);
-
-// const redirect = dijkstra(graph, "t28", "er1");
-// console.log(redirect);
-// const polyTest2Str = dijkCoords(crossRoad.path).path;
-
-// const polyTest3Str = dijkCoords(lost.path).path;
-
-// const polyTest4Str = dijkCoords(redirect.path).path;
-
-
-// const routeStr = [
-//   'e3',  'j23', 'j22', 'j21', 'j20', 'j19', 'j18', 'j17',
-//   'j16', 'j15', 'j14', 'j13', 'j12', 'j11', 'j10', 'j9',
-//   'j8',  'j7',  'j6',  'j5',  'j4',  'j3',  'j2',  'j1',
-//   'q24', 'q23', 'z31', 'z30', 'z29', 'z28', 'z27', 'z26',
-//   'z25', 'z24', 'z23', 'z22', 'z21', 'z20', 'z19', 'z18',
-//   'z17', 'z16', 'z15', 'z14', 'z13', 'z12', 'z11', 'z10',
-//   'z9',  'z8',  'z7',  'z6',  'z5',  'z4',  'z3',  'z2',
-//   'z1',  'z1',  't24', 't25', 't26', 't27', 't28', 't28',
-//   't27', 't26', 't25', 't24', 'z1',  't23', 't22', 't21',
-//   't20', 't19', 't18', 't17', 't16', 't15', 't14', 't13',
-//   't12', 't11', 't10', 't9',  't8',  't7',  't6',  't5',
-//   't4',  't3',  't2',  't1',  'er1'
-// ];
-// // polyTest2Str.concat(polyTest3Str.concat(polyTest4Str));
-// console.log("routeStr", routeStr);
-// new routeStr
+// this is the path the dummy user will walk in the mainline navigation demo
 const routeStr = [
   'j0',  'j1',  'j2',  'j3',  'j4',  'j5',  'j6',  'j7',
   'j8',  'j9',  'j10', 'j11', 'j12', 'j13', 'j14', 'j15',
@@ -3183,26 +3167,29 @@ const routeStr = [
 ];
 
 
-// const nodeWeights = (node1, node2) => {
+/* used to measure distance between points on a graph,
+for the purpose of finding weights for use in dijkstra's
 
-//   let x1 = dijkNodes[node1].x;
-//   let y1 = dijkNodes[node1].y;
+const nodeWeights = (node1, node2) => {
 
-//   let x2 = dijkNodes[node2].x;
-//   let y2 = dijkNodes[node2].y;
+  let x1 = dijkNodes[node1].x;
+  let y1 = dijkNodes[node1].y;
 
-//   const weight = Math.hypot(x2-x1, y2-y1);
-//   // console.log(`weight between ${node1} and ${node2} is:`, weight)
-//   return weight;
-// }
-// // insert node names here to find weight
-// const node1 = '';
-// const node2 = '';
+  let x2 = dijkNodes[node2].x;
+  let y2 = dijkNodes[node2].y;
 
-// nodeWeights(node1, node2);
+  const weight = Math.hypot(x2-x1, y2-y1);
+  // console.log(`weight between ${node1} and ${node2} is:`, weight)
+  return weight;
+}
+// insert node names here to find weight
+const node1 = '';
+const node2 = '';
+
+nodeWeights(node1, node2); */
 
 
-// create graph nodes function
+/* used to construct new segments of nodes for dijkstra graph
 const createDijkNodes = () => {
   // 587 - 360, 23 node currently
   
@@ -3216,21 +3203,9 @@ const createDijkNodes = () => {
   // output should be in form:
   // {e1: { e2: 10 }, e2: { e1: 10, e3: 10 }}
 }
-
-const createNewGraph = () => {
-  const results = [];
-
-  for (let i = 131; i >= 33; i--) {
-    results.push(`h${i}`)
-  }
-
-  return results.reverse();
-}
-
-// console.log('path segment:', createNewGraph())
+*/
 
 
-// console.log('route is:', routeStr);
 
 module.exports = { 
   graph, 
