@@ -5,7 +5,7 @@ in order to implement our navigation feature. */
 
 
 // hardcoded nodes (coords) for our usage of dijkstra
-const dijkNodes = {
+export const dijkNodes = {
   
   //entrances
   y1: {
@@ -954,7 +954,7 @@ const dijkNodes = {
 }
 
 // hardcoded graph (node names and neighbours/weights) for our usage of dijkstra
-const graph = {
+export const graph = {
   
   // Entrances
   y1: { g132: 2.27 },
@@ -1819,7 +1819,7 @@ of the nodes from the graph object
 
 i.e. "e1",  [ dijkstra(graph, e1, e2) to call ]
 */
-const dijkstra = (graph, start, end) => {
+export const dijkstra = (graph, start, end) => {
   let map = formatGraph(graph);
 
   let visited = [];
@@ -1871,7 +1871,7 @@ const dijkstra = (graph, start, end) => {
 
 /* given a path (from dijkstra), format it for the
 leaflet Polyline */
-const dijkCoords = (path) => {
+export const dijkCoords = (path) => {
   
   const results = [];
   // console.log('path:', path);
@@ -1893,7 +1893,7 @@ const dijkCoords = (path) => {
 
 
 // this is the path the dummy user will walk in the mainline navigation demo
-const routeStr = [
+export const routeStr = [
   'j0',  'j1',  'j2',  'j3',  'j4',  'j5',  'j6',  'j7',
   'j8',  'j9',  'j10', 'j11', 'j12', 'j13', 'j14', 'j15',
   'j16', 'j17', 'j18', 'j19', 'j20', 'j21', 'j22', 'j23',
