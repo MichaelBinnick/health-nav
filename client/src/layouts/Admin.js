@@ -33,7 +33,7 @@ let ps;
 
 function Admin(props) {
   const location = useLocation();
-  const [backgroundColor, setBackgroundColor] = React.useState("blue");
+  const backgroundColor = "blue";
   
   const mainPanel = React.useRef();
 

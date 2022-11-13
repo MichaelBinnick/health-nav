@@ -614,7 +614,7 @@ const MapWrapper = (props) => {
       center={center} 
       zoom={0}
       scrollWheelZoom={true} 
-      style={{ height: "100%", background: "url(" + "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDTlFAm1uUxldhZsCc0PWW4_OclcMcs3h3jg&usqp=CAU.png" + ")", boxShadow: "inset 0 0 100px black" }}
+      style={{ height: "100%", background: "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDTlFAm1uUxldhZsCc0PWW4_OclcMcs3h3jg&usqp=CAU.png)", boxShadow: "inset 0 0 100px black" }}
       maxBounds={bound}
       attributionControl={false}
       >

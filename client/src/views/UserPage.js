@@ -16,7 +16,7 @@
 
 */
 import React, { useState } from "react";
-import axios from 'axios';
+// import axios from 'axios';
 import Select from "react-select";
 
 // reactstrap components
@@ -62,11 +62,11 @@ function User() {
   let handleSubmit = async () => {
     try {
       // make axios post request
-      const response = await axios({
-        method: "POST",
-        url: "http://localhost:8080/checkin",
-        data: formValue, 
-      });
+      // const response = await axios({
+      //   method: "POST",
+      //   url: "http://localhost:8080/checkin",
+      //   data: formValue, 
+      // });
     //   if (response.status === 204) {
       
     // }

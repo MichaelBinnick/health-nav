@@ -67,7 +67,7 @@ function DemoNavbar(props) {
 
   React.useEffect(() => {
     window.addEventListener("resize", updateColor);
-  }, []);
+  });
 
   React.useEffect(() => {
     if (

@@ -1762,7 +1762,9 @@ export const graph = {
   e1: { g42: 2.27, e2: 2.27 }
 }
 
-// helper function for dijkstra's algorithm
+/* 
+helper function for dijkstra's algorithm, currently unused
+
 const printTable = (table) => {
   return Object.keys(table)
     .map((vertex) => {
@@ -1771,6 +1773,7 @@ const printTable = (table) => {
     })
     .join("\n");
 };
+*/
 
 // helper function for dijkstra's algorithm
 const tracePath = (table, start, end) => {
