@@ -18,7 +18,7 @@
 import React from "react";
 
 // reactstrap components
-import { Row, Col, Card, CardHeader, CardBody } from "reactstrap";
+import { Row, Col, Card, CardBody } from "reactstrap";
 import { useParams } from "react-router-dom";
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";

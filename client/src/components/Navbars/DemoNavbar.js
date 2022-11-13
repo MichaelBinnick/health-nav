@@ -15,27 +15,15 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useState, useEffect, useParams } from "react";
-import { Link, useLocation } from "react-router-dom";
-import locations from "variables/list_locations";
+import React from "react";
+import { useLocation } from "react-router-dom";
 import {
   Collapse,
   Navbar,
   NavbarToggler,
   Container,
-  InputGroup,
-  InputGroupText,
-  InputGroupAddon,
-  Input,
-  Row,
-  Button,
-  Col,
-  Nav,
-  NavItem
 } from "reactstrap";
 
-import Select from "react-select";
-import routes from "routes.js";
 import SearchLocation from "./SearchLocation";
 import {ReactComponent as Logo} from './search_ideogra.svg'
 
@@ -44,7 +32,6 @@ import {ReactComponent as Logo} from './search_ideogra.svg'
 function DemoNavbar(props) {
   const location = useLocation();
   const [isOpen, setIsOpen] = React.useState(false);
-  const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [color, setColor] = React.useState("transparent");
   const sidebarToggle = React.useRef();
 

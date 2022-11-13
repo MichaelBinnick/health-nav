@@ -2097,16 +2097,3 @@ const createDijkNodes = () => {
   // {e1: { e2: 10 }, e2: { e1: 10, e3: 10 }}
 }
 */
-
-
-
-module.exports = { 
-  graph, 
-  dijkNodes, 
-  printTable, 
-  tracePath, 
-  formatGraph, 
-  dijkstra,
-  dijkCoords,
-  routeStr,
-};

@@ -20,7 +20,7 @@ import React from "react";
 import PerfectScrollbar from "perfect-scrollbar";
 
 // reactstrap components
-import { Route, Switch, Redirect, useLocation , useParams} from "react-router-dom";
+import { Route, Switch, useLocation} from "react-router-dom";
 
 // core components
 import Footer from "components/Footer/Footer";
@@ -55,9 +55,7 @@ function Admin(props) {
     document.scrollingElement.scrollTop = 0;
     mainPanel.current.scrollTop = 0;
   }, [location]);
-  const handleColorClick = (color) => {
-    setBackgroundColor(color);
-  };
+  
   return (
     <div className="wrapper">
       <Sidebar {...props} routes={routes} backgroundColor={backgroundColor} />

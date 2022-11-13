@@ -1,18 +1,8 @@
 import { React, useState } from "react";
-import { Row, Col, Button, Container, NavbarBrand, Navbar } from "reactstrap";
+import { Row, Col, Button, Container } from "reactstrap";
 import Select from "react-select";
-import MapWrapper from "components/MapWrapper";
 import { Link } from "react-router-dom";
 
-// dijk helpers
-import {
-  graph,
-  dijkNodes,
-  dijkstra,
-  dijkCoords,
-  routeStr,
-  routeCoords,
-} from "helpers/dijkstra";
 
 // locations object must be formatted with label for the dropdown menu's options prop
 // a value can be passed as props, so we can assign the state's value to it's graph node via the select component
@@ -65,12 +55,6 @@ export default function SearchLocation() {
   const onChangeHandlerEnd = (e) => {
     let newEnd = setEnd(e.value);
     return newEnd;
-  };
-  
-  // when user clicks the go button in the navbar, dijkstra's funtion is called with the state values from start and end
-  const goHandler = () => {
-    const go = dijkstra(graph, start, end);
-    console.log(go);
   };
 
   const customStyles={
