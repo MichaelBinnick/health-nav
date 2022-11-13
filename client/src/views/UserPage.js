@@ -15,8 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useState, useEffect } from "react";
-import axios from 'axios';
+import React, { useState } from "react";
+// import axios from 'axios';
 import Select from "react-select";
 
 // reactstrap components
@@ -62,11 +62,11 @@ function User() {
   let handleSubmit = async () => {
     try {
       // make axios post request
-      const response = await axios({
-        method: "POST",
-        url: "http://localhost:8080/checkin",
-        data: formValue, 
-      });
+      // const response = await axios({
+      //   method: "POST",
+      //   url: "http://localhost:8080/checkin",
+      //   data: formValue, 
+      // });
     //   if (response.status === 204) {
       
     // }
