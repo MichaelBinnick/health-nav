@@ -13,7 +13,7 @@ const getLocationById = id => {
 };
 
 const getLocationsNoRestroom = () => {
-  return db.query("SELECT locations.*,departments.name AS department_name FROM locations JOIN departments ON locations.department_id = departments.id WHERE locations.id BETWEEN 1 AND 14;").then(data => {
+  return db.query("SELECT locations.*,departments.name AS department_name FROM locations JOIN departments ON locations.department_id = departments.id WHERE locations.id BETWEEN 1 AND 30;").then(data => {
     return data.rows;
   });
 
