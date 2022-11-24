@@ -1,20 +1,35 @@
 // Database connections
-const { Pool } = require('pg');
+const { Pool, Client } = require('pg');
 
-// const {DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, DB_PORT} = process.env;
+const {DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, DB_PORT} = process.env;
 
-const pool = new Pool({
-	user: MichaelBinnick,
-	host: db.bit.io,
-	password: v2_3vdjq_j7w4Cb3QNmH9GWrhpbMbp5f,
-	port: 5432,
-	database: MichaelBinnick/health-nav,
-})
+const client = new Client({
+  database: DB_DATABASE,
+  host: DB_HOST,
+  port: DB_PORT,
+  user: DB_USER,
+  password: DB_PASSWORD
+});
 
-pool.connect().then(() => {
+client.connect().then(() => {
 	console.log("Database connection established.")
 }).catch( e => {
 	throw new Error(e);
-})
+});
 
-module.exports = pool;
+
+// const pool = new Pool({
+// 	user: DB_USER,
+// 	host: DB_HOST,
+// 	password: DB_PASSWORD,
+// 	port: DB_PORT,
+// 	database: DB_DATABASE,
+// })
+
+// pool.connect().then(() => {
+// 	console.log("Database connection established.")
+// }).catch( e => {
+// 	throw new Error(e);
+// })
+
+module.exports = /*pool,*/ client;
