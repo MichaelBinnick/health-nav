@@ -25,6 +25,7 @@
   },
   "scripts": {
     "start": "PORT=3002 react-scripts start",
+    "prebuild": "cd netlify/functions/server && npm install",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
